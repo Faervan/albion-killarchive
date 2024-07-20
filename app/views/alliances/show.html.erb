@@ -1,0 +1,21 @@
+<h1><%= @alliance.name %></h1>
+<p>Registered since: <%= @alliance.created_at %><br>
+  Last activity: <%= @alliance.updated_at %><br>
+  Total kill fame: <%= @alliance.total_kill_fame %><br>
+  Total death fame: <%= @alliance.total_death_fame %><br>
+  Total kill count: <%= @alliance.total_kill_count %><br>
+  Total death count: <%= @alliance.total_death_count %></p>
+
+<ul>
+  <%= form_with url: guilds_path, method: :get, local: true, data: { turbo_frame: 'table' } do %>
+    <%= label_tag :order_by, 'Order by: ' %>
+    <input type="hidden" name="alliance_id" value="<%= @alliance.alliance_id %>">
+    <%= select_tag :order_by, options_for_select([
+      ["Kill count", :total_kill_count],
+      ["Death count", :total_death_count],
+      ["Kill fame", :total_kill_fame],
+      ['Death fame', :total_death_fame]
+    ]), onchange: "this.form.requestSubmit()" %>
+  <% end %>
+  <%= render partial: "guilds/table", locals: { guilds: @guilds, list: @list, args: { alliance_id: "m3VCfL_jSJ-x2xaARWU3Rg" } } %>
+</ul>

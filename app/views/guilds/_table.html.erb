@@ -1,0 +1,39 @@
+<%= turbo_frame_tag 'table' do %>
+  <table style="text-align: left">
+    <tr>
+      <th>Guild</th>
+      <th>Alliance</th>
+      <th>Kill count</th>
+      <th>Death count</th>
+      <th>Kill fame</th>
+      <th>Death fame</th>
+    </tr>
+    <% guilds.each do |guild| %>
+      <tr>
+        <td>
+          <%= guild.name %>
+        </td>
+        <td>
+          <% if guild.alliance.present? %>
+            <% alliance = guild.alliance %>
+            <%= link_to alliance.name, alliance, target: "_top" %>
+          <% end %>
+        </td>
+        <td>
+          <%= guild.total_kill_count %>
+        </td>
+        <td>
+          <%= guild.total_death_count %>
+        </td>
+        <td>
+          <%= guild.total_kill_fame %>
+        </td>
+        <td>
+          <%= guild.total_death_fame %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+  <% args = { list: list + 20 }.merge(args) %>
+  <%= link_to "Show more", guilds_path(args) %>
+<% end %>

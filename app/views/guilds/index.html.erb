@@ -1,0 +1,16 @@
+<h1>Guilds</h1>
+
+<ul>
+  <%= form_with url: guilds_path, method: :get, local: true, data: { turbo_frame: 'table' } do %>
+    <%= label_tag :order_by, 'Order by: ' %>
+    <%= select_tag :order_by, options_for_select([
+      ["Kill count", :total_kill_count],
+      ["Death count", :total_death_count],
+      ["Kill fame", :total_kill_fame],
+      ['Death fame', :total_death_fame]
+    ]), onchange: "this.form.requestSubmit()" %>
+  <% end %>
+  <% args = {} %>
+  <% args.merge!({ alliance_id: @alliance_id }) if @alliance_id %>
+  <%= render partial: "table", locals: { guilds: @guilds, list: @list, args: } %>
+</ul>

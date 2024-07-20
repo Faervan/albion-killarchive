@@ -1,0 +1,77 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'English'
+require 'optparse'
+
+BUNDLE_EXEC = 'bundle exec'
+
+def run_command(command, fail_fast)
+  puts "::group::Starting #{command}"
+  success = system(command)
+  handle_command_status(command, success, fail_fast)
+  puts "::endgroup::"
+end
+
+def handle_command_status(command, success, fail_fast)
+  return if success && !command.include?('warning')
+
+  message = "Command failed for #{command}"
+  fail_fast ? raise(message) : puts(message)
+end
+
+def run_tests(fail_fast)
+  run_command("#{BUNDLE_EXEC} rails test", fail_fast)
+end
+
+def run_linter(fail_fast)
+  run_command("#{BUNDLE_EXEC} rubocop", fail_fast)
+end
+
+def run_bundler_audit(fail_fast)
+  run_command("#{BUNDLE_EXEC} bundle-audit check", fail_fast)
+end
+
+def run_brakeman(fail_fast)
+  run_command("#{BUNDLE_EXEC} brakeman -z", fail_fast)
+end
+
+def check_outdated_gems(fail_fast)
+  run_command("#{BUNDLE_EXEC} bundle outdated", fail_fast)
+end
+
+def run_static_code_analysis(fail_fast)
+  run_command("#{BUNDLE_EXEC} reek", fail_fast)
+end
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: ci.rb [options]"
+
+  opts.on("-t", "--tests", "Run tests") { options[:tests] = true }
+  opts.on("-l", "--linter", "Run linter") { options[:linter] = true }
+  opts.on("-a", "--audit", "Run bundler audit") { options[:audit] = true }
+  opts.on("-b", "--brakeman", "Run brakeman") { options[:brakeman] = true }
+  opts.on("-o", "--outdated", "Check outdated gems") { options[:outdated] = true }
+  opts.on("-s", "--static", "Run static code analysis") { options[:static] = true }
+  opts.on("-A", "--all", "Run all commands") { options[:all] = true }
+  opts.on("-f", "--fail-fast", "Fail fast") { options[:fail_fast] = true }
+end.parse!
+
+fail_fast = options[:fail_fast]
+
+if options[:all]
+  run_tests(fail_fast)
+  run_linter(fail_fast)
+  run_bundler_audit(fail_fast)
+  run_brakeman(fail_fast)
+  check_outdated_gems(fail_fast)
+  run_static_code_analysis(fail_fast)
+else
+  run_tests(fail_fast) if options[:tests]
+  run_linter(fail_fast) if options[:linter]
+  run_bundler_audit(fail_fast) if options[:audit]
+  run_brakeman(fail_fast) if options[:brakeman]
+  check_outdated_gems(fail_fast) if options[:outdated]
+  run_static_code_analysis(fail_fast) if options[:static]
+end

@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  player: one
+  kill_event: one
+  average_item_power: 1
+  stalker_rating_loss: 1
+  slayer_rating_loss: 1
+  duo_rating_loss: 1
+
+two:
+  player: two
+  kill_event: two
+  average_item_power: 1
+  stalker_rating_loss: 1
+  slayer_rating_loss: 1
+  duo_rating_loss: 1

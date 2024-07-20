@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  time_stamp: 2024-07-07 18:12:10
+  total_victim_kill_fame: 1
+  number_of_assists: 1
+  number_of_allies: 1
+
+two:
+  time_stamp: 2024-07-07 18:12:10
+  total_victim_kill_fame: 1
+  number_of_assists: 1
+  number_of_allies: 1
