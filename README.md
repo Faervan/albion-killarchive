@@ -8,7 +8,7 @@ https://albion.killarchive.fun/
 Using Ruby on Rails for everything.
 ## Fetching events
 - Fetching gets scheduled in `config/initializers/scheduler.rb`
-- Events get analyzed and fed into the PostgresQL database by the services in `app/services/event_handler_service/`
+- Events get analyzed and fed into the PostgreSQL database by the services in `app/services/event_handler_service/`
 ## Showing events
 Just the Rails way.
 
@@ -27,8 +27,9 @@ You can clone this Repo and host the project locally:
 ## PostgreSQL
 PostgreSQL needs to be setup, that can be different depending on environment...
 Look at
-[Arch Wiki](https://wiki.archlinux.org/title/PostgreSQL)
-[Debian Wiki](https://wiki.debian.org/PostgreSql)
+- [Arch Wiki](https://wiki.archlinux.org/title/PostgreSQL)
+- [Debian Wiki](https://wiki.debian.org/PostgreSql)
+
 When it comes to creating a user, do `createuser --interactive`, enter your username as role name and grant database creation perms, superuser not required.
 ## Running
 In the `albion-killarchive` directory, do:
