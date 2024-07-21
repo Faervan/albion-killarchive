@@ -32,7 +32,8 @@ class EventHandlerService::GuildHandlerService
       total_kill_fame: 0,
       total_death_fame: 0,
       total_kill_count: 0,
-      total_death_count: 0
+      total_death_count: 0,
+      total_assist_count: 0
     }
   end
 
@@ -40,6 +41,7 @@ class EventHandlerService::GuildHandlerService
     event_list.each do |event|
       update_kill_count(guilds:, event:)
       update_kill_fame(guilds:, event:)
+      update_assist_count(guilds:, event:)
       update_death_count_and_fame(guilds:, event:)
     end
   end
@@ -57,6 +59,15 @@ class EventHandlerService::GuildHandlerService
 
       guild = find_guild(guilds:, guild_id: member['GuildId'])
       guild[:total_kill_fame] += member['KillFame']
+    end
+  end
+
+  def update_assist_count(guilds:, event:)
+    event['Participants'].each do |participant|
+      next if participant['GuildId'] == '' || participant['Id'] == event['Killer']['Id']
+
+      guild = find_guild(guilds:, guild_id: participant['GuildId'])
+      guild[:total_assist_count] += 1
     end
   end
 
@@ -83,12 +94,7 @@ class EventHandlerService::GuildHandlerService
 
   def persist_guild(guild:)
     Guild.create!(
-      guild_id: guild[:guild_id],
-      name: guild[:guild_name],
-      total_kill_fame: guild[:total_kill_fame],
-      total_death_fame: guild[:total_death_fame],
-      total_kill_count: guild[:total_kill_count],
-      total_death_count: guild[:total_death_count]
+      set_guild_stats(guild:).merge(guild_id: guild[:guild_id])
     )
   rescue ActiveRecord::RecordNotUnique
     update_existing_guild(guild:)
@@ -100,12 +106,9 @@ class EventHandlerService::GuildHandlerService
     guild[:total_kill_count] += existing_guild.total_kill_count
     guild[:total_death_fame] += existing_guild.total_death_fame
     guild[:total_death_count] += existing_guild.total_death_count
+    guild[:total_assist_count] += existing_guild.total_assist_count
     existing_guild.update(
-      name: guild[:guild_name],
-      total_kill_fame: guild[:total_kill_fame],
-      total_death_fame: guild[:total_death_fame],
-      total_kill_count: guild[:total_kill_count],
-      total_death_count: guild[:total_death_count]
+      set_guild_stats(guild:)
     )
   end
 
@@ -115,5 +118,16 @@ class EventHandlerService::GuildHandlerService
     Guild.find_by(guild_id: guild[:guild_id]).update(
       alliance_id: guild[:alliance_id]
     )
+  end
+
+  def set_guild_stats(guild:)
+    {
+      name: guild[:guild_name],
+      total_kill_fame: guild[:total_kill_fame],
+      total_death_fame: guild[:total_death_fame],
+      total_kill_count: guild[:total_kill_count],
+      total_death_count: guild[:total_death_count],
+      total_assist_count: guild[:total_assist_count]
+    }
   end
 end

@@ -8,10 +8,12 @@ class GuildHandlerTest < ActiveSupport::TestCase
   FIRST_GUILD_ID = '-0Pu27dRRKCYS6aTh1fgug'
   FIRST_GUILD_TOTAL_KILL_FAME = 162_360
   FIRST_GUILD_TOTAL_KILL_COUNT = 2
+  FIRST_GUILD_TOTAL_ASSIST_COUNT = 2
   SECOND_GUILD_NAME = 'Error404'
   SECOND_GUILD_ID = 'UCLmBccEQ4W6kksAWwxMXA'
   SECOND_GUILD_TOTAL_DEATH_FAME = 216_480
   SECOND_GUILD_TOTAL_DEATH_COUNT = 2
+  SECOND_GUILD_TOTAL_ASSIST_COUNT = 0
 
   setup do
     EventHandlerService::AllianceHandlerService.new.handle_alliances(event_list: EVENT_LIST)
@@ -35,13 +37,9 @@ class GuildHandlerTest < ActiveSupport::TestCase
     EventHandlerService::GuildHandlerService.new.handle_guilds(event_list: EVENT_LIST)
     assert_equal FIRST_GUILD_TOTAL_KILL_FAME, Guild.find_by(name: FIRST_GUILD_NAME).total_kill_fame
     assert_equal FIRST_GUILD_TOTAL_KILL_COUNT, Guild.find_by(name: FIRST_GUILD_NAME).total_kill_count
+    assert_equal FIRST_GUILD_TOTAL_ASSIST_COUNT, Guild.find_by(name: FIRST_GUILD_NAME).total_assist_count
     assert_equal SECOND_GUILD_TOTAL_DEATH_FAME, Guild.find_by(name: SECOND_GUILD_NAME).total_death_fame
     assert_equal SECOND_GUILD_TOTAL_DEATH_COUNT, Guild.find_by(name: SECOND_GUILD_NAME).total_death_count
-  end
-
-  test 'what handle_guilds logs out' do
-    EventHandlerService::GuildHandlerService.new.handle_guilds(event_list: EVENT_LIST)
-    EventHandlerService::GuildHandlerService.new.handle_guilds(event_list: EVENT_LIST)
-    assert true
+    assert_equal SECOND_GUILD_TOTAL_ASSIST_COUNT, Guild.find_by(name: SECOND_GUILD_NAME).total_assist_count
   end
 end
