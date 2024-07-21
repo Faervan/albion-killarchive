@@ -8,10 +8,12 @@ class AllianceHandlerTest < ActiveSupport::TestCase
   FIRST_ALLIANCE_ID = 'pK63yNuuQb-n91rFNderrA'
   FIRST_ALLIANCE_TOTAL_KILL_FAME = 216_480
   FIRST_ALLIANCE_TOTAL_KILL_COUNT = 2
+  FIRST_ALLIANCE_TOTAL_ASSIST_COUNT = 4
   SECOND_ALLIANCE_NAME = '2v2'
   SECOND_ALLIANCE_ID = 'mdu0MX3jSYWfxBeSxSBx4g'
   SECOND_ALLIANCE_TOTAL_DEATH_FAME = 165_870
   SECOND_ALLIANCE_TOTAL_DEATH_COUNT = 2
+  SECOND_ALLIANCE_TOTAL_ASSIST_COUNT = 0
 
   test 'Unique alliance count is 20' do
     EventHandlerService::AllianceHandlerService.new.handle_alliances(event_list: EVENT_LIST)
@@ -30,7 +32,9 @@ class AllianceHandlerTest < ActiveSupport::TestCase
     EventHandlerService::AllianceHandlerService.new.handle_alliances(event_list: EVENT_LIST)
     assert_equal FIRST_ALLIANCE_TOTAL_KILL_FAME, Alliance.find_by(name: FIRST_ALLIANCE_NAME).total_kill_fame
     assert_equal FIRST_ALLIANCE_TOTAL_KILL_COUNT, Alliance.find_by(name: FIRST_ALLIANCE_NAME).total_kill_count
+    assert_equal FIRST_ALLIANCE_TOTAL_ASSIST_COUNT, Alliance.find_by(name: FIRST_ALLIANCE_NAME).total_assist_count
     assert_equal SECOND_ALLIANCE_TOTAL_DEATH_FAME, Alliance.find_by(name: SECOND_ALLIANCE_NAME).total_death_fame
     assert_equal SECOND_ALLIANCE_TOTAL_DEATH_COUNT, Alliance.find_by(name: SECOND_ALLIANCE_NAME).total_death_count
+    assert_equal SECOND_ALLIANCE_TOTAL_ASSIST_COUNT, Alliance.find_by(name: SECOND_ALLIANCE_NAME).total_assist_count
   end
 end
