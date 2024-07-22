@@ -8,6 +8,7 @@
     <%= select_tag :order_by, options_for_select([
       ["Kill count", :total_kill_count],
       ["Death count", :total_death_count],
+      ["Assist count", :total_assist_count],
       ["Kill fame", :total_kill_fame],
       ['Death fame', :total_death_fame]
     ]), onchange: "this.form.requestSubmit()" %>
@@ -18,6 +19,7 @@
         <th>Alliance</th>
         <th>Kill count</th>
         <th>Death count</th>
+        <th>Assist count</th>
         <th>Kill fame</th>
         <th>Death fame</th>
       </tr>
@@ -31,6 +33,9 @@
           </td>
           <td>
             <%= alliance.total_death_count %>
+          </td>
+          <td>
+            <%= alliance.total_assist_count %>
           </td>
           <td>
             <%= alliance.total_kill_fame %>

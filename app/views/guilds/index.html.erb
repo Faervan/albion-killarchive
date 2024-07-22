@@ -6,6 +6,7 @@
     <%= select_tag :order_by, options_for_select([
       ["Kill count", :total_kill_count],
       ["Death count", :total_death_count],
+      ["Assist count", :total_assist_count],
       ["Kill fame", :total_kill_fame],
       ['Death fame', :total_death_fame]
     ]), onchange: "this.form.requestSubmit()" %>
