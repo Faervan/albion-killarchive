@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_21_070755) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_28_104543) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -113,6 +113,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_21_070755) do
     t.integer "total_death_count", limit: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "total_assist_count"
     t.index ["avatar_id"], name: "index_players_on_avatar_id"
     t.index ["avatar_ring_id"], name: "index_players_on_avatar_ring_id"
     t.index ["guild_id"], name: "index_players_on_guild_id"
