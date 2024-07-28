@@ -5,5 +5,6 @@ class EventHandlerService
     AllianceHandlerService.new.handle_alliances(event_list:)
     GuildHandlerService.new.handle_guilds(event_list:)
     AvatarHandlerService.new.handle_avatars(event_list:)
+    AvatarRingHandlerService.new.handle_avatar_rings(event_list:)
   end
 end
