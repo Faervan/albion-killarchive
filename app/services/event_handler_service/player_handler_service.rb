@@ -86,7 +86,6 @@ class EventHandlerService::PlayerHandlerService
     players.each do |player|
       persist_player(player:)
       update_guild_membership(player:)
-      update_avatar_and_avatar_ring(player:)
     end
   end
 
@@ -121,13 +120,6 @@ class EventHandlerService::PlayerHandlerService
     )
   end
 
-  def update_avatar_and_avatar_ring(player:)
-    Player.find_by(player_id: player[:player_id]).update(
-      avatar_id: player[:avatar_id],
-      avatar_ring_id: player[:avatar_ring_id]
-    )
-  end
-
   def set_player_stats(player:)
     {
       name: player[:player_name],
@@ -138,7 +130,9 @@ class EventHandlerService::PlayerHandlerService
       total_death_fame: player[:total_death_fame],
       total_kill_count: player[:total_kill_count],
       total_death_count: player[:total_death_count],
-      total_assist_count: player[:total_assist_count]
+      total_assist_count: player[:total_assist_count],
+      avatar_id: player[:avatar_id],
+      avatar_ring_id: player[:avatar_ring_id]
     }
   end
 end

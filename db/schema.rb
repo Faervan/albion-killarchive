@@ -103,7 +103,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_28_104543) do
     t.string "name"
     t.bigint "avatar_id", null: false
     t.bigint "avatar_ring_id", null: false
-    t.bigint "guild_id"
+    t.string "guild_id"
     t.integer "stalker_rating", limit: 2
     t.integer "slayer_rating", limit: 2
     t.integer "duo_rating", limit: 2
@@ -116,7 +116,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_28_104543) do
     t.integer "total_assist_count"
     t.index ["avatar_id"], name: "index_players_on_avatar_id"
     t.index ["avatar_ring_id"], name: "index_players_on_avatar_ring_id"
-    t.index ["guild_id"], name: "index_players_on_guild_id"
+    t.index ["player_id"], name: "index_players_on_player_id", unique: true
   end
 
   add_foreign_key "assists", "kill_events"
@@ -128,5 +128,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_28_104543) do
   add_foreign_key "kills", "players"
   add_foreign_key "players", "avatar_rings"
   add_foreign_key "players", "avatars"
-  add_foreign_key "players", "guilds"
+  add_foreign_key "players", "guilds", primary_key: "guild_id"
 end
