@@ -10,6 +10,7 @@ class CreateGuilds < ActiveRecord::Migration[7.1]
       t.integer :total_death_fame
       t.integer :total_kill_count
       t.integer :total_death_count
+      t.integer :total_assist_count
 
       t.timestamps
     end

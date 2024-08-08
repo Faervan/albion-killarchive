@@ -1,0 +1,22 @@
+<h1><%= @guild.name %></h1>
+<p>Registered since: <%= @guild.created_at %><br>
+  Last activity: <%= @guild.updated_at %><br>
+  Total kill fame: <%= @guild.total_kill_fame %><br>
+  Total death fame: <%= @guild.total_death_fame %><br>
+  Total kill count: <%= @guild.total_kill_count %><br>
+  Total death count: <%= @guild.total_death_count %></p>
+
+<ul>
+  <%= form_with url: players_path, method: :get, local: true, data: { turbo_frame: 'table' } do %>
+    <%= label_tag :order_by, 'Order by: ' %>
+    <input type="hidden" name="guild_id" value="<%= @guild.guild_id %>">
+    <%= select_tag :order_by, options_for_select([
+      ["Kill count", :total_kill_count],
+      ["Death count", :total_death_count],
+      ["Assist count", :total_assist_count],
+      ["Kill fame", :total_kill_fame],
+      ['Death fame', :total_death_fame]
+    ]), onchange: "this.form.requestSubmit()" %>
+  <% end %>
+  <%= render partial: "players/table", locals: { players: @players, list: @list, args: { guild_id: @guild.guild_id } } %>
+</ul>

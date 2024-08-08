@@ -1,43 +1,43 @@
 <%= turbo_frame_tag 'table' do %>
   <table style="text-align: left">
     <tr>
+      <th>Player</th>
       <th>Guild</th>
-      <th>Alliance</th>
       <th>Kill count</th>
       <th>Death count</th>
       <th>Assist count</th>
       <th>Kill fame</th>
       <th>Death fame</th>
     </tr>
-    <% guilds.each do |guild| %>
+    <% players.each do |player| %>
       <tr>
         <td>
-          <%= link_to guild.name, guild, target: "_top" %>
+          <%= link_to player.name, player, target: "_top" %>
         </td>
         <td>
-          <% if guild.alliance.present? %>
-            <% alliance = guild.alliance %>
-            <%= link_to alliance.name, alliance, target: "_top" %>
+          <% if player.guild.present? %>
+            <% guild = player.guild %>
+            <%= link_to guild.name, guild, target: "_top" %>
           <% end %>
         </td>
         <td>
-          <%= guild.total_kill_count %>
+          <%= player.total_kill_count %>
         </td>
         <td>
-          <%= guild.total_death_count %>
+          <%= player.total_death_count %>
         </td>
         <td>
-          <%= guild.total_assist_count %>
+          <%= player.total_assist_count %>
         </td>
         <td>
-          <%= guild.total_kill_fame %>
+          <%= player.total_kill_fame %>
         </td>
         <td>
-          <%= guild.total_death_fame %>
+          <%= player.total_death_fame %>
         </td>
       </tr>
     <% end %>
   </table>
   <% args = { list: list + 20 }.merge(args) %>
-  <%= link_to "Show more", guilds_path(args) %>
+  <%= link_to "Show more", players_path(args) %>
 <% end %>

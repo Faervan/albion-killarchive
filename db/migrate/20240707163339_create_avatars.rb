@@ -8,5 +8,6 @@ class CreateAvatars < ActiveRecord::Migration[7.1]
 
       t.timestamps
     end
+    add_index :avatars, :avatar_id, unique: true
   end
 end
