@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_28_104543) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_07_170743) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,9 +21,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_28_104543) do
     t.integer "total_death_fame"
     t.integer "total_kill_count"
     t.integer "total_death_count"
+    t.integer "total_assist_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "total_assist_count"
     t.index ["alliance_id"], name: "index_alliances_on_alliance_id", unique: true
   end
 
@@ -42,6 +42,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_28_104543) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["avatar_ring_id"], name: "index_avatar_rings_on_avatar_ring_id", unique: true
   end
 
   create_table "avatars", force: :cascade do |t|
@@ -49,6 +50,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_28_104543) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["avatar_id"], name: "index_avatars_on_avatar_id", unique: true
   end
 
   create_table "deaths", force: :cascade do |t|
@@ -70,9 +72,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_28_104543) do
     t.integer "total_death_fame"
     t.integer "total_kill_count"
     t.integer "total_death_count"
+    t.integer "total_assist_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "total_assist_count"
     t.index ["guild_id"], name: "index_guilds_on_guild_id", unique: true
   end
 
@@ -101,8 +103,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_28_104543) do
   create_table "players", force: :cascade do |t|
     t.string "player_id", null: false
     t.string "name"
-    t.bigint "avatar_id", null: false
-    t.bigint "avatar_ring_id", null: false
+    t.string "avatar_id"
+    t.string "avatar_ring_id"
     t.string "guild_id"
     t.integer "stalker_rating", limit: 2
     t.integer "slayer_rating", limit: 2
@@ -111,11 +113,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_28_104543) do
     t.integer "total_death_fame"
     t.integer "total_kill_count", limit: 2
     t.integer "total_death_count", limit: 2
+    t.integer "total_assist_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "total_assist_count"
-    t.index ["avatar_id"], name: "index_players_on_avatar_id"
-    t.index ["avatar_ring_id"], name: "index_players_on_avatar_ring_id"
     t.index ["player_id"], name: "index_players_on_player_id", unique: true
   end
 
@@ -126,7 +126,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_28_104543) do
   add_foreign_key "guilds", "alliances", primary_key: "alliance_id"
   add_foreign_key "kills", "kill_events"
   add_foreign_key "kills", "players"
-  add_foreign_key "players", "avatar_rings"
-  add_foreign_key "players", "avatars"
+  add_foreign_key "players", "avatar_rings", primary_key: "avatar_ring_id"
+  add_foreign_key "players", "avatars", primary_key: "avatar_id"
   add_foreign_key "players", "guilds", primary_key: "guild_id"
 end

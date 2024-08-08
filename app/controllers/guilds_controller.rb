@@ -13,4 +13,15 @@ class GuildsController < ApplicationController
     @alliances = Alliance.all
     @list = params[:list].to_i
   end
+
+  def show
+    params[:list] = '20' unless params[:list]
+    @guild = Guild.find_by(guild_id: params[:id])
+    @players = Player
+               .order('total_kill_count')
+               .reverse_order
+               .where(guild: @guild)
+               .limit(params[:list].to_i)
+    @list = params[:list].to_i
+  end
 end

@@ -122,7 +122,7 @@ class EventHandlerService::PlayerHandlerService
 
   def set_player_stats(player:)
     {
-      name: player[:player_name],
+      name: player[:name],
       stalker_rating: player[:stalker_rating],
       slayer_rating: player[:slayer_rating],
       duo_rating: player[:duo_rating],

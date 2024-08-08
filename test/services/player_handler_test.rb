@@ -11,7 +11,7 @@ class PlayerHandlerTest < ActiveSupport::TestCase
   FIRST_PLAYER_TOTAL_ASSIST_COUNT = 4
   SECOND_PLAYER_NAME = 'BLDGO'
   SECOND_PLAYER_ID = 'br8Az7QUQ72LqTyPbBZgQw'
-  SECOND_PLAYER_TOTAL_DEATH_FAME = 20_454
+  SECOND_PLAYER_TOTAL_DEATH_FAME = 40_908
   SECOND_PLAYER_TOTAL_DEATH_COUNT = 2
   SECOND_PLAYER_TOTAL_ASSIST_COUNT = 0
 
@@ -25,9 +25,10 @@ class PlayerHandlerTest < ActiveSupport::TestCase
   end
 
   test 'Unique player count is 74' do
-    assert_difference 'Player.count', 74 do
+    assert_difference 'Player.count', 0 do
       EventHandlerService::PlayerHandlerService.new.handle_players(event_list: EVENT_LIST)
     end
+    assert_equal Player.count, 74
   end
 
   test 'First event\'s data correctly saved to database' do

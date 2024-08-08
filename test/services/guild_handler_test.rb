@@ -28,8 +28,8 @@ class GuildHandlerTest < ActiveSupport::TestCase
 
   test 'First event\'s data correctly saved to database' do
     EventHandlerService::GuildHandlerService.new.handle_guilds(event_list: EVENT_LIST)
-    assert_equal SECOND_GUILD_ID, Guild.first.guild_id
-    assert_equal SECOND_GUILD_NAME, Guild.first.name
+    guild = Guild.find_by(guild_id: FIRST_GUILD_ID)
+    assert_equal FIRST_GUILD_NAME, guild.name
   end
 
   test "Stats of guilds #{FIRST_GUILD_NAME} and #{SECOND_GUILD_NAME} correctly saved to database" do
