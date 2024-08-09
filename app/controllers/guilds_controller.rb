@@ -2,7 +2,7 @@
 
 class GuildsController < ApplicationController
   def index
-    guild = Guild
+    guild = Guild.includes([:alliance])
     if params[:alliance_id]
       guild = guild.where(alliance_id: params[:alliance_id])
       @alliance_id = params[:alliance_id]
@@ -18,6 +18,7 @@ class GuildsController < ApplicationController
     params[:list] = '20' unless params[:list]
     @guild = Guild.find_by(guild_id: params[:id])
     @players = Player
+               .includes([:guild])
                .order('total_kill_count')
                .reverse_order
                .where(guild: @guild)

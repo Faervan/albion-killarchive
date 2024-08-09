@@ -2,7 +2,7 @@
 
 class PlayersController < ApplicationController
   def index
-    player = Player
+    player = Player.includes([:guild])
     if params[:guild_id]
       player = player.where(guild_id: params[:guild_id])
       @guild_id = params[:guild_id]

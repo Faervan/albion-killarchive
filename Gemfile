@@ -79,3 +79,5 @@ gem 'sidekiq', '~> 7.3'
 gem 'digest', '~> 3.1'
 
 gem 'httparty', '~> 0.22.0'
+
+gem 'bullet', '~> 7.2'

@@ -12,6 +12,7 @@ class AlliancesController < ApplicationController
     params[:list] = '20' unless params[:list]
     @alliance = Alliance.find_by(alliance_id: params[:id])
     @guilds = Guild
+              .includes([:alliance])
               .order('total_kill_count')
               .reverse_order
               .where(alliance: @alliance)
