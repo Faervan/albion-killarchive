@@ -81,3 +81,5 @@ gem 'digest', '~> 3.1'
 gem 'httparty', '~> 0.22.0'
 
 gem 'bullet', '~> 7.2'
+
+gem 'pg_search', '~> 2.3'

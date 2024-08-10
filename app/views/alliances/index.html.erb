@@ -13,6 +13,8 @@
       ['Death fame', :total_death_fame]
     ]), onchange: "this.form.requestSubmit()" %>
   <% end %>
+  <% query = !params[:search_by_name] ? [] : Alliance.search_by_name(params[:search_by_name])%>
+  <%= render partial: "shared/search_by_name", locals: { query:, path: alliances_path, model: 'alliance' } %>
   <%= turbo_frame_tag 'table' do %>
     <table style="text-align: left">
       <tr>
