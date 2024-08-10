@@ -11,6 +11,8 @@
       ['Death fame', :total_death_fame]
     ]), onchange: "this.form.requestSubmit()" %>
   <% end %>
+  <% query = !params[:search_by_name] ? [] : Player.search_by_name(params[:search_by_name])%>
+  <%= render partial: "shared/search_by_name", locals: { query:, path: players_path, model: 'player' } %>
   <% args = {} %>
   <% args.merge!({ guild_id: @guild_id }) if @guild_id %>
   <%= render partial: "table", locals: { players: @players, list: @list, args: } %>
