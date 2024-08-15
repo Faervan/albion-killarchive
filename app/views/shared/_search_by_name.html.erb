@@ -1,0 +1,20 @@
+<%= form_with url: path, id: 'search_by_name_form', method: :get, local: true, data: { turbo_frame: 'search_by_name' } do %>
+  <%= label_tag :search_by_name, "Search for #{model}: " %>
+  <%= text_field :search_by_name, '', id: 'search_by_name_input', onchange: "this.form.requestSubmit()" %>
+<% end %>
+<%= turbo_frame_tag 'search_by_name' do %>
+  <% query.each do |match| %>
+    <%= link_to match.name, match, target: "_top" %>
+  <% end %>
+<% end %>
+
+<script>
+  document.addEventListener("turbo:load", function() {
+    var textField = document.getElementById('search_by_name_input');
+    var form = document.getElementById('search_by_name_form');
+
+    textField.addEventListener('input', function() {
+      form.requestSubmit();
+    });
+  });
+</script>

@@ -277,7 +277,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_13_075526) do
     t.integer "total_death_fame"
     t.integer "total_kill_count", limit: 2
     t.integer "total_death_count", limit: 2
-    t.integer "total_assist_count"
+==== BASE ====
+==== BASE ====
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["player_id"], name: "index_players_on_player_id", unique: true

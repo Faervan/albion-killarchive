@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
 class Alliance < ApplicationRecord
-  has_many :guilds, primary_key: 'alliance_id', inverse_of: 'alliance_id', dependent: :nullify
+  self.primary_key = 'alliance_id'
+
+  has_many :guilds, dependent: :nullify
+
+  include PgSearch::Model
+  pg_search_scope :search_by_name, against: :name, using: { tsearch: { prefix: true } }
 end
