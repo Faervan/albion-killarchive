@@ -126,8 +126,8 @@ class EventHandlerService::ItemTypeHandlerService::PotionTypeHandlerService
         end,
       kd_perc:
         begin
-          100 / (potion_type[:kills] + potion_type[:deaths]) * (potion_type[:kills] * 100)
-        rescue ZeroDivisionError
+          (100.0 / (potion_type[:kills] + potion_type[:deaths]) * (potion_type[:kills] * 100)).round
+        rescue ZeroDivisionError, FloatDomainError
           0
         end
     }
