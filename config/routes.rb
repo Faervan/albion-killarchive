@@ -2,11 +2,13 @@
 
 Rails.application.routes.draw do
   root 'main#index'
-  # get '/players', to: 'players#index'
 
   resources :alliances
   resources :guilds
   resources :players
+  # resources :main_hand_types
+
+  get '/main_hand_types', to: 'main_hand_types#index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

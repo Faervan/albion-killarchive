@@ -1,0 +1,57 @@
+<%= stylesheet_link_tag "style.css" %>
+
+<h1>Weapons</h1>
+
+<ul>
+  <%= form_with url: main_hand_types_path, method: :get, local: true, data: { turbo_frame: 'table' } do %>
+    <%= label_tag :order_by, 'Order by: ' %>
+    <%= select_tag :order_by, options_for_select([
+      ["Usages", :usages],
+      ["Kill count", :kills],
+      ["Death count", :deaths],
+      ["Assist count", :assists],
+      ['Winrate', :kd_perc],
+      ['Average IP', :avg_ip]
+    ]), onchange: "this.form.requestSubmit()" %>
+  <% end %>
+  <%= turbo_frame_tag 'table' do %>
+    <table style="text-align: left">
+      <tr>
+        <th>Weapon</th>
+        <th>Usages</th>
+        <th>Winrate</th>
+        <th>Kill count</th>
+        <th>Death count</th>
+        <th>Assist count</th>
+        <th>Average IP</th>
+      </tr>
+      <% @main_hand_types.each do |main_hand_type| %>
+        <tr>
+          <td>
+            <%= image_tag "https://render.albiononline.com/v1/item/T8_#{main_hand_type.two_handed? ? "2H_" : ""}#{main_hand_type.path}?#{{ quality: 4 }.to_query}", size: "50x50" %>
+            <%= main_hand_type.name %>
+          </td>
+          <td>
+            <%= main_hand_type.usages %>
+          </td>
+          <td>
+            <%= main_hand_type.kd_perc / 100 %>%
+          </td>
+          <td>
+            <%= main_hand_type.kills %>
+          </td>
+          <td>
+            <%= main_hand_type.deaths %>
+          </td>
+          <td>
+            <%= main_hand_type.assists %>
+          </td>
+          <td>
+            <%= main_hand_type.avg_ip %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+    <%= link_to "Show more", main_hand_types_path(list: @list.to_i + 20) %>
+  <% end %>
+</ul>

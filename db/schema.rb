@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_07_170743) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_13_075526) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,16 +25,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_07_170743) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["alliance_id"], name: "index_alliances_on_alliance_id", unique: true
-  end
-
-  create_table "assists", force: :cascade do |t|
-    t.bigint "player_id", null: false
-    t.bigint "kill_event_id", null: false
-    t.integer "average_item_power", limit: 2
-    t.boolean "in_group_of_killer?"
-    t.integer "duo_rating_gain", limit: 2
-    t.index ["kill_event_id"], name: "index_assists_on_kill_event_id"
-    t.index ["player_id"], name: "index_assists_on_player_id"
   end
 
   create_table "avatar_rings", force: :cascade do |t|
@@ -53,15 +43,133 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_07_170743) do
     t.index ["avatar_id"], name: "index_avatars_on_avatar_id", unique: true
   end
 
-  create_table "deaths", force: :cascade do |t|
-    t.bigint "player_id", null: false
-    t.bigint "kill_event_id", null: false
-    t.integer "average_item_power", limit: 2
-    t.integer "stalker_rating_loss", limit: 2
-    t.integer "slayer_rating_loss", limit: 2
-    t.integer "duo_rating_loss", limit: 2
-    t.index ["kill_event_id"], name: "index_deaths_on_kill_event_id"
-    t.index ["player_id"], name: "index_deaths_on_player_id"
+  create_table "bag_types", force: :cascade do |t|
+    t.string "path", null: false
+    t.string "name"
+    t.integer "usages"
+    t.integer "total_ip"
+    t.integer "avg_ip"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["path"], name: "index_bag_types_on_path", unique: true
+  end
+
+  create_table "bags", force: :cascade do |t|
+    t.string "path", null: false
+    t.string "item_type", null: false
+    t.integer "tier"
+    t.integer "enchantment"
+    t.integer "quality"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["path"], name: "index_bags_on_path", unique: true
+  end
+
+  create_table "cape_types", force: :cascade do |t|
+    t.string "path", null: false
+    t.string "name"
+    t.integer "total_ip"
+    t.integer "avg_ip"
+    t.integer "kills"
+    t.integer "deaths"
+    t.integer "assists"
+    t.integer "usages"
+    t.integer "kd_perc"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["path"], name: "index_cape_types_on_path", unique: true
+  end
+
+  create_table "capes", force: :cascade do |t|
+    t.string "path", null: false
+    t.string "item_type", null: false
+    t.integer "tier"
+    t.integer "enchantment"
+    t.integer "quality"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["path"], name: "index_capes_on_path", unique: true
+  end
+
+  create_table "chest_types", force: :cascade do |t|
+    t.string "path", null: false
+    t.string "name"
+    t.integer "total_ip"
+    t.integer "avg_ip"
+    t.integer "kills"
+    t.integer "deaths"
+    t.integer "assists"
+    t.integer "usages"
+    t.integer "kd_perc"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["path"], name: "index_chest_types_on_path", unique: true
+  end
+
+  create_table "chests", force: :cascade do |t|
+    t.string "path", null: false
+    t.string "item_type", null: false
+    t.integer "tier"
+    t.integer "enchantment"
+    t.integer "quality"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["path"], name: "index_chests_on_path", unique: true
+  end
+
+  create_table "feet_types", force: :cascade do |t|
+    t.string "path", null: false
+    t.string "name"
+    t.integer "total_ip"
+    t.integer "avg_ip"
+    t.integer "kills"
+    t.integer "deaths"
+    t.integer "assists"
+    t.integer "usages"
+    t.integer "kd_perc"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["path"], name: "index_feet_types_on_path", unique: true
+  end
+
+  create_table "feets", force: :cascade do |t|
+    t.string "path", null: false
+    t.string "item_type", null: false
+    t.integer "tier"
+    t.integer "enchantment"
+    t.integer "quality"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["path"], name: "index_feets_on_path", unique: true
+  end
+
+  create_table "food_types", force: :cascade do |t|
+    t.string "path", null: false
+    t.string "name"
+    t.integer "total_ip"
+    t.integer "avg_ip"
+    t.integer "kills"
+    t.integer "deaths"
+    t.integer "assists"
+    t.integer "usages"
+    t.integer "kd_perc"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["path"], name: "index_food_types_on_path", unique: true
+  end
+
+  create_table "foods", force: :cascade do |t|
+    t.string "path", null: false
+    t.string "item_type", null: false
+    t.integer "tier"
+    t.integer "enchantment"
+    t.integer "avg_ip"
+    t.integer "kills"
+    t.integer "deaths"
+    t.integer "assists"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["path"], name: "index_foods_on_path", unique: true
   end
 
   create_table "guilds", force: :cascade do |t|
@@ -78,26 +186,105 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_07_170743) do
     t.index ["guild_id"], name: "index_guilds_on_guild_id", unique: true
   end
 
-  create_table "kill_events", force: :cascade do |t|
-    t.integer "event_id", null: false
-    t.integer "version", limit: 2
-    t.datetime "time_stamp"
-    t.integer "total_victim_kill_fame"
-    t.integer "number_of_assists", limit: 2
-    t.integer "number_of_allies", limit: 2
+  create_table "head_types", force: :cascade do |t|
+    t.string "path", null: false
+    t.string "name"
+    t.integer "total_ip"
+    t.integer "avg_ip"
+    t.integer "kills"
+    t.integer "deaths"
+    t.integer "assists"
+    t.integer "usages"
+    t.integer "kd_perc"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["path"], name: "index_head_types_on_path", unique: true
   end
 
-  create_table "kills", force: :cascade do |t|
-    t.bigint "player_id", null: false
-    t.bigint "kill_event_id", null: false
-    t.integer "average_item_power", limit: 2
-    t.integer "stalker_rating_gain", limit: 2
-    t.integer "slayer_rating_gain", limit: 2
-    t.integer "duo_rating_gain", limit: 2
-    t.index ["kill_event_id"], name: "index_kills_on_kill_event_id"
-    t.index ["player_id"], name: "index_kills_on_player_id"
+  create_table "heads", force: :cascade do |t|
+    t.string "path", null: false
+    t.string "item_type", null: false
+    t.integer "tier"
+    t.integer "enchantment"
+    t.integer "quality"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["path"], name: "index_heads_on_path", unique: true
+  end
+
+  create_table "main_hand_types", force: :cascade do |t|
+    t.string "path", null: false
+    t.string "name"
+    t.boolean "two_handed?"
+    t.integer "total_ip"
+    t.integer "avg_ip"
+    t.integer "kills"
+    t.integer "deaths"
+    t.integer "assists"
+    t.integer "usages"
+    t.integer "kd_perc"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["path"], name: "index_main_hand_types_on_path", unique: true
+  end
+
+  create_table "main_hands", force: :cascade do |t|
+    t.string "path", null: false
+    t.string "item_type", null: false
+    t.integer "tier"
+    t.integer "enchantment"
+    t.integer "quality"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["path"], name: "index_main_hands_on_path", unique: true
+  end
+
+  create_table "mount_types", force: :cascade do |t|
+    t.string "path", null: false
+    t.string "name"
+    t.integer "usages"
+    t.integer "total_ip"
+    t.integer "avg_ip"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["path"], name: "index_mount_types_on_path", unique: true
+  end
+
+  create_table "mounts", force: :cascade do |t|
+    t.string "path", null: false
+    t.string "item_type", null: false
+    t.integer "tier"
+    t.integer "enchantment"
+    t.integer "quality"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["path"], name: "index_mounts_on_path", unique: true
+  end
+
+  create_table "off_hand_types", force: :cascade do |t|
+    t.string "path", null: false
+    t.string "name"
+    t.integer "total_ip"
+    t.integer "avg_ip"
+    t.integer "kills"
+    t.integer "deaths"
+    t.integer "assists"
+    t.integer "usages"
+    t.integer "kd_perc"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["path"], name: "index_off_hand_types_on_path", unique: true
+  end
+
+  create_table "off_hands", force: :cascade do |t|
+    t.string "path", null: false
+    t.string "item_type", null: false
+    t.integer "tier"
+    t.integer "enchantment"
+    t.integer "quality"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["path"], name: "index_off_hands_on_path", unique: true
   end
 
   create_table "players", force: :cascade do |t|
@@ -119,14 +306,47 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_07_170743) do
     t.index ["player_id"], name: "index_players_on_player_id", unique: true
   end
 
-  add_foreign_key "assists", "kill_events"
-  add_foreign_key "assists", "players"
-  add_foreign_key "deaths", "kill_events"
-  add_foreign_key "deaths", "players"
+  create_table "potion_types", force: :cascade do |t|
+    t.string "path", null: false
+    t.string "name"
+    t.integer "total_ip"
+    t.integer "avg_ip"
+    t.integer "kills"
+    t.integer "deaths"
+    t.integer "assists"
+    t.integer "usages"
+    t.integer "kd_perc"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["path"], name: "index_potion_types_on_path", unique: true
+  end
+
+  create_table "potions", force: :cascade do |t|
+    t.string "path", null: false
+    t.string "item_type", null: false
+    t.integer "tier"
+    t.integer "enchantment"
+    t.integer "avg_ip"
+    t.integer "kills"
+    t.integer "deaths"
+    t.integer "assists"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["path"], name: "index_potions_on_path", unique: true
+  end
+
+  add_foreign_key "bags", "bag_types", column: "item_type", primary_key: "path"
+  add_foreign_key "capes", "cape_types", column: "item_type", primary_key: "path"
+  add_foreign_key "chests", "chest_types", column: "item_type", primary_key: "path"
+  add_foreign_key "feets", "feet_types", column: "item_type", primary_key: "path"
+  add_foreign_key "foods", "food_types", column: "item_type", primary_key: "path"
   add_foreign_key "guilds", "alliances", primary_key: "alliance_id"
-  add_foreign_key "kills", "kill_events"
-  add_foreign_key "kills", "players"
+  add_foreign_key "heads", "head_types", column: "item_type", primary_key: "path"
+  add_foreign_key "main_hands", "main_hand_types", column: "item_type", primary_key: "path"
+  add_foreign_key "mounts", "mount_types", column: "item_type", primary_key: "path"
+  add_foreign_key "off_hands", "off_hand_types", column: "item_type", primary_key: "path"
   add_foreign_key "players", "avatar_rings", primary_key: "avatar_ring_id"
   add_foreign_key "players", "avatars", primary_key: "avatar_id"
   add_foreign_key "players", "guilds", primary_key: "guild_id"
+  add_foreign_key "potions", "potion_types", column: "item_type", primary_key: "path"
 end
