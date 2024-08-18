@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get '/main_hand_types', to: 'main_hand_types#index'
   root 'main#index'
   # get '/players', to: 'players#index'
 
