@@ -6,10 +6,13 @@ class CreateMainHandTypes < ActiveRecord::Migration[7.1]
       t.string :path, null: false
       t.string :name
       t.boolean :two_handed?
+      t.integer :total_ip
       t.integer :avg_ip
       t.integer :kills
       t.integer :deaths
       t.integer :assists
+      t.integer :usages
+      t.integer :kd_perc
 
       t.timestamps
     end

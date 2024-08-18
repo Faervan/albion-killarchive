@@ -47,6 +47,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_13_075526) do
     t.string "path", null: false
     t.string "name"
     t.integer "usages"
+    t.integer "total_ip"
     t.integer "avg_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -67,10 +68,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_13_075526) do
   create_table "cape_types", force: :cascade do |t|
     t.string "path", null: false
     t.string "name"
+    t.integer "total_ip"
     t.integer "avg_ip"
     t.integer "kills"
     t.integer "deaths"
     t.integer "assists"
+    t.integer "usages"
+    t.integer "kd_perc"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["path"], name: "index_cape_types_on_path", unique: true
@@ -90,10 +94,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_13_075526) do
   create_table "chest_types", force: :cascade do |t|
     t.string "path", null: false
     t.string "name"
+    t.integer "total_ip"
     t.integer "avg_ip"
     t.integer "kills"
     t.integer "deaths"
     t.integer "assists"
+    t.integer "usages"
+    t.integer "kd_perc"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["path"], name: "index_chest_types_on_path", unique: true
@@ -113,10 +120,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_13_075526) do
   create_table "feet_types", force: :cascade do |t|
     t.string "path", null: false
     t.string "name"
+    t.integer "total_ip"
     t.integer "avg_ip"
     t.integer "kills"
     t.integer "deaths"
     t.integer "assists"
+    t.integer "usages"
+    t.integer "kd_perc"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["path"], name: "index_feet_types_on_path", unique: true
@@ -136,10 +146,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_13_075526) do
   create_table "food_types", force: :cascade do |t|
     t.string "path", null: false
     t.string "name"
+    t.integer "total_ip"
     t.integer "avg_ip"
     t.integer "kills"
     t.integer "deaths"
     t.integer "assists"
+    t.integer "usages"
+    t.integer "kd_perc"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["path"], name: "index_food_types_on_path", unique: true
@@ -176,10 +189,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_13_075526) do
   create_table "head_types", force: :cascade do |t|
     t.string "path", null: false
     t.string "name"
+    t.integer "total_ip"
     t.integer "avg_ip"
     t.integer "kills"
     t.integer "deaths"
     t.integer "assists"
+    t.integer "usages"
+    t.integer "kd_perc"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["path"], name: "index_head_types_on_path", unique: true
@@ -200,10 +216,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_13_075526) do
     t.string "path", null: false
     t.string "name"
     t.boolean "two_handed?"
+    t.integer "total_ip"
     t.integer "avg_ip"
     t.integer "kills"
     t.integer "deaths"
     t.integer "assists"
+    t.integer "usages"
+    t.integer "kd_perc"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["path"], name: "index_main_hand_types_on_path", unique: true
@@ -224,6 +243,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_13_075526) do
     t.string "path", null: false
     t.string "name"
     t.integer "usages"
+    t.integer "total_ip"
     t.integer "avg_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -244,10 +264,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_13_075526) do
   create_table "off_hand_types", force: :cascade do |t|
     t.string "path", null: false
     t.string "name"
+    t.integer "total_ip"
     t.integer "avg_ip"
     t.integer "kills"
     t.integer "deaths"
     t.integer "assists"
+    t.integer "usages"
+    t.integer "kd_perc"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["path"], name: "index_off_hand_types_on_path", unique: true
@@ -277,8 +300,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_13_075526) do
     t.integer "total_death_fame"
     t.integer "total_kill_count", limit: 2
     t.integer "total_death_count", limit: 2
-==== BASE ====
-==== BASE ====
+    t.integer "total_assist_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["player_id"], name: "index_players_on_player_id", unique: true
@@ -287,10 +309,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_13_075526) do
   create_table "potion_types", force: :cascade do |t|
     t.string "path", null: false
     t.string "name"
+    t.integer "total_ip"
     t.integer "avg_ip"
     t.integer "kills"
     t.integer "deaths"
     t.integer "assists"
+    t.integer "usages"
+    t.integer "kd_perc"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["path"], name: "index_potion_types_on_path", unique: true
