@@ -126,8 +126,8 @@ class EventHandlerService::ItemTypeHandlerService::CapeTypeHandlerService
         end,
       kd_perc:
         begin
-          100 / (cape_type[:kills] + cape_type[:deaths]) * (cape_type[:kills] * 100)
-        rescue ZeroDivisionError
+          (100.0 / (cape_type[:kills] + cape_type[:deaths]) * cape_type[:kills] * 100).round
+        rescue ZeroDivisionError, FloatDomainError
           0
         end
     }

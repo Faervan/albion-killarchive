@@ -126,8 +126,8 @@ class EventHandlerService::ItemTypeHandlerService::ChestTypeHandlerService
         end,
       kd_perc:
         begin
-          100 / (chest_type[:kills] + chest_type[:deaths]) * (chest_type[:kills] * 100)
-        rescue ZeroDivisionError
+          (100.0 / (chest_type[:kills] + chest_type[:deaths]) * chest_type[:kills] * 100).round
+        rescue ZeroDivisionError, FloatDomainError
           0
         end
     }

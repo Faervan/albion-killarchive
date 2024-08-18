@@ -131,8 +131,8 @@ class EventHandlerService::ItemTypeHandlerService::MainHandTypeHandlerService
         end,
       kd_perc:
         begin
-          100 / (main_hand_type[:kills] + main_hand_type[:deaths]) * main_hand_type[:kills] * 100
-        rescue ZeroDivisionError
+          (100.0 / (main_hand_type[:kills] + main_hand_type[:deaths]) * main_hand_type[:kills] * 100).round
+        rescue ZeroDivisionError, FloatDomainError
           0
         end
     }
