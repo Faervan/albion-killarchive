@@ -126,7 +126,7 @@ class EventHandlerService::ItemTypeHandlerService::HeadTypeHandlerService
         end,
       kd_perc:
         begin
-          (100.0 / (head_type[:kills] + head_type[:deaths]) * (head_type[:kills] * 100)).round
+          (100.0 / (head_type[:kills] + head_type[:deaths]) * head_type[:kills] * 100).round
         rescue ZeroDivisionError, FloatDomainError
           0
         end

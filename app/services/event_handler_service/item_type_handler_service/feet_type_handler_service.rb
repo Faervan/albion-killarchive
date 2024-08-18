@@ -126,7 +126,7 @@ class EventHandlerService::ItemTypeHandlerService::FeetTypeHandlerService
         end,
       kd_perc:
         begin
-          (100.0 / (feet_type[:kills] + feet_type[:deaths]) * (feet_type[:kills] * 100)).round
+          (100.0 / (feet_type[:kills] + feet_type[:deaths]) * feet_type[:kills] * 100).round
         rescue ZeroDivisionError, FloatDomainError
           0
         end
