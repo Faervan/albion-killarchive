@@ -8,6 +8,6 @@ scheduler.in '4s' do
   EventFetcherJob.perform_later
 end
 
-scheduler.every '30s' do
+scheduler.every '60s' do
   EventFetcherJob.perform_later
 end

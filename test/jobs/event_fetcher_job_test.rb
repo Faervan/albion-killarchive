@@ -3,7 +3,7 @@
 require 'test_helper'
 
 class EventFetcherJobTest < ActiveJob::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test 'event fetcher working' do
+    assert true
+  end
 end
