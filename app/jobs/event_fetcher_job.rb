@@ -31,7 +31,7 @@ class EventFetcherJob < ApplicationJob
       old_events += 1
       next
     end
-    { new_events:, more: old_events < 5 }
+    { new_events:, more: old_events < 45 }
   end
 
   def destroy_expired_events
