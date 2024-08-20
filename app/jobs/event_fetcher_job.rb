@@ -2,14 +2,12 @@
 
 class EventFetcherJob < ApplicationJob
   self.log_arguments = false
-  LAST_API_EVENTS_SHASUM_FILE_PATH = Rails.root.join('tmp/last_api_events_shasum')
-
   queue_as :default
 
   def perform
     offset = 0
     event_list = []
-    while (result = query_events(offset)) && result[:more]
+    while (result = query_events(offset:)) && result[:more]
       event_list += result[:new_events]
       offset += 50
       break if offset > 1000
@@ -20,18 +18,16 @@ class EventFetcherJob < ApplicationJob
 
   private
 
-  def query_events(offset)
+  def query_events(offset:)
     event_list = HTTParty.get("https://gameinfo-ams.albiononline.com/api/gameinfo/events?limit=50&offset=#{offset}")
     new_events = []
-    old_events = 0
     event_list.each do |event|
       FetchedEvent.create!(event_id: event['EventId'], expires_at: 60.minutes.from_now)
       new_events << event
     rescue ActiveRecord::RecordNotUnique
-      old_events += 1
       next
     end
-    { new_events:, more: old_events < 45 }
+    { new_events:, more: new_events.count.positive? }
   end
 
   def destroy_expired_events
