@@ -34,7 +34,6 @@ class EventHandlerService::ItemTypeHandlerService::MainHandTypeHandlerService
 
   def build_main_hand_type_object(entity:)
     {
-      name: entity['Equipment']['MainHand']['Type'].parse_main_hand_type[:path],
       path: entity['Equipment']['MainHand']['Type'].parse_main_hand_type[:path],
       two_handed: entity['Equipment']['MainHand']['Type'].parse_main_hand_type[:two_handed],
       total_ip: 0,
@@ -116,7 +115,6 @@ class EventHandlerService::ItemTypeHandlerService::MainHandTypeHandlerService
   def set_main_hand_type_stats(main_hand_type:)
     usages = main_hand_type[:kills] + main_hand_type[:deaths] + main_hand_type[:assists]
     {
-      name: main_hand_type[:name],
       two_handed?: main_hand_type[:two_handed],
       kills: main_hand_type[:kills],
       deaths: main_hand_type[:deaths],

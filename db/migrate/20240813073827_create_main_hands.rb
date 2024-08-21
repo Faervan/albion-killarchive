@@ -4,6 +4,7 @@ class CreateMainHands < ActiveRecord::Migration[7.1]
   def change
     create_table :main_hands do |t|
       t.string :path, null: false
+      t.string :name
       t.string :item_type, null: false
       t.integer :tier
       t.integer :enchantment

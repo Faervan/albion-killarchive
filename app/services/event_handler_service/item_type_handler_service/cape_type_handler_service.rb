@@ -31,7 +31,6 @@ class EventHandlerService::ItemTypeHandlerService::CapeTypeHandlerService
 
   def build_cape_type_object(entity:)
     {
-      name: entity['Equipment']['Cape']['Type'].parse_item_type,
       path: entity['Equipment']['Cape']['Type'].parse_item_type,
       total_ip: 0,
       kills: 0,
@@ -112,7 +111,6 @@ class EventHandlerService::ItemTypeHandlerService::CapeTypeHandlerService
   def set_cape_type_stats(cape_type:)
     usages = cape_type[:kills] + cape_type[:deaths] + cape_type[:assists]
     {
-      name: cape_type[:name],
       kills: cape_type[:kills],
       deaths: cape_type[:deaths],
       assists: cape_type[:assists],

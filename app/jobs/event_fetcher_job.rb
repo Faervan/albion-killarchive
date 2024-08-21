@@ -2,7 +2,6 @@
 
 class EventFetcherJob < ApplicationJob
   self.log_arguments = false
-  LAST_API_EVENTS_SHASUM_FILE_PATH = Rails.root.join('tmp/last_api_events_shasum')
 
   queue_as :default
 

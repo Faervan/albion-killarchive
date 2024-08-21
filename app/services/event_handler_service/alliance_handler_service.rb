@@ -117,7 +117,13 @@ class EventHandlerService::AllianceHandlerService
       total_death_fame: alliance[:total_death_fame],
       total_kill_count: alliance[:total_kill_count],
       total_death_count: alliance[:total_death_count],
-      total_assist_count: alliance[:total_assist_count]
+      total_assist_count: alliance[:total_assist_count],
+      kd_perc:
+        begin
+          (100.0 / (alliance[:total_kill_count] + alliance[:total_death_count]) * alliance[:total_kill_count] * 100).round
+        rescue ZeroDivisionError, FloatDomainError
+          0
+        end
     }
   end
 end

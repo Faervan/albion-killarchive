@@ -4,7 +4,6 @@ class CreateFoodTypes < ActiveRecord::Migration[7.1]
   def change
     create_table :food_types do |t|
       t.string :path, null: false
-      t.string :name
       t.integer :total_ip
       t.integer :avg_ip
       t.integer :kills

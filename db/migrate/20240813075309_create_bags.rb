@@ -4,6 +4,7 @@ class CreateBags < ActiveRecord::Migration[7.1]
   def change
     create_table :bags do |t|
       t.string :path, null: false
+      t.string :name
       t.string :item_type, null: false
       t.integer :tier
       t.integer :enchantment

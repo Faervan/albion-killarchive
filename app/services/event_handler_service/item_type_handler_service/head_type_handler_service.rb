@@ -31,7 +31,6 @@ class EventHandlerService::ItemTypeHandlerService::HeadTypeHandlerService
 
   def build_head_type_object(entity:)
     {
-      name: entity['Equipment']['Head']['Type'].parse_item_type,
       path: entity['Equipment']['Head']['Type'].parse_item_type,
       total_ip: 0,
       kills: 0,
@@ -112,7 +111,6 @@ class EventHandlerService::ItemTypeHandlerService::HeadTypeHandlerService
   def set_head_type_stats(head_type:)
     usages = head_type[:kills] + head_type[:deaths] + head_type[:assists]
     {
-      name: head_type[:name],
       kills: head_type[:kills],
       deaths: head_type[:deaths],
       assists: head_type[:assists],

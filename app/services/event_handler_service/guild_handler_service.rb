@@ -127,7 +127,13 @@ class EventHandlerService::GuildHandlerService
       total_death_fame: guild[:total_death_fame],
       total_kill_count: guild[:total_kill_count],
       total_death_count: guild[:total_death_count],
-      total_assist_count: guild[:total_assist_count]
+      total_assist_count: guild[:total_assist_count],
+      kd_perc:
+        begin
+          (100.0 / (guild[:total_kill_count] + guild[:total_death_count]) * guild[:total_kill_count] * 100).round
+        rescue ZeroDivisionError, FloatDomainError
+          0
+        end
     }
   end
 end

@@ -83,3 +83,5 @@ gem 'httparty', '~> 0.22.0'
 gem 'bullet', '~> 7.2'
 
 gem 'pg_search', '~> 2.3'
+
+gem 'down', '~> 5.4', require: false

@@ -31,7 +31,6 @@ class EventHandlerService::ItemTypeHandlerService::BagTypeHandlerService
 
   def build_bag_type_object(entity:)
     {
-      name: entity['Equipment']['Bag']['Type'].parse_item_type,
       path: entity['Equipment']['Bag']['Type'].parse_item_type,
       usages: 0
     }
@@ -102,7 +101,6 @@ class EventHandlerService::ItemTypeHandlerService::BagTypeHandlerService
 
   def set_bag_type_stats(bag_type:)
     {
-      name: bag_type[:name],
       usages: bag_type[:usages]
     }
   end
