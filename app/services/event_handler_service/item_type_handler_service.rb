@@ -2,10 +2,11 @@
 
 class String
   def parse_main_hand_type
-    match = match(/T[1-8](?:_)?(?<double>2H_)?(?<item_name>[^@]*)(?:@[0-4])?/)
+    match = match(/T[1-8](?:_)?(?<double>2H_)?(?<item_type>[^@]*)(?:@[0-4])?/)
+    path = match[:double].present? ? "2H_#{match[:item_type]}" : match[:item_type]
     {
       two_handed: match[:double].present?,
-      path: match[:item_name]
+      path:
     }
   end
 

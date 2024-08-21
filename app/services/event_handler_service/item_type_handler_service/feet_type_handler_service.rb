@@ -31,7 +31,6 @@ class EventHandlerService::ItemTypeHandlerService::FeetTypeHandlerService
 
   def build_feet_type_object(entity:)
     {
-      name: entity['Equipment']['Shoes']['Type'].parse_item_type,
       path: entity['Equipment']['Shoes']['Type'].parse_item_type,
       total_ip: 0,
       kills: 0,
@@ -112,7 +111,6 @@ class EventHandlerService::ItemTypeHandlerService::FeetTypeHandlerService
   def set_feet_type_stats(feet_type:)
     usages = feet_type[:kills] + feet_type[:deaths] + feet_type[:assists]
     {
-      name: feet_type[:name],
       kills: feet_type[:kills],
       deaths: feet_type[:deaths],
       assists: feet_type[:assists],

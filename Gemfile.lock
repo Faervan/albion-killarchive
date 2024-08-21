@@ -103,7 +103,7 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
-    concurrent-ruby (1.3.3)
+    concurrent-ruby (1.3.4)
     connection_pool (2.4.1)
     crass (1.0.6)
     csv (3.3.0)
@@ -112,6 +112,8 @@ GEM
       irb (~> 1.10)
       reline (>= 0.3.8)
     digest (3.1.1)
+    down (5.4.2)
+      addressable (~> 2.8)
     drb (2.2.1)
     dry-configurable (1.2.0)
       dry-core (~> 1.0, < 2)
@@ -143,7 +145,7 @@ GEM
     erubi (1.13.0)
     et-orbi (1.2.11)
       tzinfo
-    fugit (1.11.0)
+    fugit (1.11.1)
       et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
     globalid (1.2.1)
@@ -196,16 +198,26 @@ GEM
     net-smtp (0.5.0)
       net-protocol
     nio4r (2.7.3)
+    nokogiri (1.16.7-aarch64-linux)
+      racc (~> 1.4)
+    nokogiri (1.16.7-arm-linux)
+      racc (~> 1.4)
+    nokogiri (1.16.7-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.16.7-x86-linux)
+      racc (~> 1.4)
+    nokogiri (1.16.7-x86_64-darwin)
+      racc (~> 1.4)
     nokogiri (1.16.7-x86_64-linux)
       racc (~> 1.4)
-    parallel (1.25.1)
+    parallel (1.26.3)
     parser (3.3.4.2)
       ast (~> 2.4.1)
       racc
     pg (1.5.7)
-    pg_search (2.3.6)
-      activerecord (>= 5.2)
-      activesupport (>= 5.2)
+    pg_search (2.3.7)
+      activerecord (>= 6.1)
+      activesupport (>= 6.1)
     psych (5.1.2)
       stringio
     public_suffix (6.0.1)
@@ -264,7 +276,7 @@ GEM
     regexp_parser (2.9.2)
     reline (0.5.9)
       io-console (~> 0.5)
-    rexml (3.3.4)
+    rexml (3.3.5)
       strscan
     rubocop (1.65.1)
       json (~> 2.3)
@@ -277,7 +289,7 @@ GEM
       rubocop-ast (>= 1.31.1, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 3.0)
-    rubocop-ast (1.32.0)
+    rubocop-ast (1.32.1)
       parser (>= 3.3.1.0)
     rubocop-rails (2.25.1)
       activesupport (>= 4.2.0)
@@ -294,7 +306,8 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    sidekiq (7.3.0)
+    shellwords (0.2.0)
+    sidekiq (7.3.1)
       concurrent-ruby (< 2)
       connection_pool (>= 2.3.0)
       logger
@@ -307,7 +320,7 @@ GEM
       actionpack (>= 6.1)
       activesupport (>= 6.1)
       sprockets (>= 3.0.0)
-    stimulus-rails (1.3.3)
+    stimulus-rails (1.3.4)
       railties (>= 6.0.0)
     stringio (3.1.1)
     strscan (3.1.0)
@@ -336,6 +349,11 @@ GEM
     zeitwerk (2.6.17)
 
 PLATFORMS
+  aarch64-linux
+  arm-linux
+  arm64-darwin
+  x86-linux
+  x86_64-darwin
   x86_64-linux
 
 DEPENDENCIES
@@ -346,6 +364,7 @@ DEPENDENCIES
   capybara
   debug
   digest (~> 3.1)
+  down (~> 5.4)
   httparty (~> 0.22.0)
   importmap-rails
   jbuilder
@@ -359,6 +378,7 @@ DEPENDENCIES
   rubocop-rails
   rufus-scheduler (~> 3.9)
   selenium-webdriver
+  shellwords (~> 0.2.0)
   sidekiq (~> 7.3)
   sprockets-rails
   stimulus-rails

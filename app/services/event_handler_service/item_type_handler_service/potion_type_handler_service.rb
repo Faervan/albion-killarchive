@@ -31,7 +31,6 @@ class EventHandlerService::ItemTypeHandlerService::PotionTypeHandlerService
 
   def build_potion_type_object(entity:)
     {
-      name: entity['Equipment']['Potion']['Type'].parse_item_type,
       path: entity['Equipment']['Potion']['Type'].parse_item_type,
       total_ip: 0,
       kills: 0,
@@ -112,7 +111,6 @@ class EventHandlerService::ItemTypeHandlerService::PotionTypeHandlerService
   def set_potion_type_stats(potion_type:)
     usages = potion_type[:kills] + potion_type[:deaths] + potion_type[:assists]
     {
-      name: potion_type[:name],
       kills: potion_type[:kills],
       deaths: potion_type[:deaths],
       assists: potion_type[:assists],

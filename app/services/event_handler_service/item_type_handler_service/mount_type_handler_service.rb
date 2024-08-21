@@ -31,7 +31,6 @@ class EventHandlerService::ItemTypeHandlerService::MountTypeHandlerService
 
   def build_mount_type_object(entity:)
     {
-      name: entity['Equipment']['Mount']['Type'].parse_mount_type,
       path: entity['Equipment']['Mount']['Type'].parse_mount_type,
       total_ip: 0,
       usages: 0
@@ -107,7 +106,6 @@ class EventHandlerService::ItemTypeHandlerService::MountTypeHandlerService
 
   def set_mount_type_stats(mount_type:)
     {
-      name: mount_type[:name],
       usages: mount_type[:usages],
       total_ip: mount_type[:total_ip],
       avg_ip:

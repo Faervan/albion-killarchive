@@ -2,6 +2,7 @@
 
 class EventFetcherJob < ApplicationJob
   self.log_arguments = false
+
   queue_as :default
 
   def perform

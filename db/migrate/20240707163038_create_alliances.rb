@@ -10,6 +10,7 @@ class CreateAlliances < ActiveRecord::Migration[7.1]
       t.integer :total_kill_count
       t.integer :total_death_count
       t.integer :total_assist_count
+      t.integer :kd_perc
 
       t.timestamps
     end

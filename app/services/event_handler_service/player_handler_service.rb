@@ -38,7 +38,8 @@ class EventHandlerService::PlayerHandlerService
       total_death_fame: 0,
       total_kill_count: 0,
       total_death_count: 0,
-      total_assist_count: 0
+      total_assist_count: 0,
+      total_ip: 0
     }
   end
 
@@ -54,6 +55,7 @@ class EventHandlerService::PlayerHandlerService
   def update_kill_count(players:, event:)
     player = find_player(players:, player_id: event['Killer']['Id'])
     player[:total_kill_count] += 1
+    player[:total_ip] += event['Killer']['AverageItemPower']
   end
 
   def update_kill_fame(players:, event:)
@@ -69,6 +71,7 @@ class EventHandlerService::PlayerHandlerService
 
       player = find_player(players:, player_id: participant['Id'])
       player[:total_assist_count] += 1
+      player[:total_ip] += participant['AverageItemPower']
     end
   end
 
@@ -76,6 +79,7 @@ class EventHandlerService::PlayerHandlerService
     player = find_player(players:, player_id: event['Victim']['Id'])
     player[:total_death_count] += 1
     player[:total_death_fame] += event['TotalVictimKillFame']
+    player[:total_ip] += event['Victim']['AverageItemPower']
   end
 
   def find_player(players:, player_id:)
@@ -107,6 +111,7 @@ class EventHandlerService::PlayerHandlerService
     player[:total_death_fame] += existing_player.total_death_fame
     player[:total_death_count] += existing_player.total_death_count
     player[:total_assist_count] += existing_player.total_assist_count
+    player[:total_ip] += existing_player.total_ip
     existing_player.update(
       set_player_stats(player:)
     )
@@ -132,7 +137,20 @@ class EventHandlerService::PlayerHandlerService
       total_death_count: player[:total_death_count],
       total_assist_count: player[:total_assist_count],
       avatar_id: player[:avatar_id],
-      avatar_ring_id: player[:avatar_ring_id]
+      avatar_ring_id: player[:avatar_ring_id],
+      total_ip: player[:total_ip],
+      avg_ip:
+        begin
+          player[:total_ip] / (player[:total_kill_count] + player[:total_death_count] + player[:total_assist_count])
+        rescue ZeroDivisionError
+          0
+        end,
+      kd_perc:
+        begin
+          (100.0 / (player[:total_kill_count] + player[:total_death_count]) * player[:total_kill_count] * 100).round
+        rescue ZeroDivisionError, FloatDomainError
+          0
+        end
     }
   end
 end

@@ -16,6 +16,9 @@ class CreatePlayers < ActiveRecord::Migration[7.1]
       t.integer :total_kill_count, limit: 2
       t.integer :total_death_count, limit: 2
       t.integer :total_assist_count, limit: 4
+      t.integer :kd_perc
+      t.integer :avg_ip
+      t.integer :total_ip
 
       t.timestamps
     end

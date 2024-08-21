@@ -31,7 +31,6 @@ class EventHandlerService::ItemTypeHandlerService::ChestTypeHandlerService
 
   def build_chest_type_object(entity:)
     {
-      name: entity['Equipment']['Armor']['Type'].parse_item_type,
       path: entity['Equipment']['Armor']['Type'].parse_item_type,
       total_ip: 0,
       kills: 0,
@@ -112,7 +111,6 @@ class EventHandlerService::ItemTypeHandlerService::ChestTypeHandlerService
   def set_chest_type_stats(chest_type:)
     usages = chest_type[:kills] + chest_type[:deaths] + chest_type[:assists]
     {
-      name: chest_type[:name],
       kills: chest_type[:kills],
       deaths: chest_type[:deaths],
       assists: chest_type[:assists],

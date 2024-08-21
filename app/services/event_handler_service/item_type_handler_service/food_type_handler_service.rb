@@ -31,7 +31,6 @@ class EventHandlerService::ItemTypeHandlerService::FoodTypeHandlerService
 
   def build_food_type_object(entity:)
     {
-      name: entity['Equipment']['Food']['Type'].parse_item_type,
       path: entity['Equipment']['Food']['Type'].parse_item_type,
       total_ip: 0,
       kills: 0,
@@ -112,7 +111,6 @@ class EventHandlerService::ItemTypeHandlerService::FoodTypeHandlerService
   def set_food_type_stats(food_type:)
     usages = food_type[:kills] + food_type[:deaths] + food_type[:assists]
     {
-      name: food_type[:name],
       kills: food_type[:kills],
       deaths: food_type[:deaths],
       assists: food_type[:assists],

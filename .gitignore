@@ -33,3 +33,7 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# Ignore item icons
+/app/assets/images/217x217/*/*
+/app/assets/images/50x50/*/*

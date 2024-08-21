@@ -24,6 +24,7 @@ You can clone this Repo and host the project locally:
 - `postgresql` - currently 16.3
 - `rails` - `gem install rails`
 - `gems` - `bundle install --gemfile Gemfile`
+- `ImageMagick` - see [imagemagick.org](https://imagemagick.org/script/download.php)
 ## PostgreSQL
 PostgreSQL needs to be setup, that can be different depending on environment...
 Look at

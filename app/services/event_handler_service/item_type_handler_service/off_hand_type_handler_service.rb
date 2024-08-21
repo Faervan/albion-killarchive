@@ -31,7 +31,6 @@ class EventHandlerService::ItemTypeHandlerService::OffHandTypeHandlerService
 
   def build_off_hand_type_object(entity:)
     {
-      name: entity['Equipment']['OffHand']['Type'].parse_item_type,
       path: entity['Equipment']['OffHand']['Type'].parse_item_type,
       total_ip: 0,
       kills: 0,
@@ -112,7 +111,6 @@ class EventHandlerService::ItemTypeHandlerService::OffHandTypeHandlerService
   def set_off_hand_type_stats(off_hand_type:)
     usages = off_hand_type[:kills] + off_hand_type[:deaths] + off_hand_type[:assists]
     {
-      name: off_hand_type[:name],
       kills: off_hand_type[:kills],
       deaths: off_hand_type[:deaths],
       assists: off_hand_type[:assists],
