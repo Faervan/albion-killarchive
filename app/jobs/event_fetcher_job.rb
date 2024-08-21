@@ -8,7 +8,7 @@ class EventFetcherJob < ApplicationJob
   def perform
     offset = 0
     event_list = []
-    while (result = query_events(offset)) && result[:more]
+    while (result = query_events(offset:)) && result[:more]
       event_list += result[:new_events]
       offset += 50
       break if offset > 1000
@@ -19,16 +19,16 @@ class EventFetcherJob < ApplicationJob
 
   private
 
-  def query_events(offset)
+  def query_events(offset:)
     event_list = HTTParty.get("https://gameinfo-ams.albiononline.com/api/gameinfo/events?limit=50&offset=#{offset}")
     new_events = []
     event_list.each do |event|
       FetchedEvent.create!(event_id: event['EventId'], expires_at: 60.minutes.from_now)
       new_events << event
     rescue ActiveRecord::RecordNotUnique
-      return { new_events:, more: false }
+      next
     end
-    { new_events:, more: true }
+    { new_events:, more: new_events.count.positive? }
   end
 
   def destroy_expired_events
