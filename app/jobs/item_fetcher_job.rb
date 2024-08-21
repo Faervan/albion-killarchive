@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'down'
+require 'shellwords'
 
 class ItemFetcherJob < ApplicationJob
   queue_as :low_priority
@@ -30,6 +31,6 @@ class ItemFetcherJob < ApplicationJob
     input = Rails.root.join("app/assets/images/217x217/#{model}/#{full_path}.png")
     output = Rails.root.join("app/assets/images/50x50/#{model}")
 
-    system("mogrify -path #{output} -filter Triangle -define filter:support=2 -thumbnail 100 -unsharp 0.25x0.25+8+0.065 -dither None -posterize 136 -quality 82 -define jpeg:fancy-upsampling=off -define png:compression-filter=5 -define png:compression-level=9 -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB -strip #{input}") # rubocop:disable Metric/LineLength
+    system("mogrify -path #{Shellwords.escape(output)} -filter Triangle -define filter:support=2 -thumbnail 100 -unsharp 0.25x0.25+8+0.065 -dither None -posterize 136 -quality 82 -define jpeg:fancy-upsampling=off -define png:compression-filter=5 -define png:compression-level=9 -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB -strip #{Shellwords.escape(input)}") # rubocop:disable Metric/LineLength
   end
 end

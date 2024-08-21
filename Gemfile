@@ -85,3 +85,5 @@ gem 'bullet', '~> 7.2'
 gem 'pg_search', '~> 2.3'
 
 gem 'down', '~> 5.4', require: false
+
+gem 'shellwords', '~> 0.2.0', require: false
