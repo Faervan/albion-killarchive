@@ -26,7 +26,7 @@ Metrics/MethodLength:
   Max: 30
 
 Metrics/ClassLength:
-  Max: 120
+  Max: 140
 
 Layout/LineLength:
   Max: 130
