@@ -8,10 +8,13 @@ class CreateFoods < ActiveRecord::Migration[7.1]
       t.string :item_type, null: false
       t.integer :tier
       t.integer :enchantment
+      t.integer :total_ip
       t.integer :avg_ip
       t.integer :kills
       t.integer :deaths
       t.integer :assists
+      t.integer :usages
+      t.integer :kd_perc
 
       t.timestamps
     end
