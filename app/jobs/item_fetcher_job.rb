@@ -6,9 +6,15 @@ require 'shellwords'
 class ItemFetcherJob < ApplicationJob
   queue_as :low_priority
 
-  def perform(path:, quality:, enchantment:, model:)
+  def perform(path:,
+              model:,
+              quality: 4,
+              enchantment: 0,
+              with_name: false,
+              with_base_ip: false)
     full_path = "#{path}@#{enchantment}_Q#{quality}"
-    save_item_name(path:, full_path:, model:)
+    save_item_name(path:, full_path:, model:) unless with_name
+    save_base_ip(path: path.parse_item_type[:path], model:) unless with_base_ip
     save_item_image(path:, quality:, enchantment:, full_path:, model: model.table_name)
     compress_item_image(full_path:, model: model.table_name)
   end
@@ -18,6 +24,11 @@ class ItemFetcherJob < ApplicationJob
   def save_item_name(path:, full_path:, model:)
     name = HTTParty.get("https://gameinfo.albiononline.com/api/gameinfo/items/#{path}/data")['localizedNames']['EN-US']
     model.find_by(path: full_path).update!(name:)
+  end
+
+  def save_base_ip(path:, model:)
+    base_ip = HTTParty.get("https://gameinfo.albiononline.com/api/gameinfo/items/T4_#{path}/data")['itemPower'].to_i
+    "#{model}Type".constantize.find_by(path:).update!(base_ip:)
   end
 
   def save_item_image(path:, quality:, enchantment:, full_path:, model:)

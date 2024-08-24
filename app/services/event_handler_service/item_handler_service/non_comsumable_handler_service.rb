@@ -3,6 +3,7 @@
 class EventHandlerService::ItemHandlerService::NonComsumableHandlerService
   def initialize(item_slot:)
     @item_slot_model = item_slot
+    @item_type_model = "#{item_slot}Type".constantize
     @item_slot_name = item_slot.to_s.parse_item_slot
   end
 
@@ -37,8 +38,8 @@ class EventHandlerService::ItemHandlerService::NonComsumableHandlerService
     item = entity['Equipment'][@item_slot_name]
     parsed_item = item['Type'].parse_item
     {
-      path: parsed_item[:path],
-      item_type: @item_slot_model.find_by(path: item['Type'].parse_item_type[:path]),
+      path: "#{parsed_item[:path]}_Q#{item['Quality']}",
+      item_type: @item_type_model.find_by(path: item['Type'].parse_item_type[:path]),
       tier: parsed_item[:tier],
       enchantment: parsed_item[:enchantment],
       quality: item['Quality']
@@ -54,9 +55,10 @@ class EventHandlerService::ItemHandlerService::NonComsumableHandlerService
       @item_slot_model.create!(item)
       ItemFetcherJob.perform_later(
         path: item[:path].parse_item_type[:path],
+        model: @item_slot_model,
         quality: item[:quality],
         enchantment: item[:enchantment],
-        model: @item_slot_model
+        with_name: true
       )
     rescue ActiveRecord::RecordNotUnique
       next

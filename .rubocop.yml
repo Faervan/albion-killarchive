@@ -33,3 +33,7 @@ Layout/LineLength:
 
 Layout/FirstHashElementIndentation:
   EnforcedStyle: consistent
+
+Metrics/Parameterlist:
+  Max: 6
+  

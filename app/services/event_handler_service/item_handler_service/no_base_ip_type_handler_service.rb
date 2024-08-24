@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
-class EventHandlerService::ItemHandlerService::ComsumableHandlerService
-  def initialize(item_slot:)
-    @item_slot_model = item_slot
-    @item_type_model = "#{item_slot}Type".constantize
-    @item_slot_name = item_slot.to_s.parse_item_slot
+class EventHandlerService::ItemHandlerService::NoBaseIpTypeHandlerService
+  def initialize(item_type:)
+    @item_type_model = item_type
+    @item_type_name = item_type.to_s.chomp('Type')
   end
 
-  def handle_consumables(event_list:)
+  def handle_no_base_ip_types(event_list:)
     items = build_items(event_list:)
     update_items(items:, event_list:)
     persist_items(items:)
@@ -36,22 +35,18 @@ class EventHandlerService::ItemHandlerService::ComsumableHandlerService
   end
 
   def build_item_object(entity:)
-    item = entity['Equipment'][@item_slot_name]
-    parsed_item = item['Type'].parse_item
     {
-      path: parsed_item[:path],
-      item_type: @item_type_model.find_by(path: item['Type'].parse_item_type[:path]),
-      tier: parsed_item[:tier],
-      enchantment: parsed_item[:enchantment],
+      path: entity['Equipment'][@item_type_name]['Type'].parse_item_type[:path],
       total_ip: 0,
       kills: 0,
       deaths: 0,
-      assists: 0
+      assists: 0,
+      usages: 0
     }
   end
 
   def item_exists?(entity:)
-    !entity['Equipment'][@item_slot_name].nil?
+    !entity['Equipment'][@item_type_name].nil?
   end
 
   def update_items(items:, event_list:)
@@ -89,25 +84,21 @@ class EventHandlerService::ItemHandlerService::ComsumableHandlerService
   end
 
   def find_item(items:, entity:)
-    items.detect { |a| a[:path] == entity['Equipment'][@item_slot_name]['Type'].parse_item[:path] }
+    items.detect { |a| a[:path] == entity['Equipment'][@item_type_name]['Type'].parse_item_type[:path] }
   end
 
   def persist_items(items:)
     items.each do |item|
-      @item_slot_model.create!(
+      @item_type_model.create!(
         set_item_stats(item:).merge({
-          path: item[:path],
-          item_type: item[:item_type],
-          tier: item[:tier],
-          enchantment: item[:enchantment]
+          path: item[:path]
         })
       )
       ItemFetcherJob.perform_later(
-        path: item[:path].parse_item_type[:path],
-        model: @item_slot_model,
-        quality: 1,
-        enchantment: item[:enchantment],
-        with_name: true
+        path: "T8_#{item[:path]}",
+        model: @item_type_name.constantize,
+        quality: 4,
+        enchantment: 0
       )
     rescue ActiveRecord::RecordNotUnique
       update_existing_item(item:)
@@ -115,7 +106,7 @@ class EventHandlerService::ItemHandlerService::ComsumableHandlerService
   end
 
   def update_existing_item(item:)
-    existing_item = @item_slot_model.find_by(path: item[:path])
+    existing_item = @item_type_model.find_by(path: item[:path])
     item[:kills] += existing_item.kills
     item[:deaths] += existing_item.deaths
     item[:assists] += existing_item.assists

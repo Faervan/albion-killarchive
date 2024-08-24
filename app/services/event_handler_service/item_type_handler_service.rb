@@ -27,7 +27,6 @@ class EventHandlerService::ItemTypeHandlerService
     ChestTypeHandlerService.new.handle_chest_types(event_list:)
     FeetTypeHandlerService.new.handle_feet_types(event_list:)
     CapeTypeHandlerService.new.handle_cape_types(event_list:)
-    BagTypeHandlerService.new.handle_bag_types(event_list:)
     PotionTypeHandlerService.new.handle_potion_types(event_list:)
     FoodTypeHandlerService.new.handle_food_types(event_list:)
     MountTypeHandlerService.new.handle_mount_types(event_list:)
