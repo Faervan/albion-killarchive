@@ -105,6 +105,7 @@ class EventHandlerService::ItemHandlerService::NormalTypeHandlerService
         enchantment: 0,
         with_base_ip: true
       )
+      ItemTypeNameFetcherJob.perform_later(model: @item_type_model, path: item[:path])
     rescue ActiveRecord::RecordNotUnique
       update_existing_item(item:)
     end

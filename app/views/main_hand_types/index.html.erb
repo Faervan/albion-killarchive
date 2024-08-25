@@ -28,8 +28,8 @@
       <% @main_hand_types.each do |main_hand_type| %>
         <tr>
           <td>
-            <%= image_tag "https://render.albiononline.com/v1/item/T8_#{main_hand_type.path}?#{{ quality: 4 }.to_query}", size: "50x50" %>
-            <%= main_hand_type.path %>
+            <%= image_tag "100x100/main_hands/T8_#{main_hand_type.path}@0_Q4.png", size: "50x50" %>
+            <%= main_hand_type.name %>
           </td>
           <td>
             <%= main_hand_type.usages %>

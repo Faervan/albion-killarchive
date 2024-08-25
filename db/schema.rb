@@ -46,6 +46,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_18_194123) do
 
   create_table "bag_types", force: :cascade do |t|
     t.string "path", null: false
+    t.string "name"
     t.integer "usages"
     t.integer "total_ip"
     t.integer "avg_ip"
@@ -68,6 +69,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_18_194123) do
 
   create_table "cape_types", force: :cascade do |t|
     t.string "path", null: false
+    t.string "name"
     t.integer "total_ip"
     t.integer "avg_ip"
     t.integer "kills"
@@ -94,6 +96,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_18_194123) do
 
   create_table "chest_types", force: :cascade do |t|
     t.string "path", null: false
+    t.string "name"
     t.integer "total_ip"
     t.integer "avg_ip"
     t.integer "kills"
@@ -121,6 +124,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_18_194123) do
 
   create_table "feet_types", force: :cascade do |t|
     t.string "path", null: false
+    t.string "name"
     t.integer "total_ip"
     t.integer "avg_ip"
     t.integer "kills"
@@ -201,6 +205,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_18_194123) do
 
   create_table "head_types", force: :cascade do |t|
     t.string "path", null: false
+    t.string "name"
     t.integer "total_ip"
     t.integer "avg_ip"
     t.integer "kills"
@@ -228,6 +233,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_18_194123) do
 
   create_table "main_hand_types", force: :cascade do |t|
     t.string "path", null: false
+    t.string "name"
     t.boolean "two_handed?", default: false
     t.integer "total_ip"
     t.integer "avg_ip"
@@ -278,6 +284,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_18_194123) do
 
   create_table "off_hand_types", force: :cascade do |t|
     t.string "path", null: false
+    t.string "name"
     t.integer "total_ip"
     t.integer "avg_ip"
     t.integer "kills"
