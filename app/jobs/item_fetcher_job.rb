@@ -11,8 +11,9 @@ class ItemFetcherJob < ApplicationJob
               quality: 4,
               enchantment: 0,
               with_name: false,
-              with_base_ip: false)
-    full_path = "#{path}@#{enchantment}_Q#{quality}"
+              with_base_ip: false,
+              is_consumable: false)
+    full_path = "#{path}@#{enchantment}" + (is_consumable ? '' : "_Q#{quality}")
     save_item_image(path:, quality:, enchantment:, full_path:, model: model.table_name) unless Rails.env.test?
     save_item_name(path:, full_path:, model:) if with_name
     save_base_ip(path: path.parse_item_type[:path], model:) if with_base_ip

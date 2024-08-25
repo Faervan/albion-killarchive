@@ -35,4 +35,4 @@ Layout/FirstHashElementIndentation:
   EnforcedStyle: consistent
 
 Metrics/ParameterLists:
-  Max: 6
+  Max: 8

@@ -107,7 +107,8 @@ class EventHandlerService::ItemHandlerService::ComsumableHandlerService
         model: @item_slot_model,
         quality: 1,
         enchantment: item[:enchantment],
-        with_name: true
+        with_name: true,
+        is_consumable: true
       )
     rescue ActiveRecord::RecordNotUnique
       update_existing_item(item:)
