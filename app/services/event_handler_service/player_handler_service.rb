@@ -102,7 +102,7 @@ class EventHandlerService::PlayerHandlerService
   end
 
   def update_existing_player(player:)
-    existing_player = Player.find_by(player_id: player[:player_id])
+    existing_player = Player.find(player[:player_id])
     player[:stalker_rating] += existing_player.stalker_rating
     player[:slayer_rating] += existing_player.slayer_rating
     player[:duo_rating] += existing_player.duo_rating
@@ -120,7 +120,7 @@ class EventHandlerService::PlayerHandlerService
   def update_guild_membership(player:)
     return if player[:guild_id] == ''
 
-    Player.find_by(player_id: player[:player_id]).update(
+    Player.find(player[:player_id]).update(
       guild_id: player[:guild_id]
     )
   end

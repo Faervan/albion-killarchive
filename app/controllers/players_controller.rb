@@ -15,6 +15,6 @@ class PlayersController < ApplicationController
   end
 
   def show
-    @player = Player.find_by(player_id: params[:id])
+    @player = Player.find(params[:id])
   end
 end

@@ -13,17 +13,16 @@ class ItemFetcherJob < ApplicationJob
               with_name: false,
               with_base_ip: false)
     full_path = "#{path}@#{enchantment}_Q#{quality}"
-    save_item_name(path:, full_path:, model:) unless with_name
-    save_base_ip(path: path.parse_item_type[:path], model:) unless with_base_ip
     save_item_image(path:, quality:, enchantment:, full_path:, model: model.table_name)
-    compress_item_image(full_path:, model: model.table_name)
+    save_item_name(path:, full_path:, model:) if with_name
+    save_base_ip(path: path.parse_item_type[:path], model:) if with_base_ip
   end
 
   private
 
   def save_item_name(path:, full_path:, model:)
     name = HTTParty.get("https://gameinfo.albiononline.com/api/gameinfo/items/#{path}/data")['localizedNames']['EN-US']
-    model.find_by(path: full_path).update!(name:)
+    model.find(full_path).update!(name:)
   end
 
   def save_base_ip(path:, model:)
@@ -34,7 +33,8 @@ class ItemFetcherJob < ApplicationJob
   def save_item_image(path:, quality:, enchantment:, full_path:, model:)
     img_url = "https://render.albiononline.com/v1/item/#{path}@#{enchantment}.png?quality=#{quality}"
     img_save_path = Rails.root.join("app/assets/images/217x217/#{model}/#{full_path}.png")
-    Down.download(img_url, destination: img_save_path)
+    Down.download(img_url, destination: img_save_path) unless File.exist?(img_save_path)
+    compress_item_image(full_path:, model:) unless File.exist?(Rails.root.join("app/assets/images/100x100/#{model}/#{full_path}.png"))
   end
 
   def compress_item_image(full_path:, model:)

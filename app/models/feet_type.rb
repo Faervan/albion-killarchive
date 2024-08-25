@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
 class FeetType < ApplicationRecord
-  has_many :feets, foreign_key: 'item_type', primary_key: 'path', inverse_of: :feet_type, dependent: :destroy
+  self.primary_key = 'path'
+
+  has_many :feets, dependent: :destroy
+
+  include PgSearch::Model
+  pg_search_scope :search_by_name, against: :name, using: { tsearch: { prefix: true } }
 end

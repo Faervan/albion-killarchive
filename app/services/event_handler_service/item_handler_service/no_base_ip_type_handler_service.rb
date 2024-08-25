@@ -99,7 +99,7 @@ class EventHandlerService::ItemHandlerService::NoBaseIpTypeHandlerService
         model: @item_type_name.constantize,
         quality: 4,
         enchantment: 0
-      )
+      ) if @item_type_model == CapeType
     rescue ActiveRecord::RecordNotUnique
       update_existing_item(item:)
     end

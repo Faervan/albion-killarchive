@@ -98,10 +98,10 @@ class EventHandlerService::ItemHandlerService::BagAndMountTypeHandlerService
     )
     ItemFetcherJob.perform_later(
       path: "T8_#{item_type[:path]}",
-      model: "#{@item_type_name}Type".constantize,
+      model: @item_type_name.constantize,
       quality: 4,
       enchantment: 0
-    )
+    ) if @item_type_model == BagType
   rescue ActiveRecord::RecordNotUnique
     update_existing_item_type(item_type:)
   end

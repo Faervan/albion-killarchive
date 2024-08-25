@@ -99,7 +99,7 @@ class EventHandlerService::AllianceHandlerService
   end
 
   def update_existing_alliance(alliance:)
-    existing_alliance = Alliance.find_by(alliance_id: alliance[:alliance_id])
+    existing_alliance = Alliance.find(alliance[:alliance_id])
     alliance[:total_kill_fame] += existing_alliance.total_kill_fame
     alliance[:total_kill_count] += existing_alliance.total_kill_count
     alliance[:total_death_fame] += existing_alliance.total_death_fame

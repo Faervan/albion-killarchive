@@ -101,7 +101,7 @@ class EventHandlerService::GuildHandlerService
   end
 
   def update_existing_guild(guild:)
-    existing_guild = Guild.find_by(guild_id: guild[:guild_id])
+    existing_guild = Guild.find(guild[:guild_id])
     guild[:total_kill_fame] += existing_guild.total_kill_fame
     guild[:total_kill_count] += existing_guild.total_kill_count
     guild[:total_death_fame] += existing_guild.total_death_fame
@@ -115,7 +115,7 @@ class EventHandlerService::GuildHandlerService
   def update_alliance_membership(guild:)
     return if guild[:alliance_id] == ''
 
-    Guild.find_by(guild_id: guild[:guild_id]).update(
+    Guild.find(guild[:guild_id]).update(
       alliance_id: guild[:alliance_id]
     )
   end

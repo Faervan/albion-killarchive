@@ -3,7 +3,8 @@
 class EventHandlerService::ItemHandlerService::NormalTypeHandlerService
   def initialize(item_type:)
     @item_type_model = item_type
-    @item_type_name = item_type.to_s.chomp('Type')
+    @item_type_name = item_type.to_s.chomp('Type').parse_item_slot
+    @item_slot_model = item_type.to_s.chomp('Type').constantize
   end
 
   def handle_normal_types(event_list:)
@@ -99,7 +100,7 @@ class EventHandlerService::ItemHandlerService::NormalTypeHandlerService
       )
       ItemFetcherJob.perform_later(
         path: "T8_#{item[:path]}",
-        model: @item_type_name.constantize,
+        model: @item_slot_model,
         quality: 4,
         enchantment: 0,
         with_base_ip: true

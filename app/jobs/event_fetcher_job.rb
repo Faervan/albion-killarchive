@@ -28,8 +28,7 @@ class EventFetcherJob < ApplicationJob
     rescue ActiveRecord::RecordNotUnique
       next
     end
-    # { new_events:, enough: !new_events.count.positive? }
-    { new_events:, enough: true }
+    { new_events:, enough: !new_events.count.positive? }
   end
 
   def destroy_expired_events

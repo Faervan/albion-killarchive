@@ -40,7 +40,7 @@ class EventHandlerService::ItemHandlerService::ComsumableHandlerService
     parsed_item = item['Type'].parse_item
     {
       path: parsed_item[:path],
-      item_type: @item_type_model.find_by(path: item['Type'].parse_item_type[:path]),
+      item_type: item['Type'].parse_item_type[:path],
       tier: parsed_item[:tier],
       enchantment: parsed_item[:enchantment],
       total_ip: 0,
@@ -103,7 +103,7 @@ class EventHandlerService::ItemHandlerService::ComsumableHandlerService
         })
       )
       ItemFetcherJob.perform_later(
-        path: item[:path].parse_item_type[:path],
+        path: "T#{item[:tier]}_#{item[:item_type]}",
         model: @item_slot_model,
         quality: 1,
         enchantment: item[:enchantment],
