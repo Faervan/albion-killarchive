@@ -54,7 +54,7 @@ class EventHandlerService::ItemHandlerService::NonComsumableHandlerService
     items.each do |item|
       @item_slot_model.create!(item)
       ItemFetcherJob.perform_later(
-        path: "T#{item[:tier]}_#{item[:item_type]}",
+        path: (item[:tier].positive? ? "T#{item[:tier]}_" : '') + item[:item_type],
         model: @item_slot_model,
         quality: item[:quality],
         enchantment: item[:enchantment],
