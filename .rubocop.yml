@@ -34,6 +34,5 @@ Layout/LineLength:
 Layout/FirstHashElementIndentation:
   EnforcedStyle: consistent
 
-Metrics/Parameterlist:
+Metrics/ParameterLists:
   Max: 6
-  

@@ -96,12 +96,14 @@ class EventHandlerService::ItemHandlerService::BagAndMountTypeHandlerService
     @item_type_model.create!(
       set_item_type_stats(item_type:).merge({ path: item_type[:path] })
     )
-    ItemFetcherJob.perform_later(
-      path: "T8_#{item_type[:path]}",
-      model: @item_type_name.constantize,
-      quality: 4,
-      enchantment: 0
-    ) if @item_type_model == BagType
+    if @item_type_model == BagType
+      ItemFetcherJob.perform_later(
+        path: "T8_#{item_type[:path]}",
+        model: @item_type_name.constantize,
+        quality: 4,
+        enchantment: 0
+      )
+    end
   rescue ActiveRecord::RecordNotUnique
     update_existing_item_type(item_type:)
   end

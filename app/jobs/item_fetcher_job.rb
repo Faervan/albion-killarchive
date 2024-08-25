@@ -13,7 +13,7 @@ class ItemFetcherJob < ApplicationJob
               with_name: false,
               with_base_ip: false)
     full_path = "#{path}@#{enchantment}_Q#{quality}"
-    save_item_image(path:, quality:, enchantment:, full_path:, model: model.table_name)
+    save_item_image(path:, quality:, enchantment:, full_path:, model: model.table_name) unless Rails.env.test?
     save_item_name(path:, full_path:, model:) if with_name
     save_base_ip(path: path.parse_item_type[:path], model:) if with_base_ip
   end
@@ -34,7 +34,10 @@ class ItemFetcherJob < ApplicationJob
     img_url = "https://render.albiononline.com/v1/item/#{path}@#{enchantment}.png?quality=#{quality}"
     img_save_path = Rails.root.join("app/assets/images/217x217/#{model}/#{full_path}.png")
     Down.download(img_url, destination: img_save_path) unless File.exist?(img_save_path)
-    compress_item_image(full_path:, model:) unless File.exist?(Rails.root.join("app/assets/images/100x100/#{model}/#{full_path}.png"))
+    return if Rails.root.join("app/assets/images/100x100/#{model}/#{full_path}.png").exist?
+
+    compress_item_image(full_path:,
+                        model:)
   end
 
   def compress_item_image(full_path:, model:)

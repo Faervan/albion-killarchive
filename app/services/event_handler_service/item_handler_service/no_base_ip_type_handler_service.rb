@@ -94,12 +94,14 @@ class EventHandlerService::ItemHandlerService::NoBaseIpTypeHandlerService
           path: item[:path]
         })
       )
-      ItemFetcherJob.perform_later(
-        path: "T8_#{item[:path]}",
-        model: @item_type_name.constantize,
-        quality: 4,
-        enchantment: 0
-      ) if @item_type_model == CapeType
+      if @item_type_model == CapeType
+        ItemFetcherJob.perform_later(
+          path: "T8_#{item[:path]}",
+          model: @item_type_name.constantize,
+          quality: 4,
+          enchantment: 0
+        )
+      end
     rescue ActiveRecord::RecordNotUnique
       update_existing_item(item:)
     end
