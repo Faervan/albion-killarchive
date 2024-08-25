@@ -172,10 +172,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_18_194123) do
     t.string "item_type", null: false
     t.integer "tier"
     t.integer "enchantment"
+    t.integer "total_ip"
     t.integer "avg_ip"
     t.integer "kills"
     t.integer "deaths"
     t.integer "assists"
+    t.integer "usages"
+    t.integer "kd_perc"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["path"], name: "index_foods_on_path", unique: true
@@ -225,7 +228,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_18_194123) do
 
   create_table "main_hand_types", force: :cascade do |t|
     t.string "path", null: false
-    t.boolean "two_handed?"
+    t.boolean "two_handed?", default: false
     t.integer "total_ip"
     t.integer "avg_ip"
     t.integer "kills"
@@ -342,10 +345,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_18_194123) do
     t.string "item_type", null: false
     t.integer "tier"
     t.integer "enchantment"
+    t.integer "total_ip"
     t.integer "avg_ip"
     t.integer "kills"
     t.integer "deaths"
     t.integer "assists"
+    t.integer "usages"
+    t.integer "kd_perc"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["path"], name: "index_potions_on_path", unique: true

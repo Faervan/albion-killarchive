@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
 class HeadType < ApplicationRecord
-  has_many :heads, foreign_key: 'item_type', primary_key: 'path', inverse_of: :head_type, dependent: :destroy
+  self.primary_key = 'path'
+
+  has_many :heads, dependent: :destroy
+
+  include PgSearch::Model
+  pg_search_scope :search_by_name, against: :name, using: { tsearch: { prefix: true } }
 end

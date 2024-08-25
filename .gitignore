@@ -36,4 +36,6 @@
 
 # Ignore item icons
 /app/assets/images/217x217/*/*
-/app/assets/images/50x50/*/*
+!/app/assets/images/217x217/*/.keep
+/app/assets/images/100x100/*/*
+!/app/assets/images/100x100/*/.keep

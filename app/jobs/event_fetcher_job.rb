@@ -8,10 +8,10 @@ class EventFetcherJob < ApplicationJob
   def perform
     offset = 0
     event_list = []
-    while (result = query_events(offset:)) && result[:more]
+    while (result = query_events(offset:))
       event_list += result[:new_events]
       offset += 50
-      break if offset > 1000
+      break if offset > 1000 || result[:enough]
     end
     destroy_expired_events
     EventHandlerService.new.persist_events(event_list)
@@ -28,7 +28,7 @@ class EventFetcherJob < ApplicationJob
     rescue ActiveRecord::RecordNotUnique
       next
     end
-    { new_events:, more: new_events.count.positive? }
+    { new_events:, enough: !new_events.count.positive? }
   end
 
   def destroy_expired_events

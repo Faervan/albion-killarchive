@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
 class Cape < ApplicationRecord
-  belongs_to :cape_type, foreign_key: 'item_type', primary_key: 'path', inverse_of: :capes, optional: false
+  self.primary_key = 'path'
+
+  belongs_to :cape_type, primary_key: 'path', inverse_of: 'item_type'
+
+  include PgSearch::Model
+  pg_search_scope :search_by_name, against: :name, using: { tsearch: { prefix: true } }
 end

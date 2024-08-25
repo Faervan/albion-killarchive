@@ -30,3 +30,9 @@ Metrics/ClassLength:
 
 Layout/LineLength:
   Max: 130
+
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent
+
+Metrics/ParameterLists:
+  Max: 6

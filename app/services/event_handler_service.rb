@@ -7,6 +7,7 @@ class EventHandlerService
     AvatarHandlerService.new.handle_avatars(event_list:)
     AvatarRingHandlerService.new.handle_avatar_rings(event_list:)
     PlayerHandlerService.new.handle_players(event_list:)
-    ItemTypeHandlerService.new.handle_item_types(event_list:)
+    ItemHandlerService.new.handle_item_types(event_list:)
+    ItemHandlerService.new.handle_items(event_list:)
   end
 end
