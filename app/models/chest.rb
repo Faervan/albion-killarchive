@@ -3,7 +3,7 @@
 class Chest < ApplicationRecord
   self.primary_key = 'path'
 
-  belongs_to :chest_type, primary_key: 'path', inverse_of: 'item_type'
+  belongs_to :chest_type, foreign_key: 'item_type', inverse_of: :chests
 
   include PgSearch::Model
   pg_search_scope :search_by_name, against: :name, using: { tsearch: { prefix: true } }
