@@ -3,9 +3,9 @@
 Rails.application.routes.draw do
   root 'main#index'
 
-  resources :alliances
-  resources :guilds
-  resources :players
+  resources :alliances, param: :name
+  resources :guilds, param: :name
+  resources :players, param: :name
   # resources :main_hand_types
 
   get '/main_hand_types', to: 'main_hand_types#index'

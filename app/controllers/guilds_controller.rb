@@ -16,7 +16,7 @@ class GuildsController < ApplicationController
 
   def show
     params[:list] = '20' unless params[:list]
-    @guild = Guild.find(params[:id])
+    @guild = Guild.find_by(name: params[:name])
     @players = Player
                .includes([:guild])
                .order('total_kill_count')
