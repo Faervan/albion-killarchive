@@ -1,13 +1,19 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  time_stamp: 2024-07-07 18:12:10
-  total_victim_kill_fame: 1
-  number_of_assists: 1
-  number_of_allies: 1
+  event_id: 1
+  timestamp: 2024-08-26 17:42:15
+  kill_fame: 1
+  assists: 1
+  allies: 1
+  killer_id: MyString
+  victim_id: MyString
 
 two:
-  time_stamp: 2024-07-07 18:12:10
-  total_victim_kill_fame: 1
-  number_of_assists: 1
-  number_of_allies: 1
+  event_id: 1
+  timestamp: 2024-08-26 17:42:15
+  kill_fame: 1
+  assists: 1
+  allies: 1
+  killer_id: MyString
+  victim_id: MyString

@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  kill_event_id: 1
+  player_id: MyString
+  build_id: 1
+  main_hand_path: MyString
+  awakened_weapon_id: MyString
+  kill_fame: 1
+
+two:
+  kill_event_id: 1
+  player_id: MyString
+  build_id: 1
+  main_hand_path: MyString
+  awakened_weapon_id: MyString
+  kill_fame: 1
