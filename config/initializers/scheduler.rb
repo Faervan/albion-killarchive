@@ -5,7 +5,7 @@ require 'rufus-scheduler'
 scheduler = Rufus::Scheduler.singleton
 
 scheduler.in '4s' do
-  EventFetcherJob.perform_later
+  EventFetcherJob.perform_later(full_query: true)
 end
 
 scheduler.every '60s' do
