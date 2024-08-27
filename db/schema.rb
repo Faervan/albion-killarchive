@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_18_194123) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_27_193130) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -65,6 +65,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_18_194123) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["path"], name: "index_bags_on_path", unique: true
+  end
+
+  create_table "cached_events", force: :cascade do |t|
+    t.integer "event_id", null: false
+    t.datetime "expires_at"
+    t.index ["event_id"], name: "index_cached_events_on_event_id", unique: true
   end
 
   create_table "cape_types", force: :cascade do |t|

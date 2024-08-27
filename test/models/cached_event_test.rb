@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class FetchedEventTest < ActiveSupport::TestCase
+class CachedEventTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

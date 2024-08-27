@@ -4,5 +4,24 @@
 <%= link_to "Guilds", guilds_path %><br>
 <%= link_to "Players", players_path %><br>
 <%= link_to "Weapons", main_hand_types_path %>
+<p>Events tracked in the last hour: <%= @fetched_events %> (last update: <span id="time-elapsed"></span> seconds ago)</p>
 <p>More stuff to come...</p>
 <p>You can find the source code on <a href="https://github.com/Faervan/albion-killarchive" target="_blank">GitHub</a></p>
+
+<script>
+  const timestamp = new Date('<%= @last_event_update %>');
+  const timeElapsedElement = document.getElementById('time-elapsed');
+
+  function getElapsedTime() {
+    const elapsed_secs = Math.round((Date.now() - timestamp) / 1000);
+    if (elapsed_secs > 60) {
+      let minutes = Math.floor(elapsed_secs / 60);
+      return minutes + " minutes " + (elapsed_secs - minutes * 60);
+    }
+    return elapsed_secs;
+  }
+
+  setInterval(() => {
+    timeElapsedElement.textContent = getElapsedTime();
+  }, 1000);
+</script>
