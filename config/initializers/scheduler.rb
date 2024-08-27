@@ -12,6 +12,6 @@ scheduler.every '60s' do
   EventFetcherJob.perform_later
 end
 
-scheduler.every '45m' do
+scheduler.every '10m' do
   EventFetcherJob.perform_later(full_query: true)
 end
