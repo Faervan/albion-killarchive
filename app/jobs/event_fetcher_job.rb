@@ -14,6 +14,7 @@ class EventFetcherJob < ApplicationJob
       break if offset > 1000 || result[:enough]
     end
     destroy_expired_events
+    File.write('tmp/time_since_last_query', Time.current)
     EventHandlerService.new.persist_events(event_list)
   end
 

@@ -156,12 +156,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_27_193130) do
     t.index ["path"], name: "index_feets_on_path", unique: true
   end
 
-  create_table "fetched_events", force: :cascade do |t|
-    t.integer "event_id", null: false
-    t.time "expires_at"
-    t.index ["event_id"], name: "index_fetched_events_on_event_id", unique: true
-  end
-
   create_table "food_types", force: :cascade do |t|
     t.string "path", null: false
     t.integer "total_ip"
