@@ -4,6 +4,7 @@ class CreateAwakenedWeaponTraits < ActiveRecord::Migration[7.1]
   def change
     create_table :awakened_weapon_traits do |t|
       t.string :trait, null: false
+      t.string :name
       t.float :min_value
       t.float :max_value
 

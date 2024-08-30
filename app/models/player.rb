@@ -9,12 +9,12 @@ class Player < ApplicationRecord
   has_many :awakened_weapons_attuned,
            class_name: 'AwakenedWeapon',
            foreign_key: 'attuned_player_id',
-           inverse_of: :player,
+           inverse_of: :attuned_player_id,
            dependent: :destroy
   has_many :awakened_weapons_crafted,
            class_name: 'AwakenedWeapon',
            foreign_key: 'crafted_player_id',
-           inverse_of: :player,
+           inverse_of: :crafted_player_id,
            dependent: :destroy
 
   include PgSearch::Model

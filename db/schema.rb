@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_27_193130) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_29_202701) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,47 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_27_193130) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["avatar_id"], name: "index_avatars_on_avatar_id", unique: true
+  end
+
+  create_table "awakened_weapon_traits", force: :cascade do |t|
+    t.string "trait", null: false
+    t.float "min_value"
+    t.float "max_value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["trait"], name: "index_awakened_weapon_traits_on_trait", unique: true
+  end
+
+  create_table "awakened_weapons", force: :cascade do |t|
+    t.string "awakened_weapon_id", null: false
+    t.string "path", null: false
+    t.string "item_type", null: false
+    t.datetime "last_equipped_at"
+    t.string "attuned_player_id", null: false
+    t.integer "attunement"
+    t.integer "attunement_since_reset"
+    t.string "crafted_player_id"
+    t.integer "pvp_fame"
+    t.string "trait0"
+    t.float "trait0_roll"
+    t.float "trait0_value"
+    t.string "trait1"
+    t.float "trait1_roll"
+    t.float "trait1_value"
+    t.string "trait2"
+    t.float "trait2_roll"
+    t.float "trait2_value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["attuned_player_id"], name: "index_awakened_weapons_on_attuned_player_id"
+    t.index ["attunement_since_reset"], name: "index_awakened_weapons_on_attunement_since_reset"
+    t.index ["awakened_weapon_id"], name: "index_awakened_weapons_on_awakened_weapon_id", unique: true
+    t.index ["crafted_player_id"], name: "index_awakened_weapons_on_crafted_player_id"
+    t.index ["item_type"], name: "index_awakened_weapons_on_item_type"
+    t.index ["last_equipped_at"], name: "index_awakened_weapons_on_last_equipped_at"
+    t.index ["trait0"], name: "index_awakened_weapons_on_trait0"
+    t.index ["trait1"], name: "index_awakened_weapons_on_trait1"
+    t.index ["trait2"], name: "index_awakened_weapons_on_trait2"
   end
 
   create_table "bag_types", force: :cascade do |t|
@@ -364,6 +405,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_27_193130) do
     t.index ["path"], name: "index_potions_on_path", unique: true
   end
 
+  add_foreign_key "awakened_weapons", "awakened_weapon_traits", column: "trait0", primary_key: "trait"
+  add_foreign_key "awakened_weapons", "awakened_weapon_traits", column: "trait1", primary_key: "trait"
+  add_foreign_key "awakened_weapons", "awakened_weapon_traits", column: "trait2", primary_key: "trait"
+  add_foreign_key "awakened_weapons", "main_hand_types", column: "item_type", primary_key: "path"
+  add_foreign_key "awakened_weapons", "main_hands", column: "path", primary_key: "path"
+  add_foreign_key "awakened_weapons", "players", column: "attuned_player_id", primary_key: "player_id"
+  add_foreign_key "awakened_weapons", "players", column: "crafted_player_id", primary_key: "player_id"
   add_foreign_key "bags", "bag_types", column: "item_type", primary_key: "path"
   add_foreign_key "capes", "cape_types", column: "item_type", primary_key: "path"
   add_foreign_key "chests", "chest_types", column: "item_type", primary_key: "path"
