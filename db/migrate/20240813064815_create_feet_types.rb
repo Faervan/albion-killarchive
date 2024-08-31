@@ -18,5 +18,8 @@ class CreateFeetTypes < ActiveRecord::Migration[7.1]
     end
 
     add_index :feet_types, :path, unique: true
+    [:name, :avg_ip, :kills, :deaths, :assists, :usages, :kd_perc].each do |name|
+      add_index :feet_types, name
+    end
   end
 end

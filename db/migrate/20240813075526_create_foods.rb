@@ -25,5 +25,8 @@ class CreateFoods < ActiveRecord::Migration[7.1]
       primary_key: :path
     )
     add_index :foods, :path, unique: true
+    [:name, :avg_ip, :kills, :deaths, :assists, :usages, :kd_perc].each do |name|
+      add_index :foods, name
+    end
   end
 end

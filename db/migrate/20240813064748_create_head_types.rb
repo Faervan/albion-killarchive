@@ -18,5 +18,8 @@ class CreateHeadTypes < ActiveRecord::Migration[7.1]
     end
 
     add_index :head_types, :path, unique: true
+    [:name, :avg_ip, :kills, :deaths, :assists, :usages, :kd_perc].each do |name|
+      add_index :head_types, name
+    end
   end
 end

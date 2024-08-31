@@ -8,10 +8,10 @@ class CreateAwakenedWeapons < ActiveRecord::Migration[7.1]
       t.string :item_type, null: false
       t.datetime :last_equipped_at
       t.string :attuned_player_id, null: false
-      t.integer :attunement
-      t.integer :attunement_since_reset
-      t.string :crafted_player_id
-      t.integer :pvp_fame
+      t.integer :attunement, limit: 6
+      t.integer :attunement_since_reset, limit: 6
+      t.string :crafted_player_name
+      t.integer :pvp_fame, limit: 6
       t.string :trait0
       t.float :trait0_roll
       t.float :trait0_value
@@ -44,12 +44,6 @@ class CreateAwakenedWeapons < ActiveRecord::Migration[7.1]
     )
     add_foreign_key(
       :awakened_weapons,
-      :players,
-      column: :crafted_player_id,
-      primary_key: :player_id
-    )
-    add_foreign_key(
-      :awakened_weapons,
       :awakened_weapon_traits,
       column: :trait0,
       primary_key: :trait
@@ -70,8 +64,9 @@ class CreateAwakenedWeapons < ActiveRecord::Migration[7.1]
     add_index :awakened_weapons, :item_type
     add_index :awakened_weapons, :last_equipped_at
     add_index :awakened_weapons, :attuned_player_id
+    add_index :awakened_weapons, :attunement
     add_index :awakened_weapons, :attunement_since_reset
-    add_index :awakened_weapons, :crafted_player_id
+    add_index :awakened_weapons, :crafted_player_name
     add_index :awakened_weapons, :trait0
     add_index :awakened_weapons, :trait1
     add_index :awakened_weapons, :trait2

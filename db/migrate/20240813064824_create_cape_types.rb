@@ -17,5 +17,8 @@ class CreateCapeTypes < ActiveRecord::Migration[7.1]
     end
 
     add_index :cape_types, :path, unique: true
+    [:name, :avg_ip, :kills, :deaths, :assists, :usages, :kd_perc].each do |name|
+      add_index :cape_types, name
+    end
   end
 end

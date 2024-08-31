@@ -17,8 +17,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_29_202701) do
   create_table "alliances", force: :cascade do |t|
     t.string "alliance_id", null: false
     t.string "name"
-    t.integer "total_kill_fame"
-    t.integer "total_death_fame"
+    t.bigint "total_kill_fame"
+    t.bigint "total_death_fame"
     t.integer "total_kill_count"
     t.integer "total_death_count"
     t.integer "total_assist_count"
@@ -26,6 +26,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_29_202701) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["alliance_id"], name: "index_alliances_on_alliance_id", unique: true
+    t.index ["kd_perc"], name: "index_alliances_on_kd_perc"
+    t.index ["name"], name: "index_alliances_on_name"
+    t.index ["total_assist_count"], name: "index_alliances_on_total_assist_count"
+    t.index ["total_death_count"], name: "index_alliances_on_total_death_count"
+    t.index ["total_death_fame"], name: "index_alliances_on_total_death_fame"
+    t.index ["total_kill_count"], name: "index_alliances_on_total_kill_count"
+    t.index ["total_kill_fame"], name: "index_alliances_on_total_kill_fame"
   end
 
   create_table "avatar_rings", force: :cascade do |t|
@@ -46,6 +53,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_29_202701) do
 
   create_table "awakened_weapon_traits", force: :cascade do |t|
     t.string "trait", null: false
+    t.string "name"
     t.float "min_value"
     t.float "max_value"
     t.datetime "created_at", null: false
@@ -59,10 +67,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_29_202701) do
     t.string "item_type", null: false
     t.datetime "last_equipped_at"
     t.string "attuned_player_id", null: false
-    t.integer "attunement"
-    t.integer "attunement_since_reset"
-    t.string "crafted_player_id"
-    t.integer "pvp_fame"
+    t.bigint "attunement"
+    t.bigint "attunement_since_reset"
+    t.string "crafted_player_name"
+    t.bigint "pvp_fame"
     t.string "trait0"
     t.float "trait0_roll"
     t.float "trait0_value"
@@ -75,9 +83,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_29_202701) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["attuned_player_id"], name: "index_awakened_weapons_on_attuned_player_id"
+    t.index ["attunement"], name: "index_awakened_weapons_on_attunement"
     t.index ["attunement_since_reset"], name: "index_awakened_weapons_on_attunement_since_reset"
     t.index ["awakened_weapon_id"], name: "index_awakened_weapons_on_awakened_weapon_id", unique: true
-    t.index ["crafted_player_id"], name: "index_awakened_weapons_on_crafted_player_id"
+    t.index ["crafted_player_name"], name: "index_awakened_weapons_on_crafted_player_name"
     t.index ["item_type"], name: "index_awakened_weapons_on_item_type"
     t.index ["last_equipped_at"], name: "index_awakened_weapons_on_last_equipped_at"
     t.index ["trait0"], name: "index_awakened_weapons_on_trait0"
@@ -126,7 +135,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_29_202701) do
     t.integer "kd_perc"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["assists"], name: "index_cape_types_on_assists"
+    t.index ["avg_ip"], name: "index_cape_types_on_avg_ip"
+    t.index ["deaths"], name: "index_cape_types_on_deaths"
+    t.index ["kd_perc"], name: "index_cape_types_on_kd_perc"
+    t.index ["kills"], name: "index_cape_types_on_kills"
+    t.index ["name"], name: "index_cape_types_on_name"
     t.index ["path"], name: "index_cape_types_on_path", unique: true
+    t.index ["usages"], name: "index_cape_types_on_usages"
   end
 
   create_table "capes", force: :cascade do |t|
@@ -154,7 +170,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_29_202701) do
     t.integer "base_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["assists"], name: "index_chest_types_on_assists"
+    t.index ["avg_ip"], name: "index_chest_types_on_avg_ip"
+    t.index ["deaths"], name: "index_chest_types_on_deaths"
+    t.index ["kd_perc"], name: "index_chest_types_on_kd_perc"
+    t.index ["kills"], name: "index_chest_types_on_kills"
+    t.index ["name"], name: "index_chest_types_on_name"
     t.index ["path"], name: "index_chest_types_on_path", unique: true
+    t.index ["usages"], name: "index_chest_types_on_usages"
   end
 
   create_table "chests", force: :cascade do |t|
@@ -182,7 +205,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_29_202701) do
     t.integer "base_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["assists"], name: "index_feet_types_on_assists"
+    t.index ["avg_ip"], name: "index_feet_types_on_avg_ip"
+    t.index ["deaths"], name: "index_feet_types_on_deaths"
+    t.index ["kd_perc"], name: "index_feet_types_on_kd_perc"
+    t.index ["kills"], name: "index_feet_types_on_kills"
+    t.index ["name"], name: "index_feet_types_on_name"
     t.index ["path"], name: "index_feet_types_on_path", unique: true
+    t.index ["usages"], name: "index_feet_types_on_usages"
   end
 
   create_table "feets", force: :cascade do |t|
@@ -208,7 +238,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_29_202701) do
     t.integer "kd_perc"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["assists"], name: "index_food_types_on_assists"
+    t.index ["avg_ip"], name: "index_food_types_on_avg_ip"
+    t.index ["deaths"], name: "index_food_types_on_deaths"
+    t.index ["kd_perc"], name: "index_food_types_on_kd_perc"
+    t.index ["kills"], name: "index_food_types_on_kills"
     t.index ["path"], name: "index_food_types_on_path", unique: true
+    t.index ["usages"], name: "index_food_types_on_usages"
   end
 
   create_table "foods", force: :cascade do |t|
@@ -226,22 +262,37 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_29_202701) do
     t.integer "kd_perc"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["assists"], name: "index_foods_on_assists"
+    t.index ["avg_ip"], name: "index_foods_on_avg_ip"
+    t.index ["deaths"], name: "index_foods_on_deaths"
+    t.index ["kd_perc"], name: "index_foods_on_kd_perc"
+    t.index ["kills"], name: "index_foods_on_kills"
+    t.index ["name"], name: "index_foods_on_name"
     t.index ["path"], name: "index_foods_on_path", unique: true
+    t.index ["usages"], name: "index_foods_on_usages"
   end
 
   create_table "guilds", force: :cascade do |t|
     t.string "guild_id", null: false
     t.string "name"
     t.string "alliance_id"
-    t.integer "total_kill_fame"
-    t.integer "total_death_fame"
+    t.bigint "total_kill_fame"
+    t.bigint "total_death_fame"
     t.integer "total_kill_count"
     t.integer "total_death_count"
     t.integer "total_assist_count"
     t.integer "kd_perc"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["alliance_id"], name: "index_guilds_on_alliance_id"
     t.index ["guild_id"], name: "index_guilds_on_guild_id", unique: true
+    t.index ["kd_perc"], name: "index_guilds_on_kd_perc"
+    t.index ["name"], name: "index_guilds_on_name"
+    t.index ["total_assist_count"], name: "index_guilds_on_total_assist_count"
+    t.index ["total_death_count"], name: "index_guilds_on_total_death_count"
+    t.index ["total_death_fame"], name: "index_guilds_on_total_death_fame"
+    t.index ["total_kill_count"], name: "index_guilds_on_total_kill_count"
+    t.index ["total_kill_fame"], name: "index_guilds_on_total_kill_fame"
   end
 
   create_table "head_types", force: :cascade do |t|
@@ -257,7 +308,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_29_202701) do
     t.integer "base_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["assists"], name: "index_head_types_on_assists"
+    t.index ["avg_ip"], name: "index_head_types_on_avg_ip"
+    t.index ["deaths"], name: "index_head_types_on_deaths"
+    t.index ["kd_perc"], name: "index_head_types_on_kd_perc"
+    t.index ["kills"], name: "index_head_types_on_kills"
+    t.index ["name"], name: "index_head_types_on_name"
     t.index ["path"], name: "index_head_types_on_path", unique: true
+    t.index ["usages"], name: "index_head_types_on_usages"
   end
 
   create_table "heads", force: :cascade do |t|
@@ -286,7 +344,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_29_202701) do
     t.integer "base_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["assists"], name: "index_main_hand_types_on_assists"
+    t.index ["avg_ip"], name: "index_main_hand_types_on_avg_ip"
+    t.index ["deaths"], name: "index_main_hand_types_on_deaths"
+    t.index ["kd_perc"], name: "index_main_hand_types_on_kd_perc"
+    t.index ["kills"], name: "index_main_hand_types_on_kills"
+    t.index ["name"], name: "index_main_hand_types_on_name"
     t.index ["path"], name: "index_main_hand_types_on_path", unique: true
+    t.index ["two_handed?"], name: "index_main_hand_types_on_two_handed?"
+    t.index ["usages"], name: "index_main_hand_types_on_usages"
   end
 
   create_table "main_hands", force: :cascade do |t|
@@ -336,7 +402,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_29_202701) do
     t.integer "base_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["assists"], name: "index_off_hand_types_on_assists"
+    t.index ["avg_ip"], name: "index_off_hand_types_on_avg_ip"
+    t.index ["deaths"], name: "index_off_hand_types_on_deaths"
+    t.index ["kd_perc"], name: "index_off_hand_types_on_kd_perc"
+    t.index ["kills"], name: "index_off_hand_types_on_kills"
+    t.index ["name"], name: "index_off_hand_types_on_name"
     t.index ["path"], name: "index_off_hand_types_on_path", unique: true
+    t.index ["usages"], name: "index_off_hand_types_on_usages"
   end
 
   create_table "off_hands", force: :cascade do |t|
@@ -360,17 +433,29 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_29_202701) do
     t.integer "stalker_rating", limit: 2
     t.integer "slayer_rating", limit: 2
     t.integer "duo_rating", limit: 2
-    t.integer "total_kill_fame"
-    t.integer "total_death_fame"
-    t.integer "total_kill_count", limit: 2
-    t.integer "total_death_count", limit: 2
+    t.bigint "total_kill_fame"
+    t.bigint "total_death_fame"
+    t.integer "total_kill_count"
+    t.integer "total_death_count"
     t.integer "total_assist_count"
     t.integer "kd_perc"
     t.integer "avg_ip"
     t.integer "total_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["avg_ip"], name: "index_players_on_avg_ip"
+    t.index ["duo_rating"], name: "index_players_on_duo_rating"
+    t.index ["guild_id"], name: "index_players_on_guild_id"
+    t.index ["kd_perc"], name: "index_players_on_kd_perc"
+    t.index ["name"], name: "index_players_on_name"
     t.index ["player_id"], name: "index_players_on_player_id", unique: true
+    t.index ["slayer_rating"], name: "index_players_on_slayer_rating"
+    t.index ["stalker_rating"], name: "index_players_on_stalker_rating"
+    t.index ["total_assist_count"], name: "index_players_on_total_assist_count"
+    t.index ["total_death_count"], name: "index_players_on_total_death_count"
+    t.index ["total_death_fame"], name: "index_players_on_total_death_fame"
+    t.index ["total_kill_count"], name: "index_players_on_total_kill_count"
+    t.index ["total_kill_fame"], name: "index_players_on_total_kill_fame"
   end
 
   create_table "potion_types", force: :cascade do |t|
@@ -384,7 +469,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_29_202701) do
     t.integer "kd_perc"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["assists"], name: "index_potion_types_on_assists"
+    t.index ["avg_ip"], name: "index_potion_types_on_avg_ip"
+    t.index ["deaths"], name: "index_potion_types_on_deaths"
+    t.index ["kd_perc"], name: "index_potion_types_on_kd_perc"
+    t.index ["kills"], name: "index_potion_types_on_kills"
     t.index ["path"], name: "index_potion_types_on_path", unique: true
+    t.index ["usages"], name: "index_potion_types_on_usages"
   end
 
   create_table "potions", force: :cascade do |t|
@@ -402,7 +493,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_29_202701) do
     t.integer "kd_perc"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["assists"], name: "index_potions_on_assists"
+    t.index ["avg_ip"], name: "index_potions_on_avg_ip"
+    t.index ["deaths"], name: "index_potions_on_deaths"
+    t.index ["kd_perc"], name: "index_potions_on_kd_perc"
+    t.index ["kills"], name: "index_potions_on_kills"
+    t.index ["name"], name: "index_potions_on_name"
     t.index ["path"], name: "index_potions_on_path", unique: true
+    t.index ["usages"], name: "index_potions_on_usages"
   end
 
   add_foreign_key "awakened_weapons", "awakened_weapon_traits", column: "trait0", primary_key: "trait"
@@ -411,7 +509,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_29_202701) do
   add_foreign_key "awakened_weapons", "main_hand_types", column: "item_type", primary_key: "path"
   add_foreign_key "awakened_weapons", "main_hands", column: "path", primary_key: "path"
   add_foreign_key "awakened_weapons", "players", column: "attuned_player_id", primary_key: "player_id"
-  add_foreign_key "awakened_weapons", "players", column: "crafted_player_id", primary_key: "player_id"
   add_foreign_key "bags", "bag_types", column: "item_type", primary_key: "path"
   add_foreign_key "capes", "cape_types", column: "item_type", primary_key: "path"
   add_foreign_key "chests", "chest_types", column: "item_type", primary_key: "path"

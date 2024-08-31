@@ -60,5 +60,6 @@ class EventHandlerService::ItemHandlerService
         .new(item_slot: type)
         .handle_consumables(event_list:)
     end
+    AwakenedWeaponHandlerService.new.handle_awakened_weapons(event_list:)
   end
 end
