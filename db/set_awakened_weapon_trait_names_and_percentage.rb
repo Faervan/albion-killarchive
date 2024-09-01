@@ -78,9 +78,15 @@ require './config/environment'
   {
     trait: 'TRAIT_CC_DURATION',
     name: 'Crowd Control Duration'
+  },
+  {
+    trait: 'TRAIT_ATTACK_RANGE',
+    name: 'Attack Range'
   }
 ].each do |hash|
-  AwakenedWeaponTrait.find(hash[:trait]).update!(
-    hash.reject { |k,_| k == :trait }
-  )
+  if (weapon = AwakenedWeaponTrait.find_by(trait: hash[:trait]))
+    weapon.update!(hash.reject { |k,_| k == :trait })
+  else
+    puts "#{hash[:trait]} not yet available in database - rerun this script later!"
+  end
 end
