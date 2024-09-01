@@ -5,3 +5,7 @@ td {
 td img {
   vertical-align: middle;
 }
+
+li {
+    list-style-type: none;
+}

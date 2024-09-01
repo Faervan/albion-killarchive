@@ -56,6 +56,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_29_202701) do
     t.string "name"
     t.float "min_value"
     t.float "max_value"
+    t.boolean "percentage?", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["trait"], name: "index_awakened_weapon_traits_on_trait", unique: true

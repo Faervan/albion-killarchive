@@ -7,6 +7,7 @@ class CreateAwakenedWeaponTraits < ActiveRecord::Migration[7.1]
       t.string :name
       t.float :min_value
       t.float :max_value
+      t.boolean :percentage?, default: true
 
       t.timestamps
     end
