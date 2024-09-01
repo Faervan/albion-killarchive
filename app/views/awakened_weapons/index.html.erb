@@ -27,23 +27,23 @@
         <tr>
           <td>
             <%= image_tag "100x100/main_hands/#{awakened_weapon.path}.png", size: "50x50" %>
-            <%= awakened_weapon.main_hand.name %>
+            <%= link_to "#{awakened_weapon.player.name}'s #{awakened_weapon.main_hand.name}", awakened_weapon_path(awakened_weapon.awakened_weapon_id), target: "_top" %>
           </td>
           <td>
-            <%= awakened_weapon.pvp_fame %>
+            <%= ActiveSupport::NumberHelper.number_to_human awakened_weapon.pvp_fame %>
           </td>
           <td>
-            <%= awakened_weapon.attunement_since_reset %>
+            <%= ActiveSupport::NumberHelper.number_to_human awakened_weapon.attunement_since_reset %>
           </td>
           <td>
-            <%= awakened_weapon.attunement %>
+            <%= ActiveSupport::NumberHelper.number_to_human awakened_weapon.attunement %>
           </td>
           <td>
             <%= link_to awakened_weapon.player.name, player_path(awakened_weapon.player.name), target: "_top" %>
           </td>
           <td>
             <% player = awakened_weapon.crafted_player_name %>
-            <%= (p = Player.find_by(name: player)) ? (link_to player, player_path(player)) : (player) %>
+            <%= (p = Player.find_by(name: player)) ? (link_to player, player_path(player), target: "_top") : (player) %>
           </td>
           <td>
             <%= awakened_weapon.last_equipped_at %>

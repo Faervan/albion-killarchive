@@ -8,5 +8,7 @@ class AwakenedWeaponsController < ApplicationController
     @list = params[:list].to_i
   end
 
-  def show; end
+  def show
+    @awakened_weapon = AwakenedWeapon.find_by(awakened_weapon_id: params[:id])
+  end
 end
