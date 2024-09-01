@@ -1,0 +1,56 @@
+<%= stylesheet_link_tag "style.css" %>
+
+<h1>Awakened weapons</h1>
+
+<ul>
+  <%= form_with url: awakened_weapons_path, method: :get, local: true, data: { turbo_frame: 'table' } do %>
+    <%= label_tag :order_by, 'Order by: ' %>
+    <%= select_tag :order_by, options_for_select([
+      ["PvP fame", :pvp_fame],
+      ["Attunement", :attunement_since_reset],
+      ["Attunement total", :attunement],
+      ["Last equipped", :last_equipped_at]
+    ]), onchange: "this.form.requestSubmit()" %>
+  <% end %>
+  <%= turbo_frame_tag 'table' do %>
+    <table style="text-align: left">
+      <tr>
+        <th>Weapon</th>
+        <th>PvP fame</th>
+        <th>Attunement</th>
+        <th>Attunement total</th>
+        <th>Attuned player</th>
+        <th>Crafter</th>
+        <th>Last equipped</th>
+      </tr>
+      <% @awakened_weapons.each do |awakened_weapon| %>
+        <tr>
+          <td>
+            <%= image_tag "100x100/main_hands/#{awakened_weapon.path}.png", size: "50x50" %>
+            <%= link_to "#{awakened_weapon.player.name}'s #{awakened_weapon.main_hand.name}", awakened_weapon_path(awakened_weapon.awakened_weapon_id), target: "_top" %>
+          </td>
+          <td>
+            <%= ActiveSupport::NumberHelper.number_to_human awakened_weapon.pvp_fame %>
+          </td>
+          <td>
+            <%= ActiveSupport::NumberHelper.number_to_human awakened_weapon.attunement_since_reset %>
+          </td>
+          <td>
+            <%= ActiveSupport::NumberHelper.number_to_human awakened_weapon.attunement %>
+          </td>
+          <td>
+            <%= link_to awakened_weapon.player.name, player_path(awakened_weapon.player.name), target: "_top" %>
+          </td>
+          <td>
+            <% player = awakened_weapon.crafted_player_name %>
+            <%= (p = Player.find_by(name: player)) ? (link_to player, player_path(player), target: "_top") : (player) %>
+          </td>
+          <td>
+            <%= awakened_weapon.last_equipped_at %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+    <%= link_to "Show more", main_hand_types_path(list: @list.to_i + 20) %>
+  <% end %>
+</ul>

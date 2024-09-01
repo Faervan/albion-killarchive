@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :guilds, param: :name
   resources :players, param: :name
   # resources :main_hand_types
+  resources :awakened_weapons
 
   get '/main_hand_types', to: 'main_hand_types#index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

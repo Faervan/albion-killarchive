@@ -6,6 +6,7 @@ class Player < ApplicationRecord
   belongs_to :avatar, primary_key: 'avatar_id'
   belongs_to :avatar_ring, primary_key: 'avatar_ring_id'
   belongs_to :guild, optional: true
+  has_many :awakened_weapons, foreign_key: 'attuned_player_id', inverse_of: :player, dependent: :destroy
 
   include PgSearch::Model
   pg_search_scope :search_by_name, against: :name, using: { tsearch: { prefix: true } }

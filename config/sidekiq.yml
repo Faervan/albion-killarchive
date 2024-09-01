@@ -1,0 +1,5 @@
+:max_retries: 5
+:timeout: 10
+:queues:
+  - default
+  - low_priority

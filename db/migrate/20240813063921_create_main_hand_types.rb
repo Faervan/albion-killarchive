@@ -19,5 +19,9 @@ class CreateMainHandTypes < ActiveRecord::Migration[7.1]
     end
 
     add_index :main_hand_types, :path, unique: true
+    add_index :main_hand_types, :two_handed?
+    [:name, :avg_ip, :kills, :deaths, :assists, :usages, :kd_perc].each do |name|
+      add_index :main_hand_types, name
+    end
   end
 end

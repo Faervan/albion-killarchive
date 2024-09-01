@@ -1,0 +1,20 @@
+<%= stylesheet_link_tag "style.css" %>
+
+<%= image_tag "217x217/main_hands/#{@awakened_weapon.path}.png", size: "150x150" %>
+<h1><%= "#{@awakened_weapon.player.name}'s Awakened #{@awakened_weapon.main_hand.name}" %></h1>
+<ul>
+  <% (0..2).each do |i| %>
+    <% trait = @awakened_weapon.send("trait#{i}") %>
+    <% value = @awakened_weapon.send("trait#{i}_value") %>
+    <% if trait %>
+      <li>+ <%= trait.percentage? ? "#{(value * 100).round(2)}%" : value.round %> <%= trait.name %></li>
+    <% end %>
+  <% end %>
+</ul>
+<p>PvP fame: <%= ActiveSupport::NumberHelper.number_to_human @awakened_weapon.pvp_fame %><br>
+  Attunement: <%= ActiveSupport::NumberHelper.number_to_human @awakened_weapon.attunement_since_reset %> (api calls this: "attunementSpentSinceReset")<br>
+  Attunement total: <%= ActiveSupport::NumberHelper.number_to_human @awakened_weapon.attunement %> (api calls this "attunement" - please tell me if you understand the difference here!)<br>
+  Attuned player: <%= link_to @awakened_weapon.player.name, player_path(@awakened_weapon.player.name) %><br>
+  <% crafter = @awakened_weapon.crafted_player_name %>
+  Crafted by: <%= (c = Player.find_by(name: crafter)) ? (link_to crafter, player_path(crafter), target: "_top") : (crafter) %><br>
+  Last equipped at: <%= @awakened_weapon.last_equipped_at %></p>
