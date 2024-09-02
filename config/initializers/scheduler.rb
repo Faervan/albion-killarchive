@@ -15,7 +15,7 @@ unless ENV['NO_EVENT_FETCH'] == 'true'
     EventFetcherJob.perform_later
   end
 
-  scheduler.every '10m' do
+  scheduler.every '5m' do
     EventFetcherJob.perform_later(full_query: true)
   end
 end
