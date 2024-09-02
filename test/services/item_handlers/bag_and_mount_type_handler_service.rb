@@ -23,6 +23,7 @@ class BagAndMountTypeHandlerTest < ActiveSupport::TestCase
     ALL_TYPES.each_with_index do |_type, index|
       model = ALL_TYPE_MODELS[index]
       HANDLER.new(item_type: model).handle_bag_and_mount_types(event_list: EVENT_LIST)
+      HANDLER.new(item_type: model).handle_bag_and_mount_types(event_list: EVENT_LIST)
     end
   end
 
