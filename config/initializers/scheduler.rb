@@ -6,14 +6,16 @@ FileUtils.touch('tmp/time_since_last_query') unless File.exist?('tmp/time_since_
 
 scheduler = Rufus::Scheduler.new
 
-scheduler.in '4s' do
-  EventFetcherJob.perform_later(full_query: true)
-end
+unless ENV['NO_EVENT_FETCH'] == 'true'
+  scheduler.in '4s' do
+    EventFetcherJob.perform_later(full_query: true)
+  end
 
-scheduler.every '60s' do
-  EventFetcherJob.perform_later
-end
+  scheduler.every '60s' do
+    EventFetcherJob.perform_later
+  end
 
-scheduler.every '10m' do
-  EventFetcherJob.perform_later(full_query: true)
+  scheduler.every '10m' do
+    EventFetcherJob.perform_later(full_query: true)
+  end
 end
