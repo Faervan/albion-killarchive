@@ -32,7 +32,7 @@ class EventHandlerService::BuildHandlerService
       off_hand_type: get_type(entity:, type: 'OffHand'),
       head_type: get_type(entity:, type: 'Head'),
       chest_type: get_type(entity:, type: 'Armor'),
-      feet_type: get_type(entity:, type: 'Feet'),
+      feet_type: get_type(entity:, type: 'Shoes'),
       cape_type: get_type(entity:, type: 'Cape'),
       kills: 0,
       deaths: 0,
@@ -57,71 +57,86 @@ class EventHandlerService::BuildHandlerService
   end
 
   def update_kill_count(builds:, event:)
-    build = find_build(builds:, event:, target: ->(h) { h['Killer'] })
+    build = find_build(builds:, entity: event['Killer'])
     build[:kills] += 1
     build[:kill_fame] += event['TotalVictimKillFame']
     build[:total_ip] += event['Killer']['AverageItemPower']
+    return if event['Killer']['AverageItemPower'].zero? || event['Victim']['AverageItemPower'].zero?
+
+    build[:total_ip_diff] += event['Killer']['AverageItemPower'] - event['Victim']['AverageItemPower']
   end
 
   def update_death_count_and_fame(builds:, event:)
-    build = find_build(builds:, event:, target: ->(h) { h['Victim'] })
-    build[:total_death_count] += 1
-    build[:total_death_fame] += event['TotalVictimKillFame']
+    build = find_build(builds:, entity: event['Victim'])
+    build[:deaths] += 1
+    build[:death_fame] += event['TotalVictimKillFame']
     build[:total_ip] += event['Victim']['AverageItemPower']
+    return if event['Killer']['AverageItemPower'].zero? || event['Victim']['AverageItemPower'].zero?
+
+    build[:total_ip_diff] -= event['Killer']['AverageItemPower'] - event['Victim']['AverageItemPower']
   end
 
   def update_assist_count(builds:, event:)
-    event['Participants'].each_with_index do |participant, index|
+    event['Participants'].each do |participant|
       next if participant['Id'] == event['Killer']['Id']
 
-      build = find_build(builds:, event:, target: ->(h) { h['Participants'][index] })
-      build[:total_assist_count] += 1
+      build = find_build(builds:, entity: participant)
+      build[:assists] += 1
       build[:total_ip] += participant['AverageItemPower']
     end
   end
 
-  def find_build(builds:, build_id:, target:)
-    builds.detect { |build| build[:build_id] == build_id }
+  def find_build(builds:, entity:)
+    builds.detect do |build|
+      get_type(entity:, type: 'MainHand') == build[:main_hand_type] &&
+        get_type(entity:, type: 'OffHand') == build[:off_hand_type] &&
+        get_type(entity:, type: 'Head') == build[:head_type] &&
+        get_type(entity:, type: 'Armor') == build[:chest_type] &&
+        get_type(entity:, type: 'Shoes') == build[:feet_type] &&
+        get_type(entity:, type: 'Cape') == build[:cape_type]
+    end
   end
 
   def persist_builds(builds:)
     builds.each do |build|
-      build_stats = set_build_stats(build:)
-      AwakenedWeapon.create!(
-        {
-          awakened_weapon_id: build[:awakened_weapon_id],
-          item_type: build[:item_type]
-        }.merge(build_stats)
-      )
+      build_stats = build.merge(set_build_stats(build:))
+      Build.create!(build_stats)
     rescue ActiveRecord::RecordNotUnique
-      AwakenedWeapon.find(build[:awakened_weapon_id]).update!(build_stats)
+      existing_build = Build.find_by(
+        main_hand_type: build[:main_hand_type],
+        off_hand_type: build[:off_hand_type],
+        head_type: build[:head_type],
+        chest_type: build[:chest_type],
+        feet_type: build[:feet_type],
+        cape_type: build[:cape_type]
+      )
+      existing_build.update!(update_build_stats(build:, existing_build:))
     end
   end
 
   def set_build_stats(build:)
-    new_build = {
-      path: build[:path],
-      last_equipped_at: build[:last_equipped_at],
-      attuned_player_id: build[:attuned_player_id],
-      attunement: build[:attunement],
-      attunement_since_reset: build[:attunement_since_reset],
-      crafted_player_name: build[:crafted_player_name],
-      pvp_fame: build[:pvp_fame]
+    usages = build[:kills] + build[:deaths] + build[:assists]
+    {
+      fame_ratio: (build[:kill_fame] / build[:death_fame] * 100).round,
+      usages:,
+      avg_ip: usages.positive? ? build[:total_ip] / usages : 0,
+      kd_perc:
+        begin
+          (100.0 / (build[:kills] + build[:deaths]) * build[:kills] * 100).round
+        rescue ZeroDivisionError, FloatDomainError
+          0
+        end
     }
-    # The following magic handles the maybe existing traits and their values and rolls while not overgoing lint max class length
-    [
-      { trait: :trait0, trait_roll: :trait0_roll, trait_value: :trait0_value },
-      { trait: :trait1, trait_roll: :trait1_roll, trait_value: :trait1_value },
-      { trait: :trait2, trait_roll: :trait2_roll, trait_value: :trait2_value }
-    ].each do |i|
-      next if build[i[:trait]].nil?
+  end
 
-      new_build.merge!(
-        i[:trait] => AwakenedWeaponTrait.find(build[i[:trait]]['trait']),
-        i[:trait_roll] => build[i[:trait]]['roll'],
-        i[:trait_value] => build[i[:trait]]['value']
-      )
-    end
-    new_build
+  def update_build_stats(build:, existing_build:)
+    build[:kills] += existing_build.kills
+    build[:deaths] += existing_build.deaths
+    build[:assists] += existing_build.assists
+    build[:kill_fame] += existing_build.kill_fame
+    build[:death_fame] += existing_build.kill_fame
+    build[:total_ip] += existing_build.total_ip
+    build[:total_ip_diff] += existing_build.total_ip_diff
+    build.merge(set_build_stats(build:))
   end
 end
