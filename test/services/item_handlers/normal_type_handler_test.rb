@@ -46,8 +46,7 @@ class NormalTypeHandlerTest < ActiveSupport::TestCase
   HANDLER = EventHandlerService::ItemHandlerService::NormalTypeHandlerService
 
   setup do
-    ALL_TYPES.each_with_index do |_type, index|
-      model = ALL_TYPE_MODELS[index]
+    ALL_TYPE_MODELS.each do |model|
       HANDLER.new(item_type: model).handle_normal_types(event_list: EVENT_LIST)
       HANDLER.new(item_type: model).handle_normal_types(event_list: EVENT_LIST)
     end

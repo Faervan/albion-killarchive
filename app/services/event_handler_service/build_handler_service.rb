@@ -45,7 +45,7 @@ class EventHandlerService::BuildHandlerService
   end
 
   def get_type(entity:, type:)
-    entity['Equipment'].dig(type, 'Type')&.parse_item_type
+    entity['Equipment'].dig(type, 'Type')&.parse_item_type&.[](:path)
   end
 
   def update_builds(event_list:, builds:)
@@ -56,7 +56,7 @@ class EventHandlerService::BuildHandlerService
     end
   end
 
-  def update_kill_count(builds:, event:)
+  def update_kill_count_and_fame(builds:, event:)
     build = find_build(builds:, entity: event['Killer'])
     build[:kills] += 1
     build[:kill_fame] += event['TotalVictimKillFame']
@@ -100,16 +100,10 @@ class EventHandlerService::BuildHandlerService
   def persist_builds(builds:)
     builds.each do |build|
       build_stats = build.merge(set_build_stats(build:))
-      Build.create!(build_stats)
-    rescue ActiveRecord::RecordNotUnique
-      existing_build = Build.find_by(
-        main_hand_type: build[:main_hand_type],
-        off_hand_type: build[:off_hand_type],
-        head_type: build[:head_type],
-        chest_type: build[:chest_type],
-        feet_type: build[:feet_type],
-        cape_type: build[:cape_type]
-      )
+      Build.create!(build_stats.merge(get_build_key(build:)))
+      #puts 'created new thing'
+    rescue ActiveRecord::RecordInvalid
+      existing_build = Build.find_by(get_build_key(build:))
       existing_build.update!(update_build_stats(build:, existing_build:))
     end
   end
@@ -117,7 +111,7 @@ class EventHandlerService::BuildHandlerService
   def set_build_stats(build:)
     usages = build[:kills] + build[:deaths] + build[:assists]
     {
-      fame_ratio: (build[:kill_fame] / build[:death_fame] * 100).round,
+      fame_ratio: build[:death_fame].zero? ? 0 : (build[:kill_fame] / build[:death_fame] * 100).round,
       usages:,
       avg_ip: usages.positive? ? build[:total_ip] / usages : 0,
       kd_perc:
@@ -129,6 +123,17 @@ class EventHandlerService::BuildHandlerService
     }
   end
 
+  def get_build_key(build:)
+    {
+      main_hand_type: MainHandType.find_by(path: build[:main_hand_type]),
+      off_hand_type: OffHandType.find_by(path: build[:off_hand_type]),
+      head_type: HeadType.find_by(path: build[:main_hand_type]),
+      chest_type: ChestType.find_by(path: build[:chest_type]),
+      feet_type: FeetType.find_by(path: build[:feet_type]),
+      cape_type: CapeType.find_by(path: build[:cape_type])
+    }
+  end
+
   def update_build_stats(build:, existing_build:)
     build[:kills] += existing_build.kills
     build[:deaths] += existing_build.deaths
@@ -137,6 +142,12 @@ class EventHandlerService::BuildHandlerService
     build[:death_fame] += existing_build.kill_fame
     build[:total_ip] += existing_build.total_ip
     build[:total_ip_diff] += existing_build.total_ip_diff
+    build.delete(:main_hand_type)
+    build.delete(:off_hand_type)
+    build.delete(:head_type)
+    build.delete(:chest_type)
+    build.delete(:feet_type)
+    build.delete(:cape_type)
     build.merge(set_build_stats(build:))
   end
 end
