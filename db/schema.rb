@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_29_202701) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_03_064403) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -116,6 +116,48 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_29_202701) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["path"], name: "index_bags_on_path", unique: true
+  end
+
+  create_table "builds", force: :cascade do |t|
+    t.string "main_hand_type"
+    t.string "off_hand_type"
+    t.string "head_type"
+    t.string "chest_type"
+    t.string "feet_type"
+    t.string "cape_type"
+    t.integer "kills"
+    t.integer "deaths"
+    t.integer "assists"
+    t.integer "usages"
+    t.bigint "kill_fame"
+    t.bigint "death_fame"
+    t.integer "fame_ratio"
+    t.bigint "total_ip"
+    t.integer "avg_ip"
+    t.integer "total_ip_diff"
+    t.integer "avg_ip_diff"
+    t.integer "kd_perc"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assists"], name: "index_builds_on_assists"
+    t.index ["avg_ip"], name: "index_builds_on_avg_ip"
+    t.index ["avg_ip_diff"], name: "index_builds_on_avg_ip_diff"
+    t.index ["cape_type"], name: "index_builds_on_cape_type"
+    t.index ["chest_type"], name: "index_builds_on_chest_type"
+    t.index ["death_fame"], name: "index_builds_on_death_fame"
+    t.index ["deaths"], name: "index_builds_on_deaths"
+    t.index ["fame_ratio"], name: "index_builds_on_fame_ratio"
+    t.index ["feet_type"], name: "index_builds_on_feet_type"
+    t.index ["head_type"], name: "index_builds_on_head_type"
+    t.index ["kd_perc"], name: "index_builds_on_kd_perc"
+    t.index ["kill_fame"], name: "index_builds_on_kill_fame"
+    t.index ["kills"], name: "index_builds_on_kills"
+    t.index ["main_hand_type", "off_hand_type", "head_type", "chest_type", "feet_type", "cape_type"], name: "index_builds_on_unique_columns", unique: true
+    t.index ["main_hand_type"], name: "index_builds_on_main_hand_type"
+    t.index ["off_hand_type"], name: "index_builds_on_off_hand_type"
+    t.index ["total_ip"], name: "index_builds_on_total_ip"
+    t.index ["total_ip_diff"], name: "index_builds_on_total_ip_diff"
+    t.index ["usages"], name: "index_builds_on_usages"
   end
 
   create_table "cached_events", force: :cascade do |t|
@@ -511,6 +553,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_29_202701) do
   add_foreign_key "awakened_weapons", "main_hands", column: "path", primary_key: "path"
   add_foreign_key "awakened_weapons", "players", column: "attuned_player_id", primary_key: "player_id"
   add_foreign_key "bags", "bag_types", column: "item_type", primary_key: "path"
+  add_foreign_key "builds", "cape_types", column: "cape_type", primary_key: "path"
+  add_foreign_key "builds", "chest_types", column: "chest_type", primary_key: "path"
+  add_foreign_key "builds", "feet_types", column: "feet_type", primary_key: "path"
+  add_foreign_key "builds", "head_types", column: "head_type", primary_key: "path"
+  add_foreign_key "builds", "main_hand_types", column: "main_hand_type", primary_key: "path"
+  add_foreign_key "builds", "off_hand_types", column: "off_hand_type", primary_key: "path"
   add_foreign_key "capes", "cape_types", column: "item_type", primary_key: "path"
   add_foreign_key "chests", "chest_types", column: "item_type", primary_key: "path"
   add_foreign_key "feets", "feet_types", column: "item_type", primary_key: "path"
