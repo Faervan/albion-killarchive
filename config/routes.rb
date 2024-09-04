@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get 'builds/index'
+  get 'builds/show'
   root 'main#index'
 
   resources :alliances, param: :name

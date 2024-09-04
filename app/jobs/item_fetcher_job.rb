@@ -22,6 +22,7 @@ class ItemFetcherJob < ApplicationJob
   private
 
   def save_item_name(path:, full_path:, model:)
+    path = path.parse_item_type[:path] if path.include?('UNIQUE_MOUNT')
     name = HTTParty.get("https://gameinfo.albiononline.com/api/gameinfo/items/#{path}/data")['localizedNames']['EN-US']
     model.find(full_path).update!(name:)
   end
