@@ -55,4 +55,4 @@ ruby db/set_awakened_weapon_trait_names_and_percentage.rb
 ```
 
 # Credits
-to [uxwing](https://uxwing.com/skull-red-icon/) for the favicon (`app/assets/images/favicon.svg`)
+to [uxwing](https://uxwing.com/skull-red-icon/) for the favicon (`app/assets/images/favicon.svg`) as well as the pending-work icon (`app/assets/images/pending-work-icon.svg`)

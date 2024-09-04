@@ -26,7 +26,8 @@
       <% @awakened_weapons.each do |awakened_weapon| %>
         <tr>
           <td>
-            <%= image_tag "100x100/main_hands/#{awakened_weapon.path}.png", size: "50x50" %>
+            <% weapon_icon = "100x100/main_hands/#{awakened_weapon.path}.png" %>
+            <%= Rails.application.assets.find_asset(weapon_icon).nil? ? image_tag('pending-work-icon.svg', size: '50x50') : image_tag(weapon_icon, size: "50x50") %>
             <%= link_to "#{awakened_weapon.player.name}'s #{awakened_weapon.main_hand.name}", awakened_weapon_path(awakened_weapon.awakened_weapon_id), target: "_top" %>
           </td>
           <td>

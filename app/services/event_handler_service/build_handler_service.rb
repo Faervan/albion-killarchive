@@ -101,7 +101,6 @@ class EventHandlerService::BuildHandlerService
     builds.each do |build|
       build_stats = build.merge(set_build_stats(build:))
       Build.create!(build_stats.merge(get_build_key(build:)))
-      #puts 'created new thing'
     rescue ActiveRecord::RecordInvalid
       existing_build = Build.find_by(get_build_key(build:))
       existing_build.update!(update_build_stats(build:, existing_build:))
@@ -110,13 +109,15 @@ class EventHandlerService::BuildHandlerService
 
   def set_build_stats(build:)
     usages = build[:kills] + build[:deaths] + build[:assists]
+    real_usages = build[:kills] + build[:deaths]
     {
-      fame_ratio: build[:death_fame].zero? ? 0 : (build[:kill_fame] / build[:death_fame] * 100).round,
+      fame_ratio: build[:kill_fame].zero? || build[:death_fame].zero? ? 0 : (build[:kill_fame] * 100 / build[:death_fame]).round,
       usages:,
       avg_ip: usages.positive? ? build[:total_ip] / usages : 0,
+      avg_ip_diff: real_usages.positive? ? build[:total_ip_diff] / real_usages : 0,
       kd_perc:
         begin
-          (100.0 / (build[:kills] + build[:deaths]) * build[:kills] * 100).round
+          (100.0 / real_usages * build[:kills] * 100).round
         rescue ZeroDivisionError, FloatDomainError
           0
         end
@@ -127,7 +128,7 @@ class EventHandlerService::BuildHandlerService
     {
       main_hand_type: MainHandType.find_by(path: build[:main_hand_type]),
       off_hand_type: OffHandType.find_by(path: build[:off_hand_type]),
-      head_type: HeadType.find_by(path: build[:main_hand_type]),
+      head_type: HeadType.find_by(path: build[:head_type]),
       chest_type: ChestType.find_by(path: build[:chest_type]),
       feet_type: FeetType.find_by(path: build[:feet_type]),
       cape_type: CapeType.find_by(path: build[:cape_type])

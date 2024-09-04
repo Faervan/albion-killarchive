@@ -40,5 +40,6 @@ class EventHandlerService
     PlayerHandlerService.new.handle_players(event_list:)
     ItemHandlerService.new.handle_item_types(event_list:)
     ItemHandlerService.new.handle_items(event_list:)
+    BuildHandlerService.new.handle_builds(event_list:)
   end
 end
