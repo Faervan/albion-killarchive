@@ -15,6 +15,6 @@ module ActiveSupport
     # fixtures :all
 
     # Add more helper methods to be used by all tests here...
-    Dir["#{Rails.root}/test/**/*_test.rb"].each { |f| require f }
+    Dir[Rails.root.join('test/**/*_test.rb')].each { |f| require f } # rubocop:disable Rails/RootPathnameMethods
   end
 end
