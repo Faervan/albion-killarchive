@@ -43,6 +43,10 @@ and then start the Server via
 ```
 bin/rails server
 ```
+and the job executing (to fetch events) with:
+```
+bundle exec sidekiq -q default,5 -q low_priority,2
+```
 You *should* be able to open http://localhost:3000/ in your browser and see stuff.
 
 After waiting a few minutes, you should also run the following command to get the awakened weapon traits to display with readable names:
@@ -51,4 +55,4 @@ ruby db/set_awakened_weapon_trait_names_and_percentage.rb
 ```
 
 # Credits
-to [uxwing](https://uxwing.com/skull-red-icon/) for the favicon (`app/assets/images/favicon.svg`)
+to [uxwing](https://uxwing.com/skull-red-icon/) for the favicon (`app/assets/images/favicon.svg`) as well as the pending-work icon (`app/assets/images/pending-work-icon.svg`)
