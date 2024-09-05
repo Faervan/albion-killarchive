@@ -59,6 +59,8 @@ class BuildHandlerTest < ActiveSupport::TestCase
     assert_equal BUILD[:avg_ip_diff], build.avg_ip_diff
   end
 
+  private
+
   def get_build_key(build:)
     {
       main_hand_type: MainHandType.find_by(path: build[:main_hand_type]),
