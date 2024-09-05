@@ -1,9 +1,13 @@
 td {
-  vertical-align: middle;
+    vertical-align: middle;
 }
 
 td img {
-  vertical-align: middle;
+    vertical-align: middle;
+}
+
+td, th {
+    padding-right: 10px;
 }
 
 li {
