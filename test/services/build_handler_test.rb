@@ -4,24 +4,19 @@ require 'test_helper'
 
 class BuildHandlerTest < ActiveSupport::TestCase
   EVENT_LIST = JSON.parse File.read('test/test_data/event_list.json')
-  AWAKENED_WEAPON = {
-    id: 'd1237484-eac0-49f8-8589-c90c60404463',
-    last_equipped: '2024-07-09T13:35:57.321305100Z',
-    attuned_player_name: 'TestingLimits',
-    attunement: 3_711_129_324,
-    attunement_since_reset: 14_455_583_886,
-    crafted_player_name: 'Cigert',
-    pvp_fame: 571_997_723_623,
-    trait0: 'TRAIT_HITPOINTS_MAX',
-    trait1_value: 0.112064511,
-    trait2_roll: 0.7262954989900386,
-    count: 3
-  }.freeze
-  TRAIT = {
-    trait: 'TRAIT_HITPOINTS_MAX',
-    min_value: 2.6,
-    max_value: 260,
-    count: 4
+  BUILD = {
+    main_hand_type: '2H_DUALAXE_KEEPER',
+    off_hand_type: nil,
+    head_type: 'HEAD_CLOTH_HELL',
+    chest_type: 'ARMOR_LEATHER_SET3',
+    feet_type: 'SHOES_CLOTH_ROYAL',
+    cape_type: 'CAPEITEM_FW_THETFORD',
+    kills: 2,
+    deaths: 0,
+    assists: 1,
+    kill_fame: 83_976,
+    death_fame: 0,
+    avg_ip_diff: 264
   }.freeze
 
   HANDLER = EventHandlerService::BuildHandlerService
@@ -55,6 +50,23 @@ class BuildHandlerTest < ActiveSupport::TestCase
   end
 
   test 'Stats of builds correctly saved to database' do
-    assert true # probably right
+    build = Build.find_by(get_build_key(build: BUILD))
+    assert_equal BUILD[:kills] * 2, build.kills
+    assert_equal BUILD[:deaths] * 2, build.deaths
+    assert_equal BUILD[:assists] * 2, build.assists
+    assert_equal BUILD[:kill_fame] * 2, build.kill_fame
+    assert_equal BUILD[:death_fame] * 2, build.death_fame
+    assert_equal BUILD[:avg_ip_diff], build.avg_ip_diff
+  end
+
+  def get_build_key(build:)
+    {
+      main_hand_type: MainHandType.find_by(path: build[:main_hand_type]),
+      off_hand_type: OffHandType.find_by(path: build[:off_hand_type]),
+      head_type: HeadType.find_by(path: build[:head_type]),
+      chest_type: ChestType.find_by(path: build[:chest_type]),
+      feet_type: FeetType.find_by(path: build[:feet_type]),
+      cape_type: CapeType.find_by(path: build[:cape_type])
+    }
   end
 end
