@@ -140,7 +140,7 @@ class EventHandlerService::BuildHandlerService
     build[:deaths] += existing_build.deaths
     build[:assists] += existing_build.assists
     build[:kill_fame] += existing_build.kill_fame
-    build[:death_fame] += existing_build.kill_fame
+    build[:death_fame] += existing_build.death_fame
     build[:total_ip] += existing_build.total_ip
     build[:total_ip_diff] += existing_build.total_ip_diff
     build.delete(:main_hand_type)
