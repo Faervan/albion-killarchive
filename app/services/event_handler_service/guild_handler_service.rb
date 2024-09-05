@@ -132,7 +132,7 @@ class EventHandlerService::GuildHandlerService
         begin
           (100.0 / (guild[:total_kill_count] + guild[:total_death_count]) * guild[:total_kill_count] * 100).round
         rescue ZeroDivisionError, FloatDomainError
-          0
+          nil
         end
     }
   end

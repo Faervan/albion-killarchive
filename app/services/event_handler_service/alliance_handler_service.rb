@@ -122,7 +122,7 @@ class EventHandlerService::AllianceHandlerService
         begin
           (100.0 / (alliance[:total_kill_count] + alliance[:total_death_count]) * alliance[:total_kill_count] * 100).round
         rescue ZeroDivisionError, FloatDomainError
-          0
+          nil
         end
     }
   end

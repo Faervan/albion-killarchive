@@ -143,13 +143,13 @@ class EventHandlerService::PlayerHandlerService
         begin
           player[:total_ip] / (player[:total_kill_count] + player[:total_death_count] + player[:total_assist_count])
         rescue ZeroDivisionError
-          0
+          nil
         end,
       kd_perc:
         begin
           (100.0 / (player[:total_kill_count] + player[:total_death_count]) * player[:total_kill_count] * 100).round
         rescue ZeroDivisionError, FloatDomainError
-          0
+          nil
         end
     }
   end

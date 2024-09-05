@@ -111,15 +111,15 @@ class EventHandlerService::BuildHandlerService
     usages = build[:kills] + build[:deaths] + build[:assists]
     real_usages = build[:kills] + build[:deaths]
     {
-      fame_ratio: build[:kill_fame].zero? || build[:death_fame].zero? ? 0 : (build[:kill_fame] * 100 / build[:death_fame]).round,
+      fame_ratio: build[:kill_fame].zero? || build[:death_fame].zero? ? nil : build[:kill_fame] * 100 / build[:death_fame].round,
       usages:,
-      avg_ip: usages.positive? ? build[:total_ip] / usages : 0,
-      avg_ip_diff: real_usages.positive? ? build[:total_ip_diff] / real_usages : 0,
+      avg_ip: usages.positive? ? build[:total_ip] / usages : nil,
+      avg_ip_diff: real_usages.positive? ? build[:total_ip_diff] / real_usages : nil,
       kd_perc:
         begin
           (100.0 / real_usages * build[:kills] * 100).round
         rescue ZeroDivisionError, FloatDomainError
-          0
+          nil
         end
     }
   end

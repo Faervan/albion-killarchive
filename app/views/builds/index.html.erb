@@ -49,10 +49,10 @@
             <%= build.usages %>
           </td>
           <td>
-            <%= "#{build.kd_perc / 100}%" %>
+            <%= build.kd_perc.nil? ? '-' : "#{build.kd_perc / 100}%" %>
           </td>
           <td>
-            <%= build.fame_ratio.zero? ? '-' : build.fame_ratio.to_f / 100 %>
+            <%= build.fame_ratio.nil? ? '-' : build.fame_ratio.to_f / 100 %>
           </td>
           <td>
             <%= build.kills %>
