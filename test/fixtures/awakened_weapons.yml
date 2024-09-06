@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  awakened_weapon_id: MyString
+  path: MyString
+  item_type: MyString
+  last_equipped_at: 2024-08-29 21:53:25
+  attuned_player_id: MyString
+  attunement: 1
+  attunement_since_reset: 1
+  crafted_by: MyString
+  pvp_fame: 1
+  trait0: MyString
+  trait1: MyString
+  trait2: MyString
+
+two:
+  awakened_weapon_id: MyString
+  path: MyString
+  item_type: MyString
+  last_equipped_at: 2024-08-29 21:53:25
+  attuned_player_id: MyString
+  attunement: 1
+  attunement_since_reset: 1
+  crafted_by: MyString
+  pvp_fame: 1
+  trait0: MyString
+  trait1: MyString
+  trait2: MyString

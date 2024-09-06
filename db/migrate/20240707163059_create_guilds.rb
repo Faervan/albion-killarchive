@@ -6,8 +6,8 @@ class CreateGuilds < ActiveRecord::Migration[7.1]
       t.string :guild_id, null: false
       t.string :name
       t.string :alliance_id
-      t.integer :total_kill_fame
-      t.integer :total_death_fame
+      t.integer :total_kill_fame, limit: 8
+      t.integer :total_death_fame, limit: 8
       t.integer :total_kill_count
       t.integer :total_death_count
       t.integer :total_assist_count
@@ -22,5 +22,9 @@ class CreateGuilds < ActiveRecord::Migration[7.1]
       primary_key: :alliance_id
     )
     add_index :guilds, :guild_id, unique: true
+    Guild.column_names.each do |name|
+      name = name.to_sym
+      add_index :guilds, name unless name == :id || name == :guild_id || name == :updated_at || name == :created_at
+    end
   end
 end

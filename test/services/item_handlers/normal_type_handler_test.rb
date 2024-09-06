@@ -46,8 +46,8 @@ class NormalTypeHandlerTest < ActiveSupport::TestCase
   HANDLER = EventHandlerService::ItemHandlerService::NormalTypeHandlerService
 
   setup do
-    ALL_TYPES.each_with_index do |_type, index|
-      model = ALL_TYPE_MODELS[index]
+    ALL_TYPE_MODELS.each do |model|
+      HANDLER.new(item_type: model).handle_normal_types(event_list: EVENT_LIST)
       HANDLER.new(item_type: model).handle_normal_types(event_list: EVENT_LIST)
     end
   end
@@ -65,10 +65,11 @@ class NormalTypeHandlerTest < ActiveSupport::TestCase
   test 'Stats of normal types correctly saved to database' do
     ALL_TYPES.each_with_index do |type, index|
       model = ALL_TYPE_MODELS[index]
-      assert_equal type[:two_handed], model.find_by(path: type[:path]).two_handed? if model == MainHandType
-      assert_equal type[:kills], model.find_by(path: type[:path]).kills
-      assert_equal type[:deaths], model.find_by(path: type[:path]).deaths
-      assert_equal type[:assists], model.find_by(path: type[:path]).assists
+      obj = model.find_by(path: type[:path])
+      assert_equal type[:two_handed], obj.two_handed? if model == MainHandType
+      assert_equal type[:kills], obj.kills
+      assert_equal type[:deaths], obj.deaths
+      assert_equal type[:assists], obj.assists
     end
   end
 end

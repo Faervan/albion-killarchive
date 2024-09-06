@@ -1,0 +1,39 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  main_hand_type: MyString
+  off_hand_type: MyString
+  head_type: MyString
+  chest_type: MyString
+  feet_type: MyString
+  cape_type: MyString
+  kills: 1
+  deaths: 1
+  usages: 1
+  kill_fame: 1
+  death_fame: 1
+  fame_ratio: 1
+  total_ip: 1
+  avg_ip: 1
+  kd_perc: 1
+  total_ip_diff: 1
+  avg_ip_diff: 1
+
+two:
+  main_hand_type: MyString
+  off_hand_type: MyString
+  head_type: MyString
+  chest_type: MyString
+  feet_type: MyString
+  cape_type: MyString
+  kills: 1
+  deaths: 1
+  usages: 1
+  kill_fame: 1
+  death_fame: 1
+  fame_ratio: 1
+  total_ip: 1
+  avg_ip: 1
+  kd_perc: 1
+  total_ip_diff: 1
+  avg_ip_diff: 1

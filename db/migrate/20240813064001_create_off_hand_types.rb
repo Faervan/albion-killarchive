@@ -18,5 +18,8 @@ class CreateOffHandTypes < ActiveRecord::Migration[7.1]
     end
 
     add_index :off_hand_types, :path, unique: true
+    [:name, :avg_ip, :kills, :deaths, :assists, :usages, :kd_perc].each do |name|
+      add_index :off_hand_types, name
+    end
   end
 end

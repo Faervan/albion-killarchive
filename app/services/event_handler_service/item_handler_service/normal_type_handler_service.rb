@@ -130,12 +130,12 @@ class EventHandlerService::ItemHandlerService::NormalTypeHandlerService
       assists: item[:assists],
       usages:,
       total_ip: item[:total_ip],
-      avg_ip: usages.positive? ? item[:total_ip] / usages : 0,
+      avg_ip: usages.positive? ? item[:total_ip] / usages : nil,
       kd_perc:
         begin
           (100.0 / (item[:kills] + item[:deaths]) * item[:kills] * 100).round
         rescue ZeroDivisionError, FloatDomainError
-          0
+          nil
         end
     }
   end

@@ -12,12 +12,12 @@
     <% guilds.each do |guild| %>
       <tr>
         <td>
-          <%= link_to guild.name, guild, target: "_top" %>
+          <%= link_to guild.name, guild_path(guild.name), target: "_top" %>
         </td>
         <td>
           <% if guild.alliance.present? %>
             <% alliance = guild.alliance %>
-            <%= link_to alliance.name, alliance, target: "_top" %>
+            <%= link_to alliance.name, alliance_path(alliance.name), target: "_top" %>
           <% end %>
         </td>
         <td>

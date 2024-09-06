@@ -4,7 +4,7 @@
 <% end %>
 <%= turbo_frame_tag 'search_by_name' do %>
   <% query.each do |match| %>
-    <%= link_to match.name, match, target: "_top" %>
+    <%= link_to match.name, send("#{model}_path", match.name), target: "_top" %>
   <% end %>
 <% end %>
 

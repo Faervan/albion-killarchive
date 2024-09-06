@@ -35,7 +35,7 @@
             <%= main_hand_type.usages %>
           </td>
           <td>
-            <%= main_hand_type.kd_perc / 100 %>%
+            <%= main_hand_type.kd_perc.nil? ? '-' : "#{main_hand_type.kd_perc / 100}%" %>
           </td>
           <td>
             <%= main_hand_type.kills %>
@@ -47,7 +47,7 @@
             <%= main_hand_type.assists %>
           </td>
           <td>
-            <%= main_hand_type.avg_ip %>
+            <%= main_hand_type.avg_ip.nil? ? '-' : main_hand_type.avg_ip %>
           </td>
         </tr>
       <% end %>

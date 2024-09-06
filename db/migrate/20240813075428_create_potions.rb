@@ -25,5 +25,8 @@ class CreatePotions < ActiveRecord::Migration[7.1]
       primary_key: :path
     )
     add_index :potions, :path, unique: true
+    [:name, :avg_ip, :kills, :deaths, :assists, :usages, :kd_perc].each do |name|
+      add_index :potions, name
+    end
   end
 end

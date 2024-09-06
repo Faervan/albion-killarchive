@@ -11,11 +11,11 @@ class CreatePlayers < ActiveRecord::Migration[7.1]
       t.integer :stalker_rating, limit: 2
       t.integer :slayer_rating, limit: 2
       t.integer :duo_rating, limit: 2
-      t.integer :total_kill_fame
-      t.integer :total_death_fame
-      t.integer :total_kill_count, limit: 2
-      t.integer :total_death_count, limit: 2
-      t.integer :total_assist_count, limit: 4
+      t.integer :total_kill_fame, limit: 6
+      t.integer :total_death_fame, limit: 6
+      t.integer :total_kill_count
+      t.integer :total_death_count
+      t.integer :total_assist_count
       t.integer :kd_perc
       t.integer :avg_ip
       t.integer :total_ip
@@ -41,5 +41,9 @@ class CreatePlayers < ActiveRecord::Migration[7.1]
       primary_key: :avatar_ring_id
     )
     add_index :players, :player_id, unique: true
+    Player.column_names.each do |name|
+      name = name.to_sym
+      add_index :players, name unless name == :id || name == :player_id || name == :updated_at || name == :created_at || name == :avatar_id || name == :avatar_ring_id || name == :total_ip
+    end
   end
 end

@@ -10,7 +10,7 @@ class AlliancesController < ApplicationController
 
   def show
     params[:list] = '20' unless params[:list]
-    @alliance = Alliance.find(params[:id])
+    @alliance = Alliance.find_by(name: params[:name])
     @guilds = Guild
               .includes([:alliance])
               .order('total_kill_count')

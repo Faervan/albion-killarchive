@@ -22,6 +22,7 @@ class ItemFetcherJob < ApplicationJob
   private
 
   def save_item_name(path:, full_path:, model:)
+    path = path.parse_item_type[:path] if path.include?('UNIQUE_MOUNT')
     name = HTTParty.get("https://gameinfo.albiononline.com/api/gameinfo/items/#{path}/data")['localizedNames']['EN-US']
     model.find(full_path).update!(name:)
   end
@@ -45,6 +46,6 @@ class ItemFetcherJob < ApplicationJob
     input = Rails.root.join("app/assets/images/217x217/#{model}/#{full_path}.png")
     output = Rails.root.join("app/assets/images/100x100/#{model}")
 
-    system("mogrify -path #{Shellwords.escape(output)} -filter Triangle -define filter:support=2 -thumbnail 100 -unsharp 0.25x0.25+8+0.065 -dither None -posterize 136 -quality 82 -define jpeg:fancy-upsampling=off -define png:compression-filter=5 -define png:compression-level=9 -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB -strip #{Shellwords.escape(input)}") # rubocop:disable Metric/LineLength
+    system("mogrify -path #{Shellwords.escape(output)} -filter Triangle -define filter:support=2 -thumbnail 100 -unsharp 0.25x0.25+8+0.065 -dither None -posterize 136 -quality 82 -define jpeg:fancy-upsampling=off -define png:compression-filter=5 -define png:compression-level=9 -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB -strip #{Shellwords.escape(input)}") # rubocop:disable Layout/LineLength
   end
 end

@@ -3,6 +3,32 @@
 <%= link_to "Alliances", alliances_path %><br>
 <%= link_to "Guilds", guilds_path %><br>
 <%= link_to "Players", players_path %><br>
-<%= link_to "Weapons", main_hand_types_path %>
+<%= link_to "Weapons", main_hand_types_path %><br>
+<%= link_to "Awakened weapons", awakened_weapons_path %><br>
+<%= link_to "Builds", builds_path %>
+<p><%= @fetched_events %> events tracked in the last hour<br>
+last update: <span id="time-elapsed-update"></span> seconds ago<br>
+last query: <span id="time-elapsed-query"></span> seconds ago</p>
 <p>More stuff to come...</p>
 <p>You can find the source code on <a href="https://github.com/Faervan/albion-killarchive" target="_blank">GitHub</a></p>
+
+<script>
+  let timestamp_update = new Date('<%= @last_event_update %>');
+  let timestamp_query = new Date('<%= @last_query %>');
+  let timeElapsedUpdate = document.getElementById('time-elapsed-update');
+  let timeElapsedQuery = document.getElementById('time-elapsed-query');
+
+  function getElapsedTime(start_time) {
+    let elapsed_secs = Math.round((Date.now() - start_time) / 1000);
+    if (elapsed_secs > 60) {
+      let minutes = Math.floor(elapsed_secs / 60);
+      return minutes + " minutes " + (elapsed_secs - minutes * 60);
+    }
+    return elapsed_secs;
+  }
+
+  setInterval(() => {
+    timeElapsedUpdate.textContent = getElapsedTime(timestamp_update);
+    timeElapsedQuery.textContent = getElapsedTime(timestamp_query);
+  }, 1000);
+</script>

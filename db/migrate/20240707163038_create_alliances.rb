@@ -5,8 +5,8 @@ class CreateAlliances < ActiveRecord::Migration[7.1]
     create_table :alliances do |t|
       t.string :alliance_id, null: false
       t.string :name
-      t.integer :total_kill_fame
-      t.integer :total_death_fame
+      t.integer :total_kill_fame, limit: 8
+      t.integer :total_death_fame, limit: 8
       t.integer :total_kill_count
       t.integer :total_death_count
       t.integer :total_assist_count
@@ -15,5 +15,9 @@ class CreateAlliances < ActiveRecord::Migration[7.1]
       t.timestamps
     end
     add_index :alliances, :alliance_id, unique: true
+    Alliance.column_names.each do |name|
+      name = name.to_sym
+      add_index :alliances, name unless name == :id || name == :alliance_id || name == :updated_at || name == :created_at
+    end
   end
 end

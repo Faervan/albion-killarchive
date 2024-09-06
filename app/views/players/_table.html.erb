@@ -12,12 +12,12 @@
     <% players.each do |player| %>
       <tr>
         <td>
-          <%= link_to player.name, player, target: "_top" %>
+          <%= link_to player.name, player_path(player.name), target: "_top" %>
         </td>
         <td>
           <% if player.guild.present? %>
             <% guild = player.guild %>
-            <%= link_to guild.name, guild, target: "_top" %>
+            <%= link_to guild.name, guild_path(guild.name), target: "_top" %>
           <% end %>
         </td>
         <td>
