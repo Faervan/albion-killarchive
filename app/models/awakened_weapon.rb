@@ -15,4 +15,8 @@ class AwakenedWeapon < ApplicationRecord
   belongs_to :trait2,
              class_name: 'AwakenedWeaponTrait', foreign_key: 'trait2', inverse_of: :awakened_weapons_trait2,
              optional: true
+
+  %I[kills deaths assists passive_assists].each do |models|
+    has_many models, inverse_of: :awakened_weapon, dependent: :destroy
+  end
 end

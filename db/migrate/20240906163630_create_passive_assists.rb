@@ -11,32 +11,24 @@ class CreatePassiveAssists < ActiveRecord::Migration[7.1]
 
       t.timestamps
     end
-    add_foreign_key(
-      :passive_assists,
-      :kill_events,
-      column: :kill_event_id,
-      primary_key: :event_id
-    )
-    add_foreign_key(
-      :passive_assists,
-      :players,
-      column: :player_id,
-      primary_key: :player_id
-    )
+    %I[kill_event_id player_id awakened_weapon_id].each do |id|
+      add_foreign_key(
+        :passive_assists,
+        id.to_s.sub(/_id/, 's').to_sym,
+        column: id,
+        primary_key: id
+      )
+    end
     add_foreign_key(
       :passive_assists,
       :main_hands,
       column: :main_hand_path,
       primary_key: :path
     )
-    add_foreign_key(
-      :passive_assists,
-      :awakened_weapons,
-      column: :awakened_weapon_id,
-      primary_key: :awakened_weapon_id
-    )
-    add_index :passive_assists, :kill_event_id, unique: true
+    add_index :passive_assists, :kill_event_id
     add_index :passive_assists, :player_id
     add_index :passive_assists, :main_hand_path
+    add_index :passive_assists, :awakened_weapon_id
+    add_index :passive_assists, :kill_fame
   end
 end

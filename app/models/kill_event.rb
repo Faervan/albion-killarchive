@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class KillEvent < ApplicationRecord
-  self.primary_key = 'event_id'
+  self.primary_key = 'kill_event_id'
 
   has_one :kill, inverse_of: :kill_event, dependent: :destroy
   has_one :death, inverse_of: :kill_event, dependent: :destroy
