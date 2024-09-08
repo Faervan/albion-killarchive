@@ -34,9 +34,9 @@ class EventHandlerService::BuildHandlerService
       chest_type: get_type(entity:, type: 'Armor'),
       feet_type: get_type(entity:, type: 'Shoes'),
       cape_type: get_type(entity:, type: 'Cape'),
-      kills: 0,
-      deaths: 0,
-      assists: 0,
+      kill_count: 0,
+      death_count: 0,
+      assist_count: 0,
       kill_fame: 0,
       death_fame: 0,
       total_ip: 0,
@@ -58,7 +58,7 @@ class EventHandlerService::BuildHandlerService
 
   def update_kill_count_and_fame(builds:, event:)
     build = find_build(builds:, entity: event['Killer'])
-    build[:kills] += 1
+    build[:kill_count] += 1
     build[:kill_fame] += event['TotalVictimKillFame']
     build[:total_ip] += event['Killer']['AverageItemPower']
     return if event['Killer']['AverageItemPower'].zero? || event['Victim']['AverageItemPower'].zero?
@@ -68,7 +68,7 @@ class EventHandlerService::BuildHandlerService
 
   def update_death_count_and_fame(builds:, event:)
     build = find_build(builds:, entity: event['Victim'])
-    build[:deaths] += 1
+    build[:death_count] += 1
     build[:death_fame] += event['TotalVictimKillFame']
     build[:total_ip] += event['Victim']['AverageItemPower']
     return if event['Killer']['AverageItemPower'].zero? || event['Victim']['AverageItemPower'].zero?
@@ -81,7 +81,7 @@ class EventHandlerService::BuildHandlerService
       next if participant['Id'] == event['Killer']['Id']
 
       build = find_build(builds:, entity: participant)
-      build[:assists] += 1
+      build[:assist_count] += 1
       build[:total_ip] += participant['AverageItemPower']
     end
   end
@@ -108,16 +108,16 @@ class EventHandlerService::BuildHandlerService
   end
 
   def set_build_stats(build:)
-    usages = build[:kills] + build[:deaths] + build[:assists]
-    real_usages = build[:kills] + build[:deaths]
+    usage_count = build[:kill_count] + build[:death_count] + build[:assist_count]
+    real_usage_count = build[:kill_count] + build[:death_count]
     {
       fame_ratio: build[:kill_fame].zero? || build[:death_fame].zero? ? nil : build[:kill_fame] * 100 / build[:death_fame].round,
-      usages:,
-      avg_ip: usages.positive? ? build[:total_ip] / usages : nil,
-      avg_ip_diff: real_usages.positive? ? build[:total_ip_diff] / real_usages : nil,
+      usage_count:,
+      avg_ip: usage_count.positive? ? build[:total_ip] / usage_count : nil,
+      avg_ip_diff: real_usage_count.positive? ? build[:total_ip_diff] / real_usage_count : nil,
       kd_perc:
         begin
-          (100.0 / real_usages * build[:kills] * 100).round
+          (100.0 / real_usage_count * build[:kill_count] * 100).round
         rescue ZeroDivisionError, FloatDomainError
           nil
         end
@@ -136,9 +136,9 @@ class EventHandlerService::BuildHandlerService
   end
 
   def update_build_stats(build:, existing_build:)
-    build[:kills] += existing_build.kills
-    build[:deaths] += existing_build.deaths
-    build[:assists] += existing_build.assists
+    build[:kill_count] += existing_build.kill_count
+    build[:death_count] += existing_build.death_count
+    build[:assist_count] += existing_build.assist_count
     build[:kill_fame] += existing_build.kill_fame
     build[:death_fame] += existing_build.death_fame
     build[:total_ip] += existing_build.total_ip

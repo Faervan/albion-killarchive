@@ -8,6 +8,10 @@ class Player < ApplicationRecord
   belongs_to :guild, optional: true
   has_many :awakened_weapons, foreign_key: 'attuned_player_id', inverse_of: :player, dependent: :destroy
 
+  %I[kills deaths assists passive_assists].each do |models|
+    has_many models, inverse_of: :player, dependent: :destroy
+  end
+
   include PgSearch::Model
   pg_search_scope :search_by_name, against: :name, using: { tsearch: { prefix: true } }
 end

@@ -1,15 +1,41 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  player: one
-  kill_event: one
-  average_item_power: 1
-  in_group_of_killer?: false
+  kill_event_id: 1
+  player_id: MyString
+  build_id: 1
+  main_hand_path: MyString
+  awakened_weapon_id: MyString
+  off_hand_path: MyString
+  head_path: MyString
+  chest_path: MyString
+  feet_path: MyString
+  cape_path: MyString
+  bag_path: MyString
+  mount_path: MyString
+  potion_path: MyString
+  food_path: MyString
+  avg_ip: 1
+  damage: 1
+  healing: 1
   duo_rating_gain: 1
 
 two:
-  player: two
-  kill_event: two
-  average_item_power: 1
-  in_group_of_killer?: false
+  kill_event_id: 1
+  player_id: MyString
+  build_id: 1
+  main_hand_path: MyString
+  awakened_weapon_id: MyString
+  off_hand_path: MyString
+  head_path: MyString
+  chest_path: MyString
+  feet_path: MyString
+  cape_path: MyString
+  bag_path: MyString
+  mount_path: MyString
+  potion_path: MyString
+  food_path: MyString
+  avg_ip: 1
+  damage: 1
+  healing: 1
   duo_rating_gain: 1

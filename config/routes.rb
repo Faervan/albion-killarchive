@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   # resources :main_hand_types
   resources :awakened_weapons
   resources :builds
+  resources :kill_events
 
   get '/main_hand_types', to: 'main_hand_types#index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

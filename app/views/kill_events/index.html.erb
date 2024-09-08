@@ -1,0 +1,74 @@
+<%= stylesheet_link_tag "style.css" %>
+
+<h1>Kills</h1>
+
+<ul>
+  <%= form_with url: kill_events_path, method: :get, local: true, data: { turbo_frame: 'table' } do %>
+    <%= label_tag :order_by, 'Order by: ' %>
+    <%= select_tag :order_by, options_for_select([
+      ["Most recent", :timestamp],
+      ["Kill fame", :total_fame]
+    ]), onchange: "this.form.requestSubmit()" %>
+  <% end %>
+  <%= turbo_frame_tag 'table' do %>
+    <table style="text-align: left">
+      <tr>
+        <th>Killer</th>
+        <th>Victim</th>
+        <th>Kill fame</th>
+        <th>Assists</th>
+        <th>Allies</th>
+        <th>Passive Allies</th>
+        <th>Timestamp</th>
+        <th>Event ID</th>
+      </tr>
+      <% @kill_events.each do |kill_event| %>
+        <% kill = kill_event.kill %>
+        <% death = kill_event.death %>
+        <tr>
+          <td>
+            <%= kill.player.name %><br>
+            <% [:main_hand, :off_hand, :head, :chest, :feet, :cape].each do |type| %>
+              <% if kill.send("#{type}_path").nil? %>
+                <%= image_tag('empty.svg', size: '50x50')%>
+                <% next %>
+              <% end %>
+              <% icon_path = "100x100/#{type.to_s.pluralize}/#{kill.send("#{type}_path")}.png" %>
+              <%= Rails.application.assets.find_asset(icon_path).nil? ? image_tag('pending-work-icon.svg', size: '50x50') : image_tag(icon_path, size: "50x50") %>
+            <% end %>
+          </td>
+          <td>
+            <%= death.player.name %><br>
+            <% [:main_hand, :off_hand, :head, :chest, :feet, :cape].each do |type| %>
+              <% if death.send("#{type}_path").nil? %>
+                <%= image_tag('empty.svg', size: '50x50')%>
+                <% next %>
+              <% end %>
+              <% icon_path = "100x100/#{type.to_s.pluralize}/#{death.send("#{type}_path")}.png" %>
+              <%= Rails.application.assets.find_asset(icon_path).nil? ? image_tag('pending-work-icon.svg', size: '50x50') : image_tag(icon_path, size: "50x50") %>
+            <% end %>
+          </td>
+          <td>
+            <%= ActiveSupport::NumberHelper.number_to_human kill_event.total_fame %>
+          </td>
+          <td>
+            <%= kill_event.assist_count %>
+          </td>
+          <td>
+            <%= kill_event.ally_count %>
+          </td>
+          <td>
+            <%= kill_event.passive_assist_count %>
+          </td>
+          <td>
+            <%= kill_event.timestamp %>
+          </td>
+          <td>
+            <%= kill_event.kill_event_id %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+    <%= link_to "Show more", builds_path(list: @list.to_i + 20) %>
+  <% end %>
+</ul>

@@ -37,7 +37,7 @@ class EventHandlerService::ItemHandlerService::BagAndMountTypeHandlerService
   def build_item_type_object(entity:)
     {
       path: entity['Equipment'][@item_type_name]['Type'].parse_item_type[:path],
-      usages: 0,
+      usage_count: 0,
       total_ip: 0
     }
   end
@@ -48,34 +48,34 @@ class EventHandlerService::ItemHandlerService::BagAndMountTypeHandlerService
 
   def update_item_types(item_types:, event_list:)
     event_list.each do |event|
-      update_kills(item_types:, event:)
-      update_deaths(item_types:, event:)
-      update_assists(item_types:, event:)
+      update_kill_count(item_types:, event:)
+      update_death_count(item_types:, event:)
+      update_assist_count(item_types:, event:)
     end
   end
 
-  def update_kills(item_types:, event:)
+  def update_kill_count(item_types:, event:)
     return unless bag_exists?(entity: event['Killer'])
 
     item_type = find_item_type(item_types:, entity: event['Killer'])
-    item_type[:usages] += 1
+    item_type[:usage_count] += 1
     item_type[:total_ip] += event['Killer']['AverageItemPower']
   end
 
-  def update_deaths(item_types:, event:)
+  def update_death_count(item_types:, event:)
     return unless bag_exists?(entity: event['Victim'])
 
     item_type = find_item_type(item_types:, entity: event['Victim'])
-    item_type[:usages] += 1
+    item_type[:usage_count] += 1
     item_type[:total_ip] += event['Victim']['AverageItemPower']
   end
 
-  def update_assists(item_types:, event:)
+  def update_assist_count(item_types:, event:)
     event['Participants'].each do |participant|
       next if !bag_exists?(entity: participant) || participant['Id'] == event['Killer']['Id']
 
       item_type = find_item_type(item_types:, entity: participant)
-      item_type[:usages] += 1
+      item_type[:usage_count] += 1
       item_type[:total_ip] += participant['AverageItemPower']
     end
   end
@@ -111,7 +111,7 @@ class EventHandlerService::ItemHandlerService::BagAndMountTypeHandlerService
 
   def update_existing_item_type(item_type:)
     existing_item_type = @item_type_model.find_by(path: item_type[:path])
-    item_type[:usages] += existing_item_type.usages
+    item_type[:usage_count] += existing_item_type.usage_count
     item_type[:total_ip] += existing_item_type.total_ip
     existing_item_type.update(
       set_item_type_stats(item_type:)
@@ -120,9 +120,9 @@ class EventHandlerService::ItemHandlerService::BagAndMountTypeHandlerService
 
   def set_item_type_stats(item_type:)
     {
-      usages: item_type[:usages],
+      usage_count: item_type[:usage_count],
       total_ip: item_type[:total_ip],
-      avg_ip: item_type[:total_ip] / item_type[:usages]
+      avg_ip: item_type[:total_ip] / item_type[:usage_count]
     }
   end
 end

@@ -6,23 +6,23 @@ class NoBaseIpTypeHandlerTest < ActiveSupport::TestCase
   EVENT_LIST = JSON.parse File.read('test/test_data/event_list.json')
   CAPE_TYPE = {
     path: 'CAPEITEM_FW_THETFORD',
-    kills: 10,
-    deaths: 4,
-    assists: 2,
+    kill_count: 10,
+    death_count: 4,
+    assist_count: 2,
     count: 13
   }.freeze
   POTION_TYPE = {
     path: 'POTION_ENERGY',
-    kills: 0,
-    deaths: 2,
-    assists: 2,
+    kill_count: 0,
+    death_count: 2,
+    assist_count: 2,
     count: 6
   }.freeze
   FOOD_TYPE = {
     path: 'MEAL_ROAST_FISH',
-    kills: 4,
-    deaths: 2,
-    assists: 2,
+    kill_count: 4,
+    death_count: 2,
+    assist_count: 2,
     count: 8
   }.freeze
 
@@ -51,9 +51,9 @@ class NoBaseIpTypeHandlerTest < ActiveSupport::TestCase
   test 'Stats of normal types correctly saved to database' do
     ALL_TYPES.each_with_index do |type, index|
       model = ALL_TYPE_MODELS[index]
-      assert_equal type[:kills], model.find_by(path: type[:path]).kills
-      assert_equal type[:deaths], model.find_by(path: type[:path]).deaths
-      assert_equal type[:assists], model.find_by(path: type[:path]).assists
+      assert_equal type[:kill_count], model.find_by(path: type[:path]).kill_count
+      assert_equal type[:death_count], model.find_by(path: type[:path]).death_count
+      assert_equal type[:assist_count], model.find_by(path: type[:path]).assist_count
     end
   end
 end

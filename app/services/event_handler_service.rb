@@ -41,5 +41,6 @@ class EventHandlerService
     ItemHandlerService.new.handle_item_types(event_list:)
     ItemHandlerService.new.handle_items(event_list:)
     BuildHandlerService.new.handle_builds(event_list:)
+    KillEventHandlerService.new.handle_kill_events(event_list:)
   end
 end
