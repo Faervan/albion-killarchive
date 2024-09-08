@@ -7,37 +7,37 @@ class NormalTypeHandlerTest < ActiveSupport::TestCase
   MAIN_HAND_TYPE = {
     path: '2H_DUALSWORD',
     two_handed: true,
-    kills: 0,
-    deaths: 2,
-    assists: 2,
+    kill_count: 0,
+    death_count: 2,
+    assist_count: 2,
     count: 34
   }.freeze
   OFF_HAND_TYPE = {
     path: 'OFF_JESTERCANE_HELL',
-    kills: 2,
-    deaths: 2,
-    assists: 2,
+    kill_count: 2,
+    death_count: 2,
+    assist_count: 2,
     count: 6
   }.freeze
   HEAD_TYPE = {
     path: 'HEAD_LEATHER_SET2',
-    kills: 4,
-    deaths: 8,
-    assists: 0,
+    kill_count: 4,
+    death_count: 8,
+    assist_count: 0,
     count: 19
   }.freeze
   CHEST_TYPE = {
     path: 'ARMOR_LEATHER_SET2',
-    kills: 4,
-    deaths: 4,
-    assists: 0,
+    kill_count: 4,
+    death_count: 4,
+    assist_count: 0,
     count: 14
   }.freeze
   FEET_TYPE = {
     path: 'SHOES_CLOTH_AVALON',
-    kills: 6,
-    deaths: 2,
-    assists: 0,
+    kill_count: 6,
+    death_count: 2,
+    assist_count: 0,
     count: 18
   }.freeze
 
@@ -67,9 +67,9 @@ class NormalTypeHandlerTest < ActiveSupport::TestCase
       model = ALL_TYPE_MODELS[index]
       obj = model.find_by(path: type[:path])
       assert_equal type[:two_handed], obj.two_handed? if model == MainHandType
-      assert_equal type[:kills], obj.kills
-      assert_equal type[:deaths], obj.deaths
-      assert_equal type[:assists], obj.assists
+      assert_equal type[:kill_count], obj.kill_count
+      assert_equal type[:death_count], obj.death_count
+      assert_equal type[:assist_count], obj.assist_count
     end
   end
 end

@@ -6,12 +6,12 @@ class BagAndMountTypeHandlerTest < ActiveSupport::TestCase
   EVENT_LIST = JSON.parse File.read('test/test_data/event_list.json')
   BAG_TYPE = {
     path: 'BAG_INSIGHT',
-    usages: 10,
+    usage_count: 10,
     count: 2
   }.freeze
   MOUNT_TYPE = {
     path: 'UNIQUE_MOUNT_MORGANA_RAVEN_ADC',
-    usages: 4,
+    usage_count: 4,
     count: 10
   }.freeze
 
@@ -40,7 +40,7 @@ class BagAndMountTypeHandlerTest < ActiveSupport::TestCase
   test 'Stats of normal types correctly saved to database' do
     ALL_TYPES.each_with_index do |type, index|
       model = ALL_TYPE_MODELS[index]
-      assert_equal type[:usages], model.find_by(path: type[:path]).usages
+      assert_equal type[:usage_count], model.find_by(path: type[:path]).usage_count
     end
   end
 end

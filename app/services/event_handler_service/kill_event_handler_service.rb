@@ -14,11 +14,19 @@ class EventHandlerService::KillEventHandlerService
     KillEvent.create!(
       kill_event_id: event['EventId'],
       timestamp: event['TimeStamp'].to_datetime.utc,
-      total_fame: 108_240,
-      assists: event['Participants'].count - 1,
-      allies: event['GroupMembers'].count - 1,
-      passive_assists: get_passive_assist_count(assists: event['Participants'], allies: event['GroupMembers'])
+      total_fame: event['TotalVictimKillFame'],
+      assist_count: get_assist_count(assists: event['Participants'], killer_id: event['Killer']['Id']),
+      ally_count: get_ally_count(allies: event['GroupMembers'], killer_id: event['Killer']['Id']),
+      passive_assist_count: get_passive_assist_count(assists: event['Participants'], allies: event['GroupMembers'])
     )
+  end
+
+  def get_assist_count(assists:, killer_id:)
+    assists.reject { |assist| assist['Id'] == killer_id }.count
+  end
+
+  def get_ally_count(allies:, killer_id:)
+    allies.reject { |ally| ally['Id'] == killer_id }.count
   end
 
   def get_passive_assist_count(assists:, allies:)

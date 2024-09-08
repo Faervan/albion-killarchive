@@ -41,10 +41,10 @@ class EventHandlerService::ItemHandlerService::NormalTypeHandlerService
       path: parsed_type[:path],
       two_handed: parsed_type[:two_handed],
       total_ip: 0,
-      kills: 0,
-      deaths: 0,
-      assists: 0,
-      usages: 0,
+      kill_count: 0,
+      death_count: 0,
+      assist_count: 0,
+      usage_count: 0,
       base_ip: 0
     }
   end
@@ -55,34 +55,34 @@ class EventHandlerService::ItemHandlerService::NormalTypeHandlerService
 
   def update_items(items:, event_list:)
     event_list.each do |event|
-      update_kills_and_ip(items:, event:)
-      update_deaths_and_ip(items:, event:)
-      update_assists_and_ip(items:, event:)
+      update_kill_count_and_ip(items:, event:)
+      update_death_count_and_ip(items:, event:)
+      update_assist_count_and_ip(items:, event:)
     end
   end
 
-  def update_kills_and_ip(items:, event:)
+  def update_kill_count_and_ip(items:, event:)
     return unless item_exists?(entity: event['Killer'])
 
     item = find_item(items:, entity: event['Killer'])
-    item[:kills] += 1
+    item[:kill_count] += 1
     item[:total_ip] += event['Killer']['AverageItemPower']
   end
 
-  def update_deaths_and_ip(items:, event:)
+  def update_death_count_and_ip(items:, event:)
     return unless item_exists?(entity: event['Victim'])
 
     item = find_item(items:, entity: event['Victim'])
-    item[:deaths] += 1
+    item[:death_count] += 1
     item[:total_ip] += event['Victim']['AverageItemPower']
   end
 
-  def update_assists_and_ip(items:, event:)
+  def update_assist_count_and_ip(items:, event:)
     event['Participants'].each do |participant|
       next if !item_exists?(entity: participant) || participant['Id'] == event['Killer']['Id']
 
       item = find_item(items:, entity: participant)
-      item[:assists] += 1
+      item[:assist_count] += 1
       item[:total_ip] += participant['AverageItemPower']
     end
   end
@@ -113,9 +113,9 @@ class EventHandlerService::ItemHandlerService::NormalTypeHandlerService
 
   def update_existing_item(item:)
     existing_item = @item_type_model.find_by(path: item[:path])
-    item[:kills] += existing_item.kills
-    item[:deaths] += existing_item.deaths
-    item[:assists] += existing_item.assists
+    item[:kill_count] += existing_item.kill_count
+    item[:death_count] += existing_item.death_count
+    item[:assist_count] += existing_item.assist_count
     item[:total_ip] += existing_item.total_ip
     existing_item.update(
       set_item_stats(item:)
@@ -123,17 +123,17 @@ class EventHandlerService::ItemHandlerService::NormalTypeHandlerService
   end
 
   def set_item_stats(item:)
-    usages = item[:kills] + item[:deaths] + item[:assists]
+    usage_count = item[:kill_count] + item[:death_count] + item[:assist_count]
     {
-      kills: item[:kills],
-      deaths: item[:deaths],
-      assists: item[:assists],
-      usages:,
+      kill_count: item[:kill_count],
+      death_count: item[:death_count],
+      assist_count: item[:assist_count],
+      usage_count:,
       total_ip: item[:total_ip],
-      avg_ip: usages.positive? ? item[:total_ip] / usages : nil,
+      avg_ip: usage_count.positive? ? item[:total_ip] / usage_count : nil,
       kd_perc:
         begin
-          (100.0 / (item[:kills] + item[:deaths]) * item[:kills] * 100).round
+          (100.0 / (item[:kill_count] + item[:death_count]) * item[:kill_count] * 100).round
         rescue ZeroDivisionError, FloatDomainError
           nil
         end
