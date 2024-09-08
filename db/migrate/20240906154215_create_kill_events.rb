@@ -5,14 +5,15 @@ class CreateKillEvents < ActiveRecord::Migration[7.1]
     create_table :kill_events do |t|
       t.integer :kill_event_id, null: false
       t.datetime :timestamp
-      t.integer :kill_fame
+      t.integer :total_fame
       t.integer :assists
       t.integer :allies
+      t.integer :passive_assists
 
       t.timestamps
     end
     add_index :kill_events, :kill_event_id, unique: true
-    [:timestamp, :kill_fame, :assists, :allies].each do |name|
+    %I[timestamp total_fame assists allies passive_assists].each do |name|
       add_index :kill_events, name
     end
   end

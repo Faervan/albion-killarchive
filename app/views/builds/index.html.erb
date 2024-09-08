@@ -6,12 +6,12 @@
   <%= form_with url: builds_path, method: :get, local: true, data: { turbo_frame: 'table' } do %>
     <%= label_tag :order_by, 'Order by: ' %>
     <%= select_tag :order_by, options_for_select([
-      ["Usages", :usages],
+      ["Usages", :usage_count],
       ["Winrate", :kd_perc],
       ["Fame ratio", :fame_ratio],
-      ["Kills", :kills],
-      ["Deaths", :deaths],
-      ["Assists", :assists],
+      ["Kills", :kill_count],
+      ["Deaths", :death_count],
+      ["Assists", :assist_count],
       ["Kill fame", :kill_fame],
       ["Death fame", :death_fame],
       ["Avg Ip", :avg_ip],
@@ -46,7 +46,7 @@
             <% end %>
           </td>
           <td>
-            <%= build.usages %>
+            <%= build.usage_count %>
           </td>
           <td>
             <%= build.kd_perc.nil? ? '-' : "#{build.kd_perc / 100}%" %>
@@ -55,13 +55,13 @@
             <%= build.fame_ratio.nil? ? '-' : build.fame_ratio.to_f / 100 %>
           </td>
           <td>
-            <%= build.kills %>
+            <%= build.kill_count %>
           </td>
           <td>
-            <%= build.deaths %>
+            <%= build.death_count %>
           </td>
           <td>
-            <%= build.assists %>
+            <%= build.assist_count %>
           </td>
           <td>
             <%= ActiveSupport::NumberHelper.number_to_human build.kill_fame %>

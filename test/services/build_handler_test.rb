@@ -11,9 +11,9 @@ class BuildHandlerTest < ActiveSupport::TestCase
     chest_type: 'ARMOR_LEATHER_SET3',
     feet_type: 'SHOES_CLOTH_ROYAL',
     cape_type: 'CAPEITEM_FW_THETFORD',
-    kills: 2,
-    deaths: 0,
-    assists: 1,
+    kill_count: 2,
+    death_count: 0,
+    assist_count: 1,
     kill_fame: 83_976,
     death_fame: 0,
     avg_ip_diff: 264
@@ -51,9 +51,9 @@ class BuildHandlerTest < ActiveSupport::TestCase
 
   test 'Stats of builds correctly saved to database' do
     build = Build.find_by(get_build_key(build: BUILD))
-    assert_equal BUILD[:kills] * 2, build.kills
-    assert_equal BUILD[:deaths] * 2, build.deaths
-    assert_equal BUILD[:assists] * 2, build.assists
+    assert_equal BUILD[:kill_count] * 2, build.kill_count
+    assert_equal BUILD[:death_count] * 2, build.death_count
+    assert_equal BUILD[:assist_count] * 2, build.assist_count
     assert_equal BUILD[:kill_fame] * 2, build.kill_fame
     assert_equal BUILD[:death_fame] * 2, build.death_fame
     assert_equal BUILD[:avg_ip_diff], build.avg_ip_diff

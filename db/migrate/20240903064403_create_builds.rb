@@ -9,10 +9,10 @@ class CreateBuilds < ActiveRecord::Migration[7.1]
       t.string :chest_type
       t.string :feet_type
       t.string :cape_type
-      t.integer :kills
-      t.integer :deaths
-      t.integer :assists
-      t.integer :usages
+      t.integer :kill_count
+      t.integer :death_count
+      t.integer :assist_count
+      t.integer :usage_count
       t.integer :kill_fame, limit: 8
       t.integer :death_fame, limit: 8
       t.integer :fame_ratio
@@ -24,7 +24,7 @@ class CreateBuilds < ActiveRecord::Migration[7.1]
 
       t.timestamps
     end
-    [:main_hand_type, :off_hand_type, :head_type, :chest_type, :feet_type, :cape_type, :kills, :deaths, :assists, :usages,
+    [:main_hand_type, :off_hand_type, :head_type, :chest_type, :feet_type, :cape_type, :kill_count, :death_count, :assist_count, :usage_count,
      :kill_fame, :death_fame, :fame_ratio, :total_ip, :avg_ip, :total_ip_diff, :avg_ip_diff, :kd_perc].each do |name|
       add_index :builds, name
     end

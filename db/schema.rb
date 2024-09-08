@@ -167,10 +167,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_06_163630) do
     t.string "chest_type"
     t.string "feet_type"
     t.string "cape_type"
-    t.integer "kills"
-    t.integer "deaths"
-    t.integer "assists"
-    t.integer "usages"
+    t.integer "kill_count"
+    t.integer "death_count"
+    t.integer "assist_count"
+    t.integer "usage_count"
     t.bigint "kill_fame"
     t.bigint "death_fame"
     t.integer "fame_ratio"
@@ -181,25 +181,25 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_06_163630) do
     t.integer "kd_perc"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["assists"], name: "index_builds_on_assists"
+    t.index ["assist_count"], name: "index_builds_on_assist_count"
     t.index ["avg_ip"], name: "index_builds_on_avg_ip"
     t.index ["avg_ip_diff"], name: "index_builds_on_avg_ip_diff"
     t.index ["cape_type"], name: "index_builds_on_cape_type"
     t.index ["chest_type"], name: "index_builds_on_chest_type"
+    t.index ["death_count"], name: "index_builds_on_death_count"
     t.index ["death_fame"], name: "index_builds_on_death_fame"
-    t.index ["deaths"], name: "index_builds_on_deaths"
     t.index ["fame_ratio"], name: "index_builds_on_fame_ratio"
     t.index ["feet_type"], name: "index_builds_on_feet_type"
     t.index ["head_type"], name: "index_builds_on_head_type"
     t.index ["kd_perc"], name: "index_builds_on_kd_perc"
+    t.index ["kill_count"], name: "index_builds_on_kill_count"
     t.index ["kill_fame"], name: "index_builds_on_kill_fame"
-    t.index ["kills"], name: "index_builds_on_kills"
     t.index ["main_hand_type", "off_hand_type", "head_type", "chest_type", "feet_type", "cape_type"], name: "index_builds_on_unique_columns", unique: true
     t.index ["main_hand_type"], name: "index_builds_on_main_hand_type"
     t.index ["off_hand_type"], name: "index_builds_on_off_hand_type"
     t.index ["total_ip"], name: "index_builds_on_total_ip"
     t.index ["total_ip_diff"], name: "index_builds_on_total_ip_diff"
-    t.index ["usages"], name: "index_builds_on_usages"
+    t.index ["usage_count"], name: "index_builds_on_usage_count"
   end
 
   create_table "cached_events", force: :cascade do |t|
@@ -461,16 +461,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_06_163630) do
   create_table "kill_events", force: :cascade do |t|
     t.integer "kill_event_id", null: false
     t.datetime "timestamp"
-    t.integer "kill_fame"
+    t.integer "total_fame"
     t.integer "assists"
     t.integer "allies"
+    t.integer "passive_assists"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["allies"], name: "index_kill_events_on_allies"
     t.index ["assists"], name: "index_kill_events_on_assists"
     t.index ["kill_event_id"], name: "index_kill_events_on_kill_event_id", unique: true
-    t.index ["kill_fame"], name: "index_kill_events_on_kill_fame"
+    t.index ["passive_assists"], name: "index_kill_events_on_passive_assists"
     t.index ["timestamp"], name: "index_kill_events_on_timestamp"
+    t.index ["total_fame"], name: "index_kill_events_on_total_fame"
   end
 
   create_table "kills", force: :cascade do |t|
