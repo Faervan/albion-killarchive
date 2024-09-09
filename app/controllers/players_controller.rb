@@ -16,5 +16,11 @@ class PlayersController < ApplicationController
 
   def show
     @player = Player.find_by(name: params[:name])
+    params[:list] = '20' unless params[:list]
+    kill_event = KillEvent.includes(%I[kill death]).order(:timestamp).reverse_order.limit(params[:list].to_i)
+    @kill_events = kill_event
+                   .where(kill: { player_id: @player.player_id })
+                   .or(kill_event.where(death: { player_id: @player.player_id }))
+    @list = params[:list].to_i
   end
 end
