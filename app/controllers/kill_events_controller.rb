@@ -6,6 +6,7 @@ class KillEventsController < ApplicationController
     params[:order_by] = 'timestamp' unless params[:order_by]
     @kill_events = KillEvent.includes(%I[kill death]).order({ params[:order_by].to_sym => :desc }).limit(params[:list].to_i)
     @list = params[:list].to_i
+    @order_by = params[:order_by]
   end
 
   def show; end

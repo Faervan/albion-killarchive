@@ -12,5 +12,5 @@
   <% end %>
   <% args = {} %>
   <% args.merge!(kill_index: true) %>
-  <%= render partial: "table", locals: { kill_events: @kill_events, list: @list, args: } %>
+  <%= render partial: "table", locals: { kill_events: @kill_events, list: @list, order_by: @order_by, args: } %>
 </ul>

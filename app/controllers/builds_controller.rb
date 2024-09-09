@@ -8,6 +8,7 @@ class BuildsController < ApplicationController
     secondary_order = order_by_specs(order_by: params[:order_by])
     @builds = @builds.order({ params[:order_by].to_sym => :desc }.merge(secondary_order)).limit(params[:list].to_i)
     @list = params[:list].to_i
+    @order_by = params[:order_by]
   end
 
   def show
