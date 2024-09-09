@@ -1,8 +1,8 @@
 <%= turbo_frame_tag 'table' do %>
-  <% is_player_view = args.key?(:player) %>
+  <% is_player_view = params.key?(:player) %>
   <table style="text-align: left">
     <tr>
-      <th><%= is_player_view ? args[:player].name : 'Killer' %></th>
+      <th><%= is_player_view ? params[:player].name : 'Killer' %></th>
       <th><%= is_player_view ? 'Enemy' : 'Victim' %></th>
       <th>Kill fame</th>
       <th>Assists</th>
@@ -16,7 +16,7 @@
       <% death = kill_event.death %>
 
       <% killer_box = capture do %>
-        <%= is_player_view && kill.player.id == args[:player].id ? kill.player.name : (link_to kill.player.name, player_path(kill.player.name), target: '_top') %><br>
+        <%= is_player_view && kill.player.id == params[:player].id ? kill.player.name : (link_to kill.player.name, player_path(kill.player.name), target: '_top') %><br>
         <% [:main_hand, :off_hand, :head, :chest, :feet, :cape].each do |type| %>
           <% if kill.send("#{type}_path").nil? %>
             <%= image_tag('empty.svg', size: '50x50')%>
@@ -28,7 +28,7 @@
       <% end %>
 
       <% victim_box = capture do %>
-        <%= is_player_view && death.player.id == args[:player].id ? death.player.name : (link_to death.player.name, player_path(death.player.name), target: '_top') %><br>
+        <%= is_player_view && death.player.id == params[:player].id ? death.player.name : (link_to death.player.name, player_path(death.player.name), target: '_top') %><br>
         <% [:main_hand, :off_hand, :head, :chest, :feet, :cape].each do |type| %>
           <% if death.send("#{type}_path").nil? %>
             <%= image_tag('empty.svg', size: '50x50')%>
@@ -40,9 +40,9 @@
       <% end %>
 
       <% participant_box1, participant_box2 = [killer_box, victim_box] %>
-      <% participant_box1, participant_box2 = [victim_box, killer_box] if is_player_view && death.player.id == args[:player].id %>
+      <% participant_box1, participant_box2 = [victim_box, killer_box] if is_player_view && death.player.id == params[:player].id %>
 
-      <tr class="<%= death.player.id == args[:player].id ? 'death_box' : 'kill_box' if is_player_view %>">
+      <tr class="<%= death.player.id == params[:player].id ? 'death_box' : 'kill_box' if is_player_view %>">
         <td><%= participant_box1 %></td>
         <td><%= participant_box2 %></td>
         <td>
@@ -66,5 +66,5 @@
       </tr>
     <% end %>
   </table>
-  <%= link_to "Show more", is_player_view ? player_path(list: list.to_i + 20) : kill_events_path(list: list.to_i + 20, order_by:) %>
+  <%= link_to "Show more", is_player_view ? player_path(list: params[:list] + 20) : kill_events_path(list: list.to_i + 20, order_by:) %>
 <% end %>
