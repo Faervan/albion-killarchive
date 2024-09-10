@@ -6,6 +6,7 @@ class EventHandlerService::KillEventHandlerService
       persist_kill_event(event:)
       KillHandlerService.new.handle_kill(event:)
       DeathHandlerService.new.handle_death(event:)
+      AssistHandlerService.new.handle_assists(event:)
     end
   end
 
@@ -35,6 +36,13 @@ class EventHandlerService::KillEventHandlerService
     }
   end
 
+  def find_item(equipment:, item:)
+    item_name = item.model_name.name.parse_item_slot
+    quality = [Potion, Food].include?(item) ? '' : "_Q#{equipment[item_name]&.[]('Quality')}"
+    item_path = equipment[item_name]&.[]('Type')&.parse_item&.[](:path)
+    item_path ? "#{item_path}#{quality}" : nil
+  end
+
   private
 
   def persist_kill_event(event:)
@@ -62,12 +70,5 @@ class EventHandlerService::KillEventHandlerService
 
   def get_equipment_type(equipment:, type:)
     equipment.dig(type, 'Type')&.parse_item_type&.[](:path)
-  end
-
-  def find_item(equipment:, item:)
-    item_name = item.model_name.name.parse_item_slot
-    quality = [Potion, Food].include?(item) ? '' : "_Q#{equipment[item_name]&.[]('Quality')}"
-    item_path = equipment[item_name]&.[]('Type')&.parse_item&.[](:path)
-    item_path ? "#{item_path}#{quality}" : nil
   end
 end
