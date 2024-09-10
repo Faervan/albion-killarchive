@@ -18,9 +18,26 @@ class KillEventHandlerTest < ActiveSupport::TestCase
       damage: 1_535,
       healing: 0
     },
-    death: {},
-    assist: {},
-    passive_assist: {}
+    death: {
+      player_id: 'v09hyja7QBqUXfdQ6mC_bg',
+      head_path: 'T4_HEAD_LEATHER_SET2@1_Q4',
+      avg_ip: 1_031,
+      death_fame: 108_240
+    },
+    assist: {
+      player_id: 'W_pdO070RvmXqBsSCOJUtg',
+      food_path: 'T7_MEAL_OMELETTE@0',
+      avg_ip: 1_223,
+      kill_fame: 27_060,
+      damage: 31,
+      healing: 0,
+      ally?: true
+    },
+    passive_assist: {
+      player_id: 'nbElSP61QxCmsez0vFSnjg',
+      main_hand_path: 'T6_MAIN_CURSEDSTAFF@1_Q3',
+      kill_fame: 27_060
+    }
   }.freeze
 
   setup do
@@ -37,9 +54,50 @@ class KillEventHandlerTest < ActiveSupport::TestCase
     assert_equal KILL_EVENT[:assist_count], kill_event.assist_count
     assert_equal KILL_EVENT[:ally_count], kill_event.ally_count
     assert_equal KILL_EVENT[:passive_assist_count], kill_event.passive_assist_count
-    tap KILL_EVENT[:kill] do |k|
-      assert_equal k[:player_id], kill_event.kill.player_id
-      assert_equal k[:main_hand_path], kill_event.kill.main_hand_path
+    check_kill(kill_event)
+    check_death(kill_event)
+    check_assist(kill_event)
+    check_passive_assist(kill_event)
+  end
+
+  private
+
+  def check_kill(kill_event)
+    [KILL_EVENT[:kill], kill_event.kill].tap do |e, r|
+      assert_equal e[:player_id], r.player_id
+      assert_equal e[:main_hand_path], r.main_hand_path
+      assert_equal e[:avg_ip], r.avg_ip
+      assert_equal e[:kill_fame], r.kill_fame
+      assert_equal e[:damage], r.damage
+      assert_equal e[:healing], r.healing
+    end
+  end
+
+  def check_death(kill_event)
+    [KILL_EVENT[:death], kill_event.death].tap do |e, r|
+      assert_equal e[:player_id], r.player_id
+      assert_equal e[:head_path], r.head_path
+      assert_equal e[:avg_ip], r.avg_ip
+      assert_equal e[:death_fame], r.death_fame
+    end
+  end
+
+  def check_assist(kill_event)
+    [KILL_EVENT[:assist], kill_event.assists.find_by(player_id: KILL_EVENT[:assist][:player_id])].tap do |e, r|
+      assert_equal e[:food_path], r.food_path
+      assert_equal e[:avg_ip], r.avg_ip
+      assert_equal e[:kill_fame], r.kill_fame
+      assert_equal e[:damage], r.damage
+      assert_equal e[:healing], r.healing
+      assert_equal e[:ally?], r.ally?
+    end
+  end
+
+  def check_passive_assist(kill_event)
+    [KILL_EVENT[:passive_assist], kill_event.passive_assists.find_by(player_id: KILL_EVENT[:passive_assist][:player_id])]
+      .tap do |e, r|
+      assert_equal e[:main_hand_path], r.main_hand_path
+      assert_equal e[:kill_fame], r.kill_fame
     end
   end
 end

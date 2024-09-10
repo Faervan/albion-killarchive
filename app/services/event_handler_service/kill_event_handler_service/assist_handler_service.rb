@@ -21,7 +21,7 @@ class EventHandlerService::KillEventHandlerService::AssistHandlerService
         player_id: participant['Id'],
         build_id: EventHandlerService::KillEventHandlerService.new.find_build(equipment:).id,
         awakened_weapon_id: participant.dig('Equipment', 'MainHand', 'LegendarySoul', 'id'),
-        avg_ip: participant['AverageItemPower'],
+        avg_ip: participant['AverageItemPower'].round,
         kill_fame: allies_entry&.[]('KillFame').to_i,
         damage: participant['DamageDone'].to_i,
         healing: participant['SupportHealingDone'].to_i,
