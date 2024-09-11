@@ -6,5 +6,6 @@ class MainHandTypesController < ApplicationController
     params[:order_by] = 'usage_count' unless params[:order_by]
     @main_hand_types = MainHandType.order(params[:order_by]).reverse_order.limit(params[:list].to_i)
     @list = params[:list].to_i
+    @order_by = params[:order_by]
   end
 end

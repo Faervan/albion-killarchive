@@ -6,6 +6,7 @@ class AwakenedWeaponsController < ApplicationController
     params[:order_by] = 'pvp_fame' unless params[:order_by]
     @awakened_weapons = AwakenedWeapon.includes([:main_hand]).order(params[:order_by]).reverse_order.limit(params[:list].to_i)
     @list = params[:list].to_i
+    @order_by = params[:order_by]
   end
 
   def show
