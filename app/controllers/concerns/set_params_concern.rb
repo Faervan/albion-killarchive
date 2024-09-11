@@ -4,12 +4,15 @@ module SetParamsConcern
   private
 
   def set_controller_params(params:, order:)
-    params[:list] = begin
-      Integer(params[:list])
-    rescue ArgumentError, TypeError
-      20
-    end
-    params[:order_by] = order unless params[:order_by]
-    params.permit(:list, :order_by, :guild_id)
+    param_list = {
+      list: begin
+        Integer(params[:list])
+      rescue ArgumentError, TypeError
+        20
+      end,
+      order_by: params[:order_by].nil? ? order : params[:order_by]
+    }
+    param_list[:guild_id] = params[:guild_id]
+    param_list
   end
 end

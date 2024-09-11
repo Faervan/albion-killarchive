@@ -10,5 +10,5 @@
       ["Kill fame", :total_fame]
     ]), onchange: "this.form.requestSubmit()" %>
   <% end %>
-  <%= render partial: "table", locals: { kill_events: @kill_events, list: @list } %>
+  <%= render partial: "table", locals: { kill_events: @kill_events, list: @list, order_by: @order_by } %>
 </ul>

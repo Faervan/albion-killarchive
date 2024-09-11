@@ -40,6 +40,6 @@
   </table>
   <% pp params %>
   <% pp params.select { |k| %W[list order_by guild_id].include? k } %>
-  <%= link_to "Show more", players_path(params.tap { |p| p.select! { |k| %I[list order_by guild_id].include? k } && p[:list] += 20 }) %>
+  <%= link_to "Show more", players_path(params.tap { |p| p[:list] += 20 }) %>
   <%#= link_to "Show more", players_path(params.tap { |p| p.permit('list', 'order_by', 'guild_id') && p[:list] += 20 }) %>
 <% end %>
