@@ -13,7 +13,5 @@
   <% end %>
   <% query = !params[:search_by_name] ? [] : Guild.search_by_name(params[:search_by_name])%>
   <%= render partial: "shared/search_by_name", locals: { query:, path: guilds_path, model: 'guild' } %>
-  <% args = {} %>
-  <% args.merge!({ alliance_id: @alliance_id }) if @alliance_id %>
-  <%= render partial: "table", locals: { guilds: @guilds, list: @list, args: } %>
+  <%= render partial: "table", locals: { guilds: @guilds, params: @params } %>
 </ul>

@@ -1,22 +1,21 @@
 # frozen_string_literal: true
 
 class AlliancesController < ApplicationController
+  include SetParamsConcern
+
   def index
-    params[:list] = '20' unless params[:list]
-    params[:order_by] = 'total_kill_count' unless params[:order_by]
-    @alliances = Alliance.order(params[:order_by]).reverse_order.limit(params[:list].to_i)
-    @list = params[:list].to_i
+    @params = set_controller_params(params:, order: :total_kill_count)
+    @alliances = Alliance.order(@params[:order_by]).reverse_order.limit(@params[:list])
   end
 
   def show
-    params[:list] = '20' unless params[:list]
+    @params = set_controller_params(params:, order: :total_kill_count)
     @alliance = Alliance.find_by(name: params[:name])
     @guilds = Guild
               .includes([:alliance])
-              .order('total_kill_count')
+              .order(@params[:order_by])
               .reverse_order
               .where(alliance: @alliance)
-              .limit(params[:list].to_i)
-    @list = params[:list].to_i
+              .limit(@params[:list])
   end
 end

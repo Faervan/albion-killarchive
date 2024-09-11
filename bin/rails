@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require './db/set_awakened_weapon_trait_names_and_percentage' if ARGV.include?('server') || ARGV.include?('s')
+
 APP_PATH = File.expand_path('../config/application', __dir__)
 require_relative '../config/boot'
 require 'rails/commands'

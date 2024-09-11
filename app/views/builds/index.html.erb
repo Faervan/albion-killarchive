@@ -37,11 +37,11 @@
         <tr>
           <td>
             <% [:main_hand, :off_hand, :head, :chest, :feet, :cape].each do |type| %>
-              <% if build.send("#{type}_type").nil? %>
+              <% if build.send("#{type}_type_path").nil? %>
                 <%= image_tag('empty.svg', size: '50x50')%>
                 <% next %>
               <% end %>
-              <% icon_path = "100x100/#{type.to_s.pluralize}/T8_#{build.send("#{type}_type").try(:path)}@0_Q4.png" %>
+              <% icon_path = "100x100/#{type.to_s.pluralize}/T8_#{build.send("#{type}_type_path")}@0_Q4.png" %>
               <%= Rails.application.assets.find_asset(icon_path).nil? ? image_tag('pending-work-icon.svg', size: '50x50') : image_tag(icon_path, size: "50x50") %>
             <% end %>
           </td>
@@ -78,6 +78,6 @@
         </tr>
       <% end %>
     </table>
-    <%= link_to "Show more", builds_path(list: @list.to_i + 20) %>
+    <%= link_to "Show more", builds_path(@params.tap { |p| p[:list] += 20 }) %>
   <% end %>
 </ul>

@@ -48,6 +48,6 @@
         </tr>
       <% end %>
     </table>
-    <%= link_to "Show more", alliances_path(list: @list.to_i + 20) %>
+    <%= link_to "Show more", alliances_path(@params.tap { |p| p[:list] += 20 }) %>
   <% end %>
 </ul>

@@ -3,12 +3,12 @@
 class CreateBuilds < ActiveRecord::Migration[7.1]
   def change
     create_table :builds do |t|
-      t.string :main_hand_type
-      t.string :off_hand_type
-      t.string :head_type
-      t.string :chest_type
-      t.string :feet_type
-      t.string :cape_type
+      t.string :main_hand_type_path
+      t.string :off_hand_type_path
+      t.string :head_type_path
+      t.string :chest_type_path
+      t.string :feet_type_path
+      t.string :cape_type_path
       t.integer :kill_count
       t.integer :death_count
       t.integer :assist_count
@@ -24,15 +24,15 @@ class CreateBuilds < ActiveRecord::Migration[7.1]
 
       t.timestamps
     end
-    [:main_hand_type, :off_hand_type, :head_type, :chest_type, :feet_type, :cape_type, :kill_count, :death_count, :assist_count, :usage_count,
-     :kill_fame, :death_fame, :fame_ratio, :total_ip, :avg_ip, :total_ip_diff, :avg_ip_diff, :kd_perc].each do |name|
+    %I[main_hand_type_path off_hand_type_path head_type_path chest_type_path feet_type_path cape_type_path kill_count death_count assist_count usage_count
+     kill_fame death_fame fame_ratio total_ip avg_ip total_ip_diff avg_ip_diff kd_perc].each do |name|
       add_index :builds, name
     end
-    add_index :builds, [:main_hand_type, :off_hand_type, :head_type, :chest_type, :feet_type, :cape_type], unique: true, name: 'index_builds_on_unique_columns'
-    [:main_hand_type, :off_hand_type, :head_type, :chest_type, :feet_type, :cape_type].each do |type|
+    add_index :builds, %I[main_hand_type_path off_hand_type_path head_type_path chest_type_path feet_type_path cape_type_path], unique: true, name: 'index_builds_on_unique_columns'
+    %I[main_hand_type_path off_hand_type_path head_type_path chest_type_path feet_type_path cape_type_path].each do |type|
       add_foreign_key(
         :builds,
-        "#{type}s".to_sym,
+        type.to_s.sub(/_path/, 's').to_sym,
         column: type,
         primary_key: :path
       )

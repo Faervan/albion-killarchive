@@ -6,3 +6,5 @@
   Total kill count: <%= @player.total_kill_count %><br>
   Total death count: <%= @player.total_death_count %><br>
   Total assist count: <%= @player.total_assist_count %></p>
+<% params.merge!({ player: @player }) %>
+<%= render partial: "kill_events/table", locals: { kill_events: @kill_events, params: @params.tap { |p| p[:player] = @player } } %>

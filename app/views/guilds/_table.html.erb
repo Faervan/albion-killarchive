@@ -38,6 +38,5 @@
       </tr>
     <% end %>
   </table>
-  <% args = { list: list + 20 }.merge(args) %>
-  <%= link_to "Show more", guilds_path(args) %>
+  <%= link_to "Show more", guilds_path(params.tap { |p| p[:list] += 20 }) %>
 <% end %>

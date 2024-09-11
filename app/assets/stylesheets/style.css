@@ -13,3 +13,11 @@ td, th {
 li {
     list-style-type: none;
 }
+
+.kill_box {
+    background-color: rgb(0, 70, 0);
+}
+
+.death_box {
+    background-color: rgb(100, 0, 0);
+}
