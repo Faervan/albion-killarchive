@@ -52,6 +52,6 @@
         </tr>
       <% end %>
     </table>
-    <%= link_to "Show more", main_hand_types_path(list: @list.to_i + 20, order_by: @order_by) %>
+    <%= link_to "Show more", main_hand_types_path(@params.tap { |p| p[:list] += 20 }) %>
   <% end %>
 </ul>

@@ -18,5 +18,5 @@
       ['Death fame', :total_death_fame]
     ]), onchange: "this.form.requestSubmit()" %>
   <% end %>
-  <%= render partial: "guilds/table", locals: { guilds: @guilds, list: @list, args: { alliance_id: @alliance.alliance_id } } %>
+  <%= render partial: "guilds/table", locals: { guilds: @guilds, params: @params } %>
 </ul>

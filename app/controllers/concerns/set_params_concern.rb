@@ -10,7 +10,7 @@ module SetParamsConcern
       rescue ArgumentError, TypeError
         20
       end,
-      order_by: params[:order_by].nil? ? order : params[:order_by]
+      order_by: params[:order_by].nil? ? order : params[:order_by].to_sym
     }
     param_list[:guild_id] = params[:guild_id]
     param_list

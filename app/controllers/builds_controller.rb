@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
 class BuildsController < ApplicationController
+  include SetParamsConcern
+
   def index
-    params[:list] = '20' unless params[:list]
-    params[:order_by] = 'usage_count' unless params[:order_by]
-    @builds = Build.includes(%I[main_hand_type off_hand_type head_type chest_type feet_type cape_type])
-    secondary_order = order_by_specs(order_by: params[:order_by])
-    @builds = @builds.order({ params[:order_by].to_sym => :desc }.merge(secondary_order)).limit(params[:list].to_i)
-    @list = params[:list].to_i
-    @order_by = params[:order_by]
+    @params = set_controller_params(params:, order: 'usage_count')
+    @builds = Build
+    secondary_order = order_by_specs(order_by: @params[:order_by])
+    @builds = @builds.order({ @params[:order_by].to_sym => :desc }.merge(secondary_order)).limit(@params[:list])
   end
 
   def show

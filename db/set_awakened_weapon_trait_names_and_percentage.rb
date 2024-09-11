@@ -1,4 +1,5 @@
 require './config/environment'
+require 'rufus-scheduler'
 
 # Set name and percentage? columns of AwakenedWeaponTrait manually,
 # as trait data is not available via the api (to my knowledge)
@@ -87,6 +88,9 @@ require './config/environment'
   if (weapon = AwakenedWeaponTrait.find_by(trait: hash[:trait]))
     weapon.update!(hash.reject { |k,_| k == :trait })
   else
-    puts "#{hash[:trait]} not yet available in database - rerun this script later!"
+    puts "#{hash[:trait]} not yet available in database"
+    Rufus::Scheduler.new.in '30m' do
+      require './db/set_awakened_weapon_trait_names_and_percentage'
+    end
   end
 end

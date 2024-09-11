@@ -66,5 +66,5 @@
       </tr>
     <% end %>
   </table>
-  <%= link_to "Show more", player_path(params.tap { |p| p[:list] += 20 }) %>
+  <%= link_to "Show more", kill_events_path(params.tap { |p| p[:list] += 20 }) %>
 <% end %>
