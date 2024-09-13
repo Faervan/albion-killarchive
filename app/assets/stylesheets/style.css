@@ -21,3 +21,7 @@ li {
 .death_box {
     background-color: rgb(100, 0, 0);
 }
+
+.kill_build_link {
+    text-decoration: none;
+}

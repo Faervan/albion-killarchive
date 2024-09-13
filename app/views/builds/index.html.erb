@@ -35,7 +35,7 @@
       </tr>
       <% @builds.each do |build| %>
         <tr>
-          <td>
+          <td><a href="<%= build_path(build.id) %>" target="_top" class="kill_build_link">
             <% [:main_hand, :off_hand, :head, :chest, :feet, :cape].each do |type| %>
               <% if build.send("#{type}_type_path").nil? %>
                 <%= image_tag('empty.svg', size: '50x50')%>
@@ -44,7 +44,7 @@
               <% icon_path = "100x100/#{type.to_s.pluralize}/T8_#{build.send("#{type}_type_path")}@0_Q4.png" %>
               <%= Rails.application.assets.find_asset(icon_path).nil? ? image_tag('pending-work-icon.svg', size: '50x50') : image_tag(icon_path, size: "50x50") %>
             <% end %>
-          </td>
+          </a></td>
           <td>
             <%= build.usage_count %>
           </td>

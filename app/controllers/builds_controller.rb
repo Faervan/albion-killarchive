@@ -11,7 +11,13 @@ class BuildsController < ApplicationController
   end
 
   def show
+    @params = set_controller_params(params:, order: :timestamp)
     @build = Build.find(params[:id])
+    kill_event = KillEvent.includes(%I[kill death]).order(@params[:order_by]).reverse_order
+    kill_events = kill_event
+                  .where(kill: { build_id: @build.id })
+                  .or(kill_event.where(death: { build_id: @build.id }))
+    @kill_events = kill_events.limit(@params[:list])
   end
 
   private

@@ -1,5 +1,6 @@
 <%= turbo_frame_tag 'table' do %>
   <% is_player_view = params.key?(:player) %>
+  <% is_build_view = params.key?(:build) %>
   <table style="text-align: left">
     <tr>
       <th><%= is_player_view ? params[:player].name : 'Killer' %></th>
@@ -68,5 +69,7 @@
   </table>
   <%= link_to "Show more", is_player_view ?
     player_path(params.tap { |p| p[:list] += 20 }.merge(name: params[:player].name) )
+    : is_build_view ?
+      build_path(params.tap { |p| p[:list] += 20 }.merge(id: params[:build].id) )
     : kill_events_path(params.tap { |p| p[:list] += 20 })%>
 <% end %>

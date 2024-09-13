@@ -1,2 +1,9 @@
-<h1>Builds#show</h1>
-<p>Find me in app/views/builds/show.html.erb</p>
+<h1>Build#<%= @build.id %></h1>
+<p>Registered since: <%= @build.created_at %><br>
+  Last used: <%= @build.updated_at %><br>
+  Total kill fame: <%= @build.kill_fame %><br>
+  Total death fame: <%= @build.death_fame %><br>
+  Total kill count: <%= @build.kill_count %><br>
+  Total death count: <%= @build.death_count %><br>
+  Total assist count: <%= @build.assist_count %></p>
+<%= render partial: "kill_events/table", locals: { kill_events: @kill_events, params: @params.tap { |p| p[:build] = @build } } %>
