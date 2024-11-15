@@ -6,7 +6,7 @@ class CreateMainHandTypes < ActiveRecord::Migration[7.1]
       t.string :path, null: false
       t.string :name
       t.boolean :two_handed?, default: false
-      t.integer :total_ip
+      t.integer :total_ip, limit: 8
       t.integer :avg_ip
       t.integer :kill_count
       t.integer :death_count

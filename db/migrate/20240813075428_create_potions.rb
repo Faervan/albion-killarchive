@@ -8,7 +8,7 @@ class CreatePotions < ActiveRecord::Migration[7.1]
       t.string :item_type, null: false
       t.integer :tier
       t.integer :enchantment
-      t.integer :total_ip
+      t.integer :total_ip, limit: 8
       t.integer :avg_ip
       t.integer :kill_count
       t.integer :death_count

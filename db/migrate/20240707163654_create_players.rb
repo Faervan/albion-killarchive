@@ -8,9 +8,9 @@ class CreatePlayers < ActiveRecord::Migration[7.1]
       t.string :avatar_id
       t.string :avatar_ring_id
       t.string :guild_id
-      t.integer :stalker_rating, limit: 2
-      t.integer :slayer_rating, limit: 2
-      t.integer :duo_rating, limit: 2
+      t.integer :stalker_rating
+      t.integer :slayer_rating
+      t.integer :duo_rating
       t.integer :total_kill_fame, limit: 6
       t.integer :total_death_fame, limit: 6
       t.integer :total_kill_count
@@ -18,7 +18,7 @@ class CreatePlayers < ActiveRecord::Migration[7.1]
       t.integer :total_assist_count
       t.integer :kd_perc
       t.integer :avg_ip
-      t.integer :total_ip
+      t.integer :total_ip, limit: 6
 
       t.timestamps
     end

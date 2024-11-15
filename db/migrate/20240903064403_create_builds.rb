@@ -18,7 +18,7 @@ class CreateBuilds < ActiveRecord::Migration[7.1]
       t.integer :fame_ratio
       t.integer :total_ip, limit: 8
       t.integer :avg_ip
-      t.integer :total_ip_diff
+      t.integer :total_ip_diff, limit: 8
       t.integer :avg_ip_diff
       t.integer :kd_perc
 

@@ -6,7 +6,7 @@ class CreateBagTypes < ActiveRecord::Migration[7.1]
       t.string :path, null: false
       t.string :name
       t.integer :usage_count
-      t.integer :total_ip
+      t.integer :total_ip, limit: 8
       t.integer :avg_ip
 
       t.timestamps
